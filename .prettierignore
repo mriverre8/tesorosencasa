@@ -1,0 +1,10 @@
+# Ignorar directorios de compilación
+node_modules
+.next
+out
+
+# Ignorar archivos estáticos
+public
+
+# Ignorar configuraciones de Git
+*.lock

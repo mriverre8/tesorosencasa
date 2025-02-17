@@ -1,0 +1,165 @@
+[
+  {
+    "id": 1,
+    "name": "Tetera de cerámica clásica Tetera de cerámica clásica dfsadfsa",
+    "origin": "Japón",
+    "material": "Cerámica",
+    "type": "Tetera",
+    "images": [
+      "/tetera-japon.webp",
+      "/tetera-japon.webp",
+      "/tetera-japon.webp"
+    ],
+    "description": "A classic ceramic teapot from Japan, perfect for tea enthusiasts.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  },
+  {
+    "id": 2,
+    "name": "Cuchara de plata antigua",
+    "origin": "Inglaterra",
+    "material": "Plata",
+    "type": "Cubierto",
+    "images": [
+      "/cuchara-antigua.webp",
+      "/cuchara-antigua.webp",
+      "/cuchara-antigua.webp"
+    ],
+    "description": "An antique silver spoon from England with a rich history.",
+    "brand": "Teteras de Japón",
+    "units": 0,
+    "price": 50
+  },
+  {
+    "id": 3,
+    "name": "Juego de platos barrocos",
+    "origin": "Italia",
+    "material": "Porcelana",
+    "type": "Plato",
+    "images": [
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp"
+    ],
+    "description": "Baroque-style plate set from Italy made of fine porcelain.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  },
+  {
+    "id": 4,
+    "name": "Cuenco artesanal rústico",
+    "origin": "México",
+    "material": "Barro",
+    "type": "Cuenco",
+    "images": [
+      "/tetera-japon.webp",
+      "/tetera-japon.webp",
+      "/tetera-japon.webp"
+    ],
+    "description": "A rustic handcrafted bowl made of clay from Mexico.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  },
+  {
+    "id": 5,
+    "name": "Taza esmaltada vintage",
+    "origin": "Francia",
+    "material": "Metal esmaltado",
+    "type": "Taza",
+    "images": [
+      "/cuchara-antigua.webp",
+      "/cuchara-antigua.webp",
+      "/cuchara-antigua.webp"
+    ],
+    "description": "A vintage enamel mug from France, perfect for coffee lovers.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  },
+  {
+    "id": 6,
+    "name": "Cuchillo de acero damasco",
+    "origin": "Turquía",
+    "material": "Acero damasco",
+    "type": "Cubierto",
+    "images": [
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp"
+    ],
+    "description": "A Damascus steel knife from Turkey, known for its strength and beauty.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  },
+  {
+    "id": 7,
+    "name": "Bandeja grabada a mano",
+    "origin": "India",
+    "material": "Latón",
+    "type": "Bandeja",
+    "images": [
+      "/tetera-japon.webp",
+      "/tetera-japon.webp",
+      "/tetera-japon.webp"
+    ],
+    "description": "A hand-engraved brass tray from India with intricate designs.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  },
+  {
+    "id": 8,
+    "name": "Set de copas de cristal tallado",
+    "origin": "Alemania",
+    "material": "Cristal",
+    "type": "Copa",
+    "images": [
+      "/cuchara-antigua.webp",
+      "/cuchara-antigua.webp",
+      "/cuchara-antigua.webp"
+    ],
+    "description": "A set of crystal glasses from Germany, elegantly carved.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  },
+  {
+    "id": 9,
+    "name": "Plato de postre floral",
+    "origin": "España",
+    "material": "Cerámica",
+    "type": "Plato",
+    "images": [
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp",
+      "/platos-barrocos.webp"
+    ],
+    "description": "A floral dessert plate from Spain, made of fine ceramic.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  },
+  {
+    "id": 10,
+    "name": "Cucharón de madera rústica",
+    "origin": "Noruega",
+    "material": "Madera",
+    "type": "Cubierto",
+    "images": [
+      "/cuchara-antigua.webp",
+      "/cuchara-antigua.webp",
+      "/cuchara-antigua.webp"
+    ],
+    "description": "A rustic wooden ladle from Norway, ideal for serving soups.",
+    "brand": "Teteras de Japón",
+    "units": 5,
+    "price": 50
+  }
+]
