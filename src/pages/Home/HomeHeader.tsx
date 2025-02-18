@@ -1,8 +1,8 @@
 import Header from '@/components/Header';
-import Link from 'next/link';
+/* import Link from 'next/link'; */
 import React from 'react';
 import { FaInstagram } from 'react-icons/fa';
-import { FaRegCalendarAlt } from 'react-icons/fa';
+/* import { FaRegCalendarAlt } from 'react-icons/fa'; */
 
 const HomeHeader = () => {
   return (
@@ -20,20 +20,20 @@ const HomeHeader = () => {
             <p className="text-sm sm:text-lg text-gray-600">18:00h</p>
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row sm:gap-3">
-          <Link
+        <div className="flex flex-col sm:flex-row gap-1.5 sm:gap-3 mt-3">
+          {/* <Link
             href="/"
-            className="flex items-center justify-center border border-green-600 hover:border-green-400 gap-1 mt-3 rounded-full py-0.5 px-3.5 text-sm whitespace-nowrap "
+            className="flex items-center justify-center border border-green-600 hover:border-green-400 gap-1  rounded-full py-0.5 px-3.5 text-sm whitespace-nowrap "
           >
             <FaRegCalendarAlt />
             Ver calendario
-          </Link>
+          </Link> */}
 
           <a
             href="https://www.instagram.com/tesoros_en_casa/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center border text-white bg-green-600 hover:bg-green-500 gap-1 mt-3 rounded-full py-1 px-4 text-sm "
+            className="flex items-center justify-center border text-white bg-green-600 hover:bg-green-500 gap-1 rounded-full py-1 px-4 text-sm "
           >
             <FaInstagram className="text-white" />
             Instagram

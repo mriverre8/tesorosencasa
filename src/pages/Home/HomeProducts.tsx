@@ -9,7 +9,7 @@ import { Tesoro } from '@/types/tesoro';
 import Card from '@/components/Card';
 import Lightbox from '@/components/Lightbox';
 import LightboxFilters from '@/components/Lightbox/LightboxFilters';
-import HomeFilters from './HomeFilters';
+/* import HomeFilters from './HomeFilters'; */
 import { generateFilters } from '@/utils/getFilters';
 import { IoClose } from 'react-icons/io5';
 import CardMobile from '@/components/CardMobile';
@@ -97,15 +97,16 @@ const HomeProducts = ({ tesorosData }: ProductsProps) => {
                 className="bg-yellow-400/70 rounded-full px-3 py-1 gap-1 flex items-center justify-center whitespace-nowrap"
               >
                 {option.valueCheckbox}
-                <IoClose></IoClose>
+                <IoClose />
               </button>
             ) : option.type === 'range' && option.valueRangeChanged ? (
               <button
                 key={`${category}-${index}`}
                 onClick={() => removeFilter(category, option.valueRange!)}
-                className="bg-yellow-400/70 rounded-full px-3 py-1 flex items-center whitespace-nowrap"
+                className="bg-yellow-400/70 rounded-full px-3 py-1 flex items-center justify-center gap-1 whitespace-nowrap"
               >
                 Precio hasta {option.valueRange} €
+                <IoClose />
               </button>
             ) : null
           )
@@ -133,26 +134,22 @@ const HomeProducts = ({ tesorosData }: ProductsProps) => {
         </div>
       </div>
 
-      {showFilterDropdown && (
-        <>
-          <div className="block sm:hidden">
-            <Lightbox isLightboxOpen={showFilterDropdown}>
-              <LightboxFilters
-                closeAction={() => setShowFilterDropdown(false)}
-                filters={filters}
-                setFilters={setFilters}
-              />
-            </Lightbox>
-          </div>
-          <div className="hidden sm:block">
+      <div /* className="block sm:hidden" */ hidden={!showFilterDropdown}>
+        <Lightbox isLightboxOpen={showFilterDropdown}>
+          <LightboxFilters
+            closeAction={() => setShowFilterDropdown(false)}
+            filters={filters}
+            setFilters={setFilters}
+          />
+        </Lightbox>
+      </div>
+      {/* <div className="hidden sm:block">
             <HomeFilters
               filters={filters}
               setFilters={setFilters}
               closeAction={() => setShowFilterDropdown(false)}
             />
-          </div>
-        </>
-      )}
+          </div> */}
 
       {filteredTesoros.length > 0 ? (
         <>

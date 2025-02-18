@@ -1,6 +1,6 @@
 import { Filter } from '@/types/filter';
 import { getFilters, translateFilter } from '@/utils/getFilters';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 
 interface ProductsProps {
@@ -16,9 +16,44 @@ const LightboxFilters = ({
 }: ProductsProps) => {
   const [tempFilters, setTempFilters] = useState(filters);
 
+  useEffect(() => {
+    setTempFilters(filters);
+  }, [filters]);
+
   const applyFilters = () => {
     setFilters(tempFilters);
     closeAction();
+  };
+
+  const resetFilters = () => {
+    let hasChanges = false;
+
+    const updatedFilters = Object.fromEntries(
+      Object.entries(tempFilters).map(([category, options]) => [
+        category,
+        options.map((option) => {
+          if (option.type === 'checkbox' && option.checked) {
+            hasChanges = true;
+            return { ...option, checked: false };
+          }
+
+          if (option.type === 'range' && option.valueRangeChanged) {
+            hasChanges = true;
+            return {
+              ...option,
+              valueRangeChanged: false,
+              valueRange: option.valueMaxRange, // Restablece al valor máximo
+            };
+          }
+
+          return option;
+        }),
+      ])
+    );
+
+    if (hasChanges) {
+      setFilters(updatedFilters);
+    }
   };
 
   const handleFilterChange = (
@@ -80,12 +115,12 @@ const LightboxFilters = ({
           </div>
         ))}
       </div>
-      <div className=" flex items-center justify-center gap-5 mt-3">
+      <div className="flex flex-col xs:flex-row items-center justify-center xs:gap-5 mt-3">
         <button
-          onClick={() => closeAction()}
-          className="border-2 border-green-600 hover:border-green-400 gap-1 mt-3 rounded-full py-0.5 px-3.5 text-sm"
+          onClick={() => resetFilters()}
+          className="border-2 border-green-600 hover:border-green-400 gap-1 mt-3 rounded-full py-0.5 px-3.5 text-sm whitespace-nowrap"
         >
-          Cancelar
+          Reestablecer filtros
         </button>
         <button
           onClick={() => applyFilters()}
