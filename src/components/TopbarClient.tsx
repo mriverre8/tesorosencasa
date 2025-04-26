@@ -6,11 +6,14 @@ import Layout from './Layout';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { FaUserCircle } from 'react-icons/fa';
 import { FaBagShopping } from 'react-icons/fa6';
+import { User } from '@supabase/supabase-js';
 
-const Topbar = () => {
+interface Props {
+  user: User | null;
+}
+
+const TopbarClient = ({ user }: Props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const user = null;
-
   return (
     <nav className="bg-white bg-opacity-80 backdrop-blur-md fixed top-0 w-full border-b z-50">
       <Layout>
@@ -41,14 +44,10 @@ const Topbar = () => {
             ) : (
               <>
                 <div className="flex gap-2 justify-center items-center">
-                  <Link href="/" className=" hover:text-yellow-400">
+                  <Link href="/profile" className=" hover:text-yellow-400">
                     Perfil
                   </Link>
-                  <FaUserCircle />
                 </div>
-                <button>
-                  <FaBagShopping />
-                </button>
               </>
             )}
           </div>
@@ -83,11 +82,7 @@ const Topbar = () => {
                 <Link href="/profile" className=" hover:text-yellow-400">
                   Perfil
                 </Link>
-                <FaUserCircle />
               </div>
-              <button>
-                <FaBagShopping />
-              </button>
             </>
           )}
         </div>
@@ -96,4 +91,4 @@ const Topbar = () => {
   );
 };
 
-export default Topbar;
+export default TopbarClient;

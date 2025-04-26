@@ -1,18 +1,18 @@
 [
   {
     "id": 1,
-    "name": "Tetera de cerámica clásica Tetera de cerámica clásica dfsadfsa",
-    "origin": "Japón",
-    "material": "Cerámica",
+    "name": "Tetera de cerámica clásica",
+    "origin": null,
+    "material": null,
     "type": "Tetera",
     "images": [
       "/tetera-japon.webp",
       "/tetera-japon.webp",
       "/tetera-japon.webp"
     ],
-    "description": "A classic ceramic teapot from Japan, perfect for tea enthusiasts.",
-    "brand": "Teteras de Japón",
-    "units": 5,
+    "description": null,
+    "brand": null,
+    "units": 1,
     "price": 50
   },
   {

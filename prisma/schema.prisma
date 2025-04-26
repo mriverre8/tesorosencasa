@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Tesoro {
+  id          String         @id @default(uuid())
+  name        String
+  origin      String?        
+  brand       String?        
+  material    String?        
+  type        String?        
+  large       Int?       
+  width       Int?  
+  height      Int?  
+  diameter    Int?
+  images      String[]       
+  units       Int
+  price       Decimal        @db.Decimal(10,2)
+  reservations Reservations[]
+}
+
+model User {
+  id           String         @id /* @default(uuid()) */
+  /* email        String         @unique
+  password     String
+  name         String */
+  username     String         @unique
+  role         Role
+  reservations Reservations[]
+}
+
+model Reservations {
+  id        String            @id @default(uuid())
+  tesoroId  String
+  userId    String
+  units     Int
+  status    ReservationStatus
+  createdAt DateTime          @default(now())
+  tesoro    Tesoro            @relation(fields: [tesoroId], references: [id])
+  user      User              @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+}

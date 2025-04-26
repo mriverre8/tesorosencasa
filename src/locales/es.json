@@ -1,0 +1,14 @@
+{
+  "app": {
+    "title": "Aplicación de ejemplo",
+    "description": "Esta es una aplicación de ejemplo para demostrar la localización."
+  },
+  "error": {
+    "not_found": "Página no encontrada",
+    "server_error": "Error del servidor"
+  },
+  "button": {
+    "submit": "Enviar",
+    "cancel": "Cancelar"
+  }
+}

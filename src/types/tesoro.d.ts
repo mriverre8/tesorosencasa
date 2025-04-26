@@ -1,12 +1,15 @@
 export interface Tesoro {
-  id: number;
+  id: string;
   name: string;
   origin: string?;
-  material: string?;
-  type: string;
-  images: string[];
-  description: string?;
   brand: string?;
+  material: string?;
+  type: string?;
+  large: number?;
+  width: number?;
+  height: number?;
+  diameter: number?;
   units: number;
   price: number;
+  images: string[];
 }

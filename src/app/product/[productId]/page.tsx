@@ -1,20 +1,29 @@
 import React from 'react';
-import tesorosData from '@/mocks/tesoros.json'; // Mock data
+/* import tesorosData from '@/mocks/tesoros.json';  */ // Mock data
 import { Tesoro } from '@/types/tesoro';
 import Layout from '@/components/Layout';
-import ProductHeader from '@/pages/Product/ProductHeader';
-import ProductContent from '@/pages/Product/ProductContent';
+import { createClient } from '@/utils/supabase/server';
+import ProductPage from '@/pages/Product/ProductPage';
+import { getProductById } from '@/actions/getProductById';
 
 interface IParams {
   productId?: string;
 }
 
-const Product = async ({ params }: { params: IParams }) => {
+export default async function Product({ params }: { params: IParams }) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { productId } = await params;
 
-  const tesoro: Tesoro | undefined = tesorosData.find(
-    (item) => item.id === Number(productId)
-  );
+  if (!productId) {
+    throw new Error('Product ID is required');
+  }
+  const response = await getProductById(productId);
+  const tesoro: Tesoro | undefined = response ? response[0] : undefined;
 
   if (!tesoro) {
     return (
@@ -29,15 +38,8 @@ const Product = async ({ params }: { params: IParams }) => {
   return (
     <Layout>
       <div className="flex flex-col mt-[99px] ">
-        <section id="header">
-          <ProductHeader tesoro={tesoro} />
-        </section>
-        <section id="content">
-          <ProductContent tesoro={tesoro} />
-        </section>
+        <ProductPage tesoro={tesoro} user={user} />
       </div>
     </Layout>
   );
-};
-
-export default Product;
+}

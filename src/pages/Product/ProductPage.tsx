@@ -1,29 +1,51 @@
 'use client';
 
-import React, { useState } from 'react';
+import Header from '@/components/Header';
 import { Tesoro } from '@/types/tesoro';
-import Lightbox from '@/components/Lightbox';
-import LightboxRegister from '@/components/Lightbox/LightboxRegister';
-import LightboxLogin from '@/components/Lightbox/LightboxLogin';
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import Carousel from '@/components/Carousel';
+import { User } from '@supabase/supabase-js';
 
 interface ProductProps {
   tesoro: Tesoro;
+  user: User | null;
 }
 
-const ProductContent = ({ tesoro }: ProductProps) => {
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [lightboxState, setLightboxState] = useState('login');
-
-  const handleCloseLightbox = () => {
-    setIsLightboxOpen(false);
-    setLightboxState('login');
-  };
-
-  const handleReserve = () => {
-    setIsLightboxOpen(true);
-  };
+const ProductPage = ({ tesoro }: ProductProps) => {
   return (
     <>
+      <Header>
+        <div className="flex flex-col w-full py-12 px-5 sm:pt-20 sm:pb-12">
+          <div className="w-full max-w-4xl mx-auto mb-5 border-b">
+            <Link href="/" className="hover:text-yellow-400">
+              Volver
+            </Link>
+          </div>
+
+          <div className="hidden sm:block">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-4xl mx-auto ">
+              {tesoro.images.map((imagen, index) => (
+                <Image
+                  key={index}
+                  src={imagen}
+                  alt={tesoro.name}
+                  width={3024}
+                  height={4032}
+                  className="rounded-sm object-cover"
+                  priority={false}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </div>
+          <div className="block sm:hidden">
+            <Carousel tesoro={tesoro} />
+          </div>
+        </div>
+      </Header>
+
       <div className="w-full sm:max-w-4xl mx-auto pb-12 ">
         <div className="text-center mb-4">
           <h1 className="text-lg md:text-2xl font-semibold text-gray-800 mb-1">
@@ -46,11 +68,6 @@ const ProductContent = ({ tesoro }: ProductProps) => {
             Material: {tesoro.material ? tesoro.material : 'Desconocido'}
           </p>
         </div>
-        {tesoro.description && (
-          <div className="bg-white/50 rounded-lg p-5 mb-6">
-            <p className="text-sm md:text-base">{tesoro.description}</p>
-          </div>
-        )}
 
         <div className="flex flex-col sm:flex-row justify-center items-center text-center gap-1 sm:gap-4">
           <span className="text-xl font-bold text-gray-800">
@@ -62,30 +79,17 @@ const ProductContent = ({ tesoro }: ProductProps) => {
         </div>
         <div className="w-full justify-center flex items-center pb-10 pt-5 ">
           <button
-            className={`rounded-full w-full px-3 py-1 text-white text-center  ${tesoro.units === 0 ? 'bg-gray-300' : 'bg-green-600 hover:bg-green-500'}`}
-            onClick={() => handleReserve()}
-            disabled={tesoro.units === 0}
+            className={
+              'rounded-full w-full px-3 py-1 text-white text-center  bg-gray-300'
+            }
+            disabled
           >
-            RESERVAR
+            Reservas disponibles proximamente
           </button>
         </div>
       </div>
-
-      <Lightbox isLightboxOpen={isLightboxOpen}>
-        {lightboxState === 'login' ? (
-          <LightboxLogin
-            swapAction={setLightboxState}
-            closeAction={handleCloseLightbox}
-          />
-        ) : (
-          <LightboxRegister
-            swapAction={setLightboxState}
-            closeAction={handleCloseLightbox}
-          />
-        )}
-      </Lightbox>
     </>
   );
 };
 
-export default ProductContent;
+export default ProductPage;

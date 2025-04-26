@@ -1,9 +1,14 @@
+import Layout from '@/components/Layout';
 import Login from '@/pages/User/Login';
 
 export default function LoginPage() {
   return (
-    <div className="flex items-center justify-center bg-[#f5f1e3] absolute inset-0 z-50 px-4">
-      <Login />
-    </div>
+    <main>
+      <Layout>
+        <div className=" mt-[17vh] flex justify-center ">
+          <Login />
+        </div>
+      </Layout>
+    </main>
   );
 }
