@@ -21,7 +21,7 @@ const TopbarClient = ({ user }: Props) => {
           <div className="flex items-center">
             <Link
               href="/"
-              className="flex gap-2 text-3xl font-bold whitespace-nowrap text-green-600"
+              className="flex gap-2 text-3xl font-bold whitespace-nowrap text-green-700"
             >
               <h1 className="text-yellow-400">Tesoros</h1>
               <h1>en Casa</h1>
@@ -55,7 +55,7 @@ const TopbarClient = ({ user }: Props) => {
           <div className="sm:hidden">
             <GiHamburgerMenu
               size={24}
-              className="text-green-600 cursor-pointer"
+              className="text-green-700 cursor-pointer"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             />
           </div>

@@ -6,7 +6,7 @@ const FILTER_ID: (keyof Tesoro)[] = [
   'material',
   'type',
   'brand',
-  'units',
+  /* 'units', */
   'price',
 ];
 
@@ -15,7 +15,7 @@ export const translateFilter: Record<string, string> = {
   material: 'Material',
   brand: 'Marca',
   type: 'Tipo',
-  units: 'Unidades',
+  /* units: 'Unidades', */
   price: 'Precio',
 };
 
@@ -25,7 +25,7 @@ export const generateFilters = (data: Tesoro[]) => {
   FILTER_ID.forEach((key) => {
     if (!data.some((item) => item.hasOwnProperty(key))) return;
 
-    if (key === 'units') {
+    /* if (key === 'units') {
       filters[key] = [
         {
           valueCheckbox: 'Disponibles',
@@ -40,7 +40,7 @@ export const generateFilters = (data: Tesoro[]) => {
           parent: key,
         },
       ];
-    } else if (key === 'price') {
+    } else  */ if (key === 'price') {
       const prices = data
         .map((item) => item.price)
         .filter((price) => price !== undefined);
@@ -91,11 +91,11 @@ export const obtainFilteredResults = (
     );
 
     const matchesAllCheckboxes = activeCheckboxFilters.every((filter) => {
-      if (filter.category === 'units') {
+      /* if (filter.category === 'units') {
         return filter.value === 'Disponibles'
           ? tesoro.units > 0
           : tesoro.units === 0;
-      }
+      } */
       return tesoro[filter.category as keyof Tesoro] === filter.value;
     });
 

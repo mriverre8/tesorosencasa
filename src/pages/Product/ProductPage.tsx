@@ -16,7 +16,7 @@ interface ProductProps {
 const ProductPage = ({ tesoro }: ProductProps) => {
   return (
     <>
-      <Header>
+      {/* <Header>
         <div className="flex flex-col w-full py-12 px-5 sm:pt-20 sm:pb-12">
           <div className="w-full max-w-4xl mx-auto mb-5 border-b">
             <Link href="/" className="hover:text-yellow-400">
@@ -44,7 +44,7 @@ const ProductPage = ({ tesoro }: ProductProps) => {
             <Carousel tesoro={tesoro} />
           </div>
         </div>
-      </Header>
+      </Header> */}
 
       <div className="w-full sm:max-w-4xl mx-auto pb-12 ">
         <div className="text-center mb-4">

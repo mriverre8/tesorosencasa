@@ -3,7 +3,6 @@
 import { Tesoro } from '@/types/tesoro';
 import Image from 'next/image';
 import { useState } from 'react';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 interface CarouselProps {
   tesoro: Tesoro;
@@ -82,7 +81,7 @@ const Carousel = ({ tesoro }: CarouselProps) => {
 
   return (
     <div
-      className="relative w-full max-w-lg mx-auto overflow-hidden"
+      className="w-full max-w-lg mx-auto overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -106,25 +105,12 @@ const Carousel = ({ tesoro }: CarouselProps) => {
           />
         ))}
       </div>
-      <button
-        onClick={prevSlide}
-        hidden={currentIndex === 0}
-        className={`absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/60 p-1.5 rounded-full shadow-lg ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-      >
-        <FaAngleLeft />
-      </button>
-      <button
-        onClick={nextSlide}
-        hidden={currentIndex === tesoro.images.length - 1}
-        className={`absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/60 p-1.5 rounded-full shadow-lg ${currentIndex === tesoro.images.length - 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-      >
-        <FaAngleRight />
-      </button>
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {tesoro.images.map((_, index) => (
+
+      <div className="flex space-x-1.5 mt-1.5 justify-center">
+        {tesoro.images.map((_, idx) => (
           <div
-            key={index}
-            className={`w-2 h-2 rounded-full ${currentIndex === index ? 'bg-yellow-400' : 'bg-white/60'}`}
+            key={idx}
+            className={`w-1.5 h-1.5 rounded-full ${currentIndex === idx ? 'bg-yellow-400' : 'bg-gray-300'}`}
           />
         ))}
       </div>

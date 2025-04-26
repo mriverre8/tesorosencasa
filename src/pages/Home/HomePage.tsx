@@ -22,7 +22,6 @@ import {
 
 // Types
 import { Tesoro } from '@/types/tesoro';
-import Alert from '@/components/Alert';
 
 interface Props {
   tesorosData: Tesoro[];
@@ -41,8 +40,6 @@ const HomePage = ({ tesorosData }: Props) => {
 
   return (
     <>
-      <Alert text={'El tablón de anuncios estará disponible proximamente.'} />
-
       <div className="mb-20 mt-2.5">
         {/* Filters */}
         <div className="flex gap-2 max-w-[1220px] overflow-y-auto mb-3 text-xs">
@@ -84,7 +81,7 @@ const HomePage = ({ tesorosData }: Props) => {
         </div>
         {/* Buscador */}
         <div className="flex justify-center items-center gap-2 pr-1 relative">
-          {filteredTesoros.length > 0 && (
+          {tesorosData.length > 0 && (
             <button
               className={`text-gray-600 hover:text-yellow-400 bg-white p-2.5 rounded-full border border-gray-300 relative hover:outline-none hover:ring-2 hover:ring-yellow-400 ${showFilterSelector ? 'ring-2 ring-yellow-400' : ''}`}
               onClick={() => {
