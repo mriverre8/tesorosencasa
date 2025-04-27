@@ -21,7 +21,7 @@ const Register = () => {
   }; */
 
   return (
-    <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
+    <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl mt-[17vh]">
       <div className="relative flex items-center justify-center mb-4">
         <h2 className="text-xl sm:text-2xl  font-semibold">Regístrate</h2>
       </div>
@@ -36,7 +36,7 @@ const Register = () => {
             /* value={name}
             onChange={(e) => setName(e.target.value)} */
             required
-            className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+            className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base"
           />
         </div>
         <div className="flex relative">
@@ -49,7 +49,7 @@ const Register = () => {
             /* value={email}
             onChange={(e) => setEmail(e.target.value)} */
             required
-            className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+            className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base"
           />
         </div>
         <div className="flex relative">
@@ -62,13 +62,13 @@ const Register = () => {
             /* value={password}
             onChange={(e) => setPassword(e.target.value)} */
             required
-            className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm sm:text-base"
+            className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base"
           />
         </div>
         <button
           /* type="submit" */
           formAction={signup}
-          className="w-full bg-green-600 text-white py-2 rounded-full hover:bg-green-500 transition text-sm sm:text-base"
+          className="w-full bg-secondary text-white py-2 rounded-full hover:bg-secondary-hover transition text-sm sm:text-base"
         >
           Registrarse
         </button>
@@ -79,19 +79,19 @@ const Register = () => {
         </p>
       </div>
       <div className="flex gap-2 mb-4 mt-1.5 text-center justify-center items-center text-lg sm:text-2xl">
-        <button className="bg-[#f5f1e3] p-2 rounded-full transform transition-transform hover:scale-125">
+        <button className="bg-background p-2 rounded-full transform transition-transform hover:scale-125">
           <FcGoogle />
         </button>
-        <button className="bg-[#f5f1e3] p-2 rounded-full transform transition-transform hover:scale-125">
+        <button className="bg-background p-2 rounded-full transform transition-transform hover:scale-125">
           <FaApple />
         </button>
-        <button className="bg-[#f5f1e3] p-2 rounded-full transform transition-transform hover:scale-125">
+        <button className="bg-background p-2 rounded-full transform transition-transform hover:scale-125">
           <FaGithub />
         </button>
       </div>
       <p className="mt-4 text-center text-xs sm:text-sm text-gray-500">
         ¿Ya tienes cuenta?{' '}
-        <Link href="/login" className="text-yellow-400 hover:underline">
+        <Link href="/login" className="text-primary hover:underline">
           Inicia sesión
         </Link>
       </p>

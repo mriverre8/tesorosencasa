@@ -1,3 +1,20 @@
+:root {
+  --bg: #f5f1e3;
+  --primary: #facc15;
+  --secondary: #15803d;
+  --secondary-hover: #16a34a;
+  /* --color-bg-app-dark: #1a1a1a; */
+  /* --color-text-app: #333333; */
+  /* --color-text-app-dark: #ffffff; */
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-app: var(--color-bg-app-dark);
+    --color-text-app: var(--color-text-app-dark);
+  }
+} */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

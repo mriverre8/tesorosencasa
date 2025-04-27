@@ -30,6 +30,14 @@ const LightboxFilters = ({
   // Apply selected filters and close the Lightbox
   const applyFilters = () => {
     setFilters(tempFilters);
+    // Cerramos todos los dropdowns
+    setOpenDropdown({});
+    closeAction();
+  };
+
+  const closeLightbox = () => {
+    // Cerramos todos los dropdowns
+    setOpenDropdown({});
     closeAction();
   };
 
@@ -125,8 +133,12 @@ const LightboxFilters = ({
 
     return (
       <>
-        {filterValues.map((filter) =>
-          filter.type === 'range' ? (
+        {filterValues.map((filter) => {
+          // Calculamos el valor máximo redondeado solo una vez
+          const maxRange = Math.ceil(filter.valueMaxRange ?? 0);
+          const valueRange = Math.ceil(filter.valueRange ?? 0);
+
+          return filter.type === 'range' ? (
             // Range filter
             <div key={filter.type}>
               <div className="flex items-center gap-2">
@@ -134,17 +146,18 @@ const LightboxFilters = ({
                 <input
                   id={filter.type}
                   type="range"
-                  className="cursor-pointer w-full"
+                  className="cursor-pointer w-full accent-yellow-400 range-slider"
                   min="0"
-                  max={filter.valueMaxRange}
-                  value={filter.valueRange}
+                  max={maxRange}
+                  value={valueRange}
                   onChange={(e) => handleFilterChange(e, filter)}
                 />
-                <label htmlFor={filter.type}>{filter.valueMaxRange}</label>
+                <label htmlFor={filter.type}>{maxRange}</label>{' '}
+                {/* También usamos la variable aquí */}
               </div>
               <div className="flex justify-center items-center">
-                <p className="text-xs text-gray-500">
-                  Verás tesoros de 0 hasta {filter.valueRange} €
+                <p className="text-xs text-gray-three">
+                  Verás tesoros de 0 hasta {valueRange} €
                 </p>
               </div>
             </div>
@@ -155,7 +168,7 @@ const LightboxFilters = ({
                 <input
                   id={filter.valueCheckbox}
                   type="checkbox"
-                  className="cursor-pointer"
+                  className="cursor-pointer accent-yellow-400"
                   checked={filter.checked}
                   onChange={(e) => handleFilterChange(e, filter)}
                 />
@@ -164,8 +177,8 @@ const LightboxFilters = ({
                 </label>
               </div>
             </div>
-          )
-        )}
+          );
+        })}
       </>
     );
   };
@@ -205,7 +218,7 @@ const LightboxFilters = ({
           </div>
 
           {/* Filters list */}
-          <div className="space-y-4 overflow-y-auto h-[45vh]">
+          <div className="space-y-4 overflow-y-auto h-[45vh] px-3">
             {Object.keys(tempFilters).map((filterCategory, index) => {
               const selectedCount = countSelectedFilters(filterCategory);
               return (
@@ -213,16 +226,18 @@ const LightboxFilters = ({
                   {/* Dropdown Header */}
                   <div
                     onClick={() => toggleDropdown(filterCategory)}
-                    className="flex justify-between items-center cursor-pointer px-3 py-2 bg-gray-100 rounded-md"
+                    className="flex justify-between items-center cursor-pointer  py-2 border-b"
                   >
                     <div className="flex items-center gap-2">
-                      <h3 className="text-gray-600 font-medium">
+                      <h3 className="font-medium">
                         {translateFilter[filterCategory]}{' '}
                       </h3>
                       {selectedCount > 0 && (
-                        <span className="text-xs text-white bg-yellow-400 rounded-full px-1.5 py-0.5 ">
-                          {selectedCount}
-                        </span>
+                        <div className="flex items-center justify-center rounded-full bg-primary w-5 h-5">
+                          <span className="text-black text-xs font-semibold">
+                            {selectedCount}
+                          </span>
+                        </div>
                       )}
                     </div>
 
@@ -237,7 +252,7 @@ const LightboxFilters = ({
 
                   {/* Dropdown content */}
                   {openDropdown[filterCategory] && (
-                    <div className="flex flex-col text-sm gap-2 text-gray-500 px-3 mt-2">
+                    <div className="flex flex-col text-sm gap-2 text-gray-500 mt-2">
                       {getFilters(tempFilters[filterCategory])}
                     </div>
                   )}
@@ -261,8 +276,8 @@ const LightboxFilters = ({
             {/* Mostrar Volver solo si no hay cambios */}
             {areFiltersEqual && (
               <button
-                onClick={closeAction}
-                className="border text-white bg-green-700 gap-1 mt-3 rounded-full py-1 px-4 text-sm whitespace-nowrap"
+                onClick={closeLightbox}
+                className="border text-white bg-secondary hover:bg-secondary-hover gap-1 mt-3 rounded-full py-1 px-4 text-sm whitespace-nowrap"
               >
                 Volver
               </button>
@@ -272,7 +287,7 @@ const LightboxFilters = ({
             {!areFiltersEqual && (
               <button
                 onClick={applyFilters}
-                className="border text-white bg-green-700 gap-1 mt-3 rounded-full py-1 px-4 text-sm whitespace-nowrap"
+                className="border text-white bg-secondary hover:bg-secondary-hover gap-1 mt-3 rounded-full py-1 px-4 text-sm whitespace-nowrap"
               >
                 Aplicar filtros
               </button>

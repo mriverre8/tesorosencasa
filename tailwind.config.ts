@@ -9,8 +9,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
+        /* background: 'var(--background)',
+        foreground: 'var(--foreground)', */
+        background: 'var(--bg)',
+        primary: 'var(--primary)',
+        secondary: 'var(--secondary)',
+        'secondary-hover': 'var(--secondary-hover)',
       },
       screens: {
         xs: '420px', // Definimos xs para pantallas menores a sm

@@ -13,16 +13,16 @@ const CardMobile = ({ tesoro }: CardMobileProps) => {
       <Carousel tesoro={tesoro} />
       <div className="flex flex-col ">
         <div className="flex flex-wrap gap-2 mt-2">
-          <p className="flex justify-center items-center gap-1 text-xs bg-yellow-400/70 rounded-full py-1 px-2">
+          <p className="flex justify-center items-center gap-1 text-xs bg-secondary rounded-full py-1 px-2 text-white">
             <BiWorld />
             {tesoro.origin ? tesoro.origin : 'Desconocido'}
           </p>
-          <p className="flex justify-center items-center gap-1 text-xs bg-yellow-400/70 rounded-full py-1 px-2">
+          <p className="flex justify-center items-center gap-1 text-xs bg-secondary rounded-full py-1 px-2 text-white">
             <FaHammer />
             {tesoro.material ? tesoro.material : 'Desconocido'}
           </p>
         </div>
-        <div className="flex flex-col text-sm  mx-1 leading-tight">
+        <div className="flex flex-col text-sm  mx-1 leading-tight mt-1">
           <h3 className="font-semibold  line-clamp-2 mt-1 ">{tesoro.name}</h3>
           {tesoro.brand && (
             <p className="font-light line-clamp-2 ">{tesoro.brand}</p>

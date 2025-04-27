@@ -29,13 +29,13 @@ const LightboxOptions = ({
           <div className="flex flex-row gap-2">
             <button
               onClick={() => onClose()}
-              className="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-500 transition duration-300 mt-5"
+              className="bg-secondary text-white text-sm px-4 py-1 rounded-full hover:bg-secondary-hover transition duration-300 mt-5"
             >
               {buttonText}
             </button>
             <button
               onClick={() => onAccept()}
-              className="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-500 transition duration-300 mt-5"
+              className="bg-secondary text-white text-sm px-4 py-1 rounded-full hover:bg-secondary-hover transition duration-300 mt-5"
             >
               {buttonText2}
             </button>

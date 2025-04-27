@@ -110,7 +110,7 @@ const Carousel = ({ tesoro }: CarouselProps) => {
         {tesoro.images.map((_, idx) => (
           <div
             key={idx}
-            className={`w-1.5 h-1.5 rounded-full ${currentIndex === idx ? 'bg-yellow-400' : 'bg-gray-300'}`}
+            className={`w-1.5 h-1.5 rounded-full ${currentIndex === idx ? 'bg-primary' : 'bg-gray-300'}`}
           />
         ))}
       </div>

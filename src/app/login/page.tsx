@@ -4,11 +4,13 @@ import Login from '@/pages/User/Login';
 export default function LoginPage() {
   return (
     <main>
-      <Layout>
-        <div className=" mt-[17vh] flex justify-center ">
-          <Login />
-        </div>
-      </Layout>
+      <div className="bg-background min-h-screen">
+        <Layout>
+          <div className="flex ">
+            <Login />
+          </div>
+        </Layout>
+      </div>
     </main>
   );
 }

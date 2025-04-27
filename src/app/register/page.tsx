@@ -6,11 +6,13 @@ import Register from '@/pages/User/Register';
 export default function RegisterPage() {
   return (
     <main>
-      <Layout>
-        <div className=" mt-[17vh] flex justify-center ">
-          <Register />
-        </div>
-      </Layout>
+      <div className="bg-background min-h-screen">
+        <Layout>
+          <div className="flex">
+            <Register />
+          </div>
+        </Layout>
+      </div>
     </main>
   );
 }
