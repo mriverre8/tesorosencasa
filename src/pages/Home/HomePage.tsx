@@ -6,12 +6,12 @@ import React, { useEffect, useState } from 'react';
 import ActiveFiltersContainer from '@/pages/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
 import CardMobile from '@/components/CardMobile';
 import LightboxFilters from '@/pages/Home/LightboxFilters/LightboxFilters';
+import SearchBar from './SearchBar/SearchBar';
+import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 
 // Types
 import { Tesoro } from '@/types/tesoro';
 import { getAllProducts } from '@/actions/getAllProducts';
-import SearchBar from './SearchBar/SearchBar';
-import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 import { translate } from '@/locales/translate';
 
 interface Props {
