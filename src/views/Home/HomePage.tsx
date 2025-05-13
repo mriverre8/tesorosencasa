@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 
 // Components
-import ActiveFiltersContainer from '@/pages/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
+import ActiveFiltersContainer from '@/views/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
 import CardMobile from '@/components/CardMobile';
-import LightboxFilters from '@/pages/Home/LightboxFilters/LightboxFilters';
+import LightboxFilters from '@/views/Home/LightboxFilters/LightboxFilters';
 
 // Types
 import { Tesoro } from '@/types/tesoro';

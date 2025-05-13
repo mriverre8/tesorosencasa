@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { FaCameraRetro } from 'react-icons/fa';
 import { IoIosImages } from 'react-icons/io';
-import LightboxImages from '../../pages/Admin/CreateProductForm/LightboxImages/LightboxImages';
+import LightboxImages from '../../views/Admin/CreateProductForm/LightboxImages/LightboxImages';
 import { translate } from '@/locales/translate';
 
 interface InputImageFilesProps {

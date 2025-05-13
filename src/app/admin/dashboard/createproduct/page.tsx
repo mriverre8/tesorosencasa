@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateProductForm from '@/pages/Admin/CreateProductForm/CreateProductForm';
+import CreateProductForm from '@/views/Admin/CreateProductForm/CreateProductForm';
 
 export default async function CreateProduct() {
   return (
