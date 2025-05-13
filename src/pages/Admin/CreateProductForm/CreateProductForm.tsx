@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { newProduct } from '@/actions/newproduct';
 import { useForm } from '@/hooks/useForm';
 

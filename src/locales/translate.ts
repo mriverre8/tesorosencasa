@@ -1,6 +1,13 @@
 import translations from '../locales/es.json';
 
-export function translate(key: string, vars: Record<string, any> = {}): string {
+type TranslationKeys = keyof typeof translations;
+
+type TranslationVariables = Record<string, string | number>;
+
+export function translate(
+  key: TranslationKeys,
+  vars: TranslationVariables = {}
+): string {
   const template = translations[key];
 
   if (!template) {

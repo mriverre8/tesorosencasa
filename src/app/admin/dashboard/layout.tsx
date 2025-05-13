@@ -1,3 +1,4 @@
+import React from 'react';
 import { getUserById } from '@/actions/getUserById';
 import TopbarAdmin from '@/components/TopbarAdmin';
 import { createClient } from '@/supabase/server';

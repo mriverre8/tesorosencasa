@@ -1,3 +1,4 @@
+import React from 'react';
 import { Tesoro } from '@/types/tesoro';
 import Carousel from './Carousel';
 import { BiWorld } from 'react-icons/bi';

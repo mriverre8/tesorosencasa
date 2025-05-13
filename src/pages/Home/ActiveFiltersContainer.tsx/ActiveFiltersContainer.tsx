@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { translate } from '@/locales/translate';
 import { IoClose } from 'react-icons/io5';
 

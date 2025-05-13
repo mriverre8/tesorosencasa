@@ -1,3 +1,4 @@
+import React from 'react';
 import { getAllProducts } from '@/actions/getAllProducts';
 import DashboardProductsPage from '@/pages/Admin/DashboardProductsPage/DashboardProductsPage';
 

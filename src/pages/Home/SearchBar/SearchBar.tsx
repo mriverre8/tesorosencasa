@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { translate } from '@/locales/translate';
 
 import { BiSearchAlt } from 'react-icons/bi';
