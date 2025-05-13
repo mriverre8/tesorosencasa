@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import ProductCard from '../../../components/ProductCard';
 import { Tesoro } from '@/types/tesoro';
-import LightboxProduct from '@/components/Lightbox/LightboxProduct';
+import LightboxProduct from '@/pages/Admin/DashboardProductsPage/LightboxProduct/LightboxProduct';
 import LightboxMessage from '@/components/Lightbox/LightboxMessage';
 import { translate } from '@/locales/translate';
 
@@ -42,6 +42,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
             placeholder={translate('SEARCH_TREASURES')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            disabled={tesorosData.length === 0}
           />
         </div>
 

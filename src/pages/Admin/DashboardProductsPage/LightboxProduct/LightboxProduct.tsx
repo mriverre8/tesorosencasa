@@ -3,8 +3,8 @@
 import { Tesoro } from '@/types/tesoro';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import LightboxLoader from './LightboxLoader';
-import LightboxOptions from './LightboxOptions';
+import LightboxLoader from '../../../../components/Lightbox/LightboxLoader';
+import LightboxOptions from '../../../../components/Lightbox/LightboxOptions';
 import { deleteProductById } from '@/actions/deleteProductById';
 import { translate } from '@/locales/translate';
 
