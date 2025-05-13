@@ -13,7 +13,7 @@ export async function getFilters() {
     'category',
     'price',
   ];
-  const filters: Record<string, any> = {};
+  const filters: Record<string, (string | number)[]> = {};
 
   for (const field of fields) {
     if (field === 'price') {
@@ -43,9 +43,9 @@ export async function getFilters() {
         continue;
       }
 
-      if (data) {
-        filters[field] = Array.from(
-          new Set(data.map((item: any) => item[field]))
+      if (data?.length) {
+        filters[field] = data.map((item) =>
+          String(item[field as keyof typeof item])
         );
       }
     }
