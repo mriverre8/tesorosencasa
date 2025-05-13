@@ -8,7 +8,7 @@ const CONDITIONS = [
   'CONDITION_4',
   'CONDITION_5',
   'CONDITION_6',
-];
+] as const;
 
 interface PropsType {
   value: string;

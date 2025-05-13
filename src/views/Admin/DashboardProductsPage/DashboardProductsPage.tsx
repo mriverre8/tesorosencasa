@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import ProductCard from '../../../components/ProductCard';
 import { Tesoro } from '@/types/tesoro';
-import LightboxProduct from '@/pages/Admin/DashboardProductsPage/LightboxProduct/LightboxProduct';
+import LightboxProduct from '@/views/Admin/DashboardProductsPage/LightboxProduct/LightboxProduct';
 import LightboxMessage from '@/components/Lightbox/LightboxMessage';
 import { translate } from '@/locales/translate';
 

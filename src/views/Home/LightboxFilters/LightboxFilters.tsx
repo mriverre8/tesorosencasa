@@ -178,7 +178,7 @@ const LightboxFilters = ({
                   className="flex justify-between items-center cursor-pointer py-2 border-b"
                 >
                   <div className="flex items-center gap-2">
-                    <h3 className="font-medium">{translate(category)}</h3>
+                    <h3 className="font-medium">{category}</h3>
                     <p className="text-sm text-primary ">
                       {selectedFilters[category] &&
                         selectedFilters[category].length}

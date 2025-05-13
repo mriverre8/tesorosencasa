@@ -1,6 +1,6 @@
 import React from 'react';
 import { getAllProducts } from '@/actions/getAllProducts';
-import DashboardProductsPage from '@/pages/Admin/DashboardProductsPage/DashboardProductsPage';
+import DashboardProductsPage from '@/views/Admin/DashboardProductsPage/DashboardProductsPage';
 
 export default async function Products() {
   const fetchedData = await getAllProducts();

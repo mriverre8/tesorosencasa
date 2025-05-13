@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '@/components/Layout';
-import Login from '@/pages/User/Login';
+import Login from '@/views/User/Login';
 
 export default function LoginPage() {
   return (
