@@ -8,51 +8,32 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model Tesoro {
-  id          String         @id @default(uuid())
-  name        String
-  origin      String?        
-  brand       String?        
-  material    String?        
-  type        String?        
-  large       Int?       
-  width       Int?  
-  height      Int?  
-  diameter    Int?
-  images      String[]       
-  units       Int
-  price       Decimal        @db.Decimal(10,2)
-  reservations Reservations[]
-}
-
-model User {
-  id           String         @id /* @default(uuid()) */
-  /* email        String         @unique
-  password     String
-  name         String */
-  username     String         @unique
-  role         Role
-  reservations Reservations[]
-}
-
-model Reservations {
-  id        String            @id @default(uuid())
-  tesoroId  String
-  userId    String
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model tesoros {
+  id        String   @id(map: "Tesoro_pkey") @default(dbgenerated("uuid_generate_v4()"))
+  name      String
+  condition String
+  origin    String?
+  brand     String?
+  material  String?
+  category  String?
+  large     Int?
+  width     Int?
+  height    Int?
+  diameter  Int?
+  images    String[]
   units     Int
-  status    ReservationStatus
-  createdAt DateTime          @default(now())
-  tesoro    Tesoro            @relation(fields: [tesoroId], references: [id])
-  user      User              @relation(fields: [userId], references: [id])
+  price     Float
+}
+
+model users {
+  id       String @id(map: "User_pkey") @unique(map: "User_id_key")
+  email    String @unique(map: "User_email_key")
+  username String @unique(map: "User_username_key")
+  role     Role   @default(USER)
 }
 
 enum Role {
   ADMIN
   USER
-}
-
-enum ReservationStatus {
-  PENDING
-  CONFIRMED
-  CANCELED
 }

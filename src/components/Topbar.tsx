@@ -1,39 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
-import Link from 'next/link';
+import React /* , { useState } */ from 'react';
+/* import Link from 'next/link'; */
 import Layout from './Layout';
-import { GiHamburgerMenu } from 'react-icons/gi';
+/* import { GiHamburgerMenu } from 'react-icons/gi';
 
-import { User } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js'; */
 
-interface Props {
+/* interface Props {
   user: User | null;
-}
+} */
 
-const Topbar = ({ user }: Props) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const Topbar = (/* { user }: Props */) => {
+  /* const [isMenuOpen, setIsMenuOpen] = useState(false); */
   return (
     <nav className="bg-white bg-opacity-80 backdrop-blur-md fixed top-0 w-full border-b z-50">
       <Layout>
-        <div className="flex justify-between items-center relative h-[69px]">
+        <div className="flex justify-between items-center h-[69px]">
           <div className="flex items-center">
-            <Link
-              href="/"
-              className="flex gap-2 text-3xl font-bold whitespace-nowrap text-secondary"
-            >
+            <div className="flex gap-2 text-3xl font-bold whitespace-nowrap text-secondary">
               <h1 className="text-primary">Tesoros</h1>
               <h1>en Casa</h1>
-            </Link>
+            </div>
           </div>
-          <GiHamburgerMenu
+          {/* <GiHamburgerMenu
             size={24}
             className="text-secondary cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-          />
+          /> */}
         </div>
 
-        <div
+        {/* <div
           className={`gap-5 pt-3 pb-5 text-center ${isMenuOpen ? 'block' : 'hidden'} flex flex-col`}
         >
           {!user ? (
@@ -58,7 +55,7 @@ const Topbar = ({ user }: Props) => {
               </Link>
             </>
           )}
-        </div>
+        </div> */}
       </Layout>
     </nav>
   );

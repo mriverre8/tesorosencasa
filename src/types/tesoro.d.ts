@@ -1,6 +1,7 @@
 export interface Tesoro {
   id: string;
   name: string;
+  condition: string;
   origin: string?;
   brand: string?;
   material: string?;

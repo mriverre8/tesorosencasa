@@ -11,20 +11,25 @@ import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 import LightboxMessage from '@/components/Lightbox/LightboxMessage';
 import InputImageFiles from '@/components/Form/InputImageFiles';
 import InputCountries from '@/components/Form/InputCountries';
+import InputCondition from '@/components/Form/InputCondition';
+import { translate } from '@/locales/translate';
 
 // TODO: Reformatear las imagenes para que ocupen menos espacio y se suban más rápido ( también así habrá mas espacio en el servidor )
 export default function CreateProductForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFinalMsg, setIsFinalMsg] = useState(false);
+  const [isFinalMsgTitle, setIsFinalMsgTitle] = useState('');
+  const [isFinalMsgText, setIsFinalMsgText] = useState('');
 
   const initialForm = {
     name: { value: '', error: '', required: true },
+    condition: { value: '', error: '', required: true },
     // Sección de procedencia
     origin: { value: '', error: '', required: false },
     brand: { value: '', error: '', required: false },
     // Sección de fabricación
     material: { value: '', error: '', required: false },
-    type: { value: '', error: '', required: false },
+    category: { value: '', error: '', required: false },
     // Sección de dimensiones
     large: { value: '', error: '', required: false },
     width: { value: '', error: '', required: false },
@@ -55,13 +60,20 @@ export default function CreateProductForm() {
       setIsLoading(true);
       const response = await newProduct(formData, images);
       if (response.success) {
+        setIsFinalMsgTitle(translate('SUCCESS_TREASAURE_CREATION_TITLE'));
+        setIsFinalMsgText(translate('SUCCESS_TREASAURE_CREATION_TEXT'));
         clearForm(); // Limpiar el formulario después de enviar
         setImages([]); // Limpiar las imágenes después de enviar
         setIsLoading(false);
         setIsFinalMsg(true); // Mostrar el mensaje de éxito
         return;
+      } else {
+        setIsFinalMsgTitle('Error');
+        setIsFinalMsgText(response.message || 'Error al crear el tesoro');
+        setIsLoading(false);
+        setIsFinalMsg(true); // Mostrar el mensaje de error
+        return;
       }
-      setIsLoading(false);
     }
   };
 
@@ -69,32 +81,47 @@ export default function CreateProductForm() {
     <>
       <div className="p-5">
         <h1 className="text-3xl font-semibold mb-6  text-gray-700">
-          Nuevo Tesoro
+          {translate('NEW_TREASAURE')}
         </h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div>
-            <label htmlFor="name" className="px-0.5 text-sm">
-              Nombre del tesoro*
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={formValues.name.value}
-              maxLength={30}
-              onChange={(e) => updateForm('name', e.target.value)}
-              className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
-            />
-            <p className="text-xs pt-1 text-red-600 ">
-              {!formIsValid && !!formValues.name.error
-                ? formValues.name.error
-                : '\u00A0'}
-            </p>
+          <div className="flex flex-col gap-2">
+            <div>
+              <label htmlFor="name" className="px-0.5 text-sm">
+                {translate('TREASAURE_NAME')}*
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={formValues.name.value}
+                maxLength={30}
+                onChange={(e) => updateForm('name', e.target.value)}
+                className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+              />
+              {!formIsValid && !!formValues.name.error && (
+                <p className="text-xs pt-1 text-red-600 ">
+                  {formValues.name.error}
+                </p>
+              )}
+            </div>
+            <div>
+              <InputCondition
+                value={formValues.condition.value}
+                updateForm={updateForm}
+              />
+              {!formIsValid && !!formValues.condition.error && (
+                <p className="text-xs pt-1 text-red-600 ">
+                  {formValues.condition.error}
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <h2 className="text-xl border-b text-gray-700">Procedencia</h2>
+            <h2 className="text-xl border-b text-gray-700">
+              {translate('TREASAURE_BACKGROUND')}
+            </h2>
             <div className="grid grid-cols-1 gap-2">
               <InputCountries
                 value={formValues.origin.value}
@@ -102,7 +129,7 @@ export default function CreateProductForm() {
               />
               <div>
                 <label htmlFor="brand" className="px-0.5 text-sm">
-                  Marca
+                  {translate('TREASAURE_BRAND')}
                 </label>
                 <input
                   id="brand"
@@ -111,8 +138,8 @@ export default function CreateProductForm() {
                   maxLength={30}
                   onChange={(e) => updateForm('brand', e.target.value)}
                   type="text"
-                  placeholder="Desconocido"
-                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                  placeholder={translate('UNKNOWN')}
+                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                 />
                 <p className="text-xs pt-1 text-red-600 ">
                   {!formIsValid && !!formValues.brand.error
@@ -124,11 +151,13 @@ export default function CreateProductForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <h2 className="text-xl border-b text-gray-700">Fabricación</h2>
+            <h2 className="text-xl border-b text-gray-700">
+              {translate('TREASAURE_FABRICATION')}
+            </h2>
             <div className="grid grid-cols-1 gap-2">
               <div>
                 <label htmlFor="material" className="px-0.5 text-sm">
-                  Material
+                  {translate('TREASAURE_MATERIAL')}
                 </label>
                 <input
                   id="material"
@@ -137,8 +166,8 @@ export default function CreateProductForm() {
                   maxLength={30}
                   onChange={(e) => updateForm('material', e.target.value)}
                   type="text"
-                  placeholder="Desconocido"
-                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                  placeholder={translate('UNKNOWN')}
+                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                 />
                 <p className="text-xs pt-1 text-red-600 ">
                   {!formIsValid && !!formValues.material.error
@@ -148,21 +177,21 @@ export default function CreateProductForm() {
               </div>
               <div>
                 <label htmlFor="type" className="px-0.5 text-sm">
-                  Tipo
+                  {translate('TREASAURE_CATEGORY')}
                 </label>
                 <input
-                  id="type"
-                  name="type"
-                  value={formValues.type.value}
+                  id="category"
+                  name="category"
+                  value={formValues.category.value}
                   maxLength={30}
-                  onChange={(e) => updateForm('type', e.target.value)}
+                  onChange={(e) => updateForm('category', e.target.value)}
                   type="text"
-                  placeholder="Otro"
-                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                  placeholder={translate('OTHER')}
+                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                 />
                 <p className="text-xs pt-1 text-red-600 ">
-                  {!formIsValid && !!formValues.type.error
-                    ? formValues.type.error
+                  {!formIsValid && !!formValues.category.error
+                    ? formValues.category.error
                     : '\u00A0'}
                 </p>
               </div>
@@ -170,11 +199,13 @@ export default function CreateProductForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <h2 className="text-xl border-b text-gray-700">Dimensiones</h2>
+            <h2 className="text-xl border-b text-gray-700">
+              {translate('TREASAURE_DIMENSIONS')}
+            </h2>
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label htmlFor="large" className="px-0.5 text-sm">
-                  Largo
+                  {translate('LARGE')}
                 </label>
                 <div className="relative">
                   <input
@@ -187,7 +218,7 @@ export default function CreateProductForm() {
                     inputMode="numeric"
                     maxLength={10}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -196,7 +227,7 @@ export default function CreateProductForm() {
               </div>
               <div>
                 <label htmlFor="width" className="px-0.5 text-sm">
-                  Ancho
+                  {translate('WIDTH')}
                 </label>
                 <div className="relative">
                   <input
@@ -209,7 +240,7 @@ export default function CreateProductForm() {
                     inputMode="numeric"
                     maxLength={10}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -218,7 +249,7 @@ export default function CreateProductForm() {
               </div>
               <div>
                 <label htmlFor="height" className="px-0.5 text-sm">
-                  Alto
+                  {translate('HEIGHT')}
                 </label>
                 <div className="relative">
                   <input
@@ -231,7 +262,7 @@ export default function CreateProductForm() {
                     inputMode="numeric"
                     maxLength={10}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -240,7 +271,7 @@ export default function CreateProductForm() {
               </div>
               <div>
                 <label htmlFor="diameter" className="px-0.5 text-sm">
-                  Diámetro
+                  {translate('DIAMETER')}
                 </label>
                 <div className="relative">
                   <input
@@ -253,7 +284,7 @@ export default function CreateProductForm() {
                     inputMode="numeric"
                     maxLength={10}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -264,14 +295,16 @@ export default function CreateProductForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <h2 className="text-xl border-b text-gray-700">Stock</h2>
+            <h2 className="text-xl border-b text-gray-700">
+              {translate('TREASAURE_STOCK')}
+            </h2>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2">
               <div>
                 <label
                   htmlFor="units"
                   className="px-0.5 text-sm whitespace-nowrap"
                 >
-                  Unidades disp.*
+                  {translate('TREASAURE_AVAILABLE_UNITS')}*
                 </label>
                 <input
                   id="units"
@@ -283,7 +316,7 @@ export default function CreateProductForm() {
                   maxLength={4}
                   inputMode="numeric"
                   type="text"
-                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                 />
                 <p className="text-xs pt-1 text-red-600">
                   {!formIsValid && !!formValues.units.error
@@ -293,7 +326,7 @@ export default function CreateProductForm() {
               </div>
               <div>
                 <label htmlFor="price" className="px-0.5 text-sm">
-                  Precio*
+                  {translate('TREASAURE_PRICE')}*
                 </label>
                 <div className="relative">
                   <input
@@ -304,7 +337,7 @@ export default function CreateProductForm() {
                     maxLength={10}
                     inputMode="decimal"
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-8 py-2 w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+                    className="border border-gray-300 rounded-full pl-4 pr-8 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     €
@@ -323,9 +356,9 @@ export default function CreateProductForm() {
 
           <button
             type="submit"
-            className="mt-6 bg-green-600 text-white font-semibold py-2 rounded-full hover:bg-green-500 transition w-full"
+            className="mt-6 bg-secondary text-white font-semibold py-2 rounded-full hover:bg-secondary-hover transition w-full"
           >
-            Guardar Tesoro
+            {translate('SAVE_TREASURE')}
           </button>
         </form>
       </div>
@@ -333,9 +366,9 @@ export default function CreateProductForm() {
       <LightboxMessage
         isLightboxOpen={isFinalMsg}
         onClose={() => setIsFinalMsg(false)}
-        title="¡Éxito!"
-        text="Tesoro creado con éxito. Podrás encontrarlo en la sección de tesoros."
-        buttonText="Aceptar"
+        title={isFinalMsgTitle}
+        text={isFinalMsgText}
+        buttonText={translate('ACCEPT')}
       />
     </>
   );

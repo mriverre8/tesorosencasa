@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { FaCameraRetro } from 'react-icons/fa';
 import { IoIosImages } from 'react-icons/io';
 import LightboxImages from '../Lightbox/LightboxImages';
+import { translate } from '@/locales/translate';
 
 interface InputImageFilesProps {
   images: File[];
@@ -53,7 +54,10 @@ const InputImageFiles = ({ images, setImages }: InputImageFilesProps) => {
   return (
     <>
       <div className="flex flex-col gap-2 ">
-        <label className="px-0.5 text-sm">Multimedia* (Máx. 6 imágenes)</label>
+        <label className="px-0.5 text-sm">
+          {translate('TREASAURE_MULTIMEDIA_1')}*
+          {translate('TREASAURE_MULTIMEDIA_2')}
+        </label>
 
         <div className="flex gap-2">
           <label className="flex cursor-pointer bg-yellow-400 text-white  rounded-full items-center justify-center">
@@ -69,7 +73,7 @@ const InputImageFiles = ({ images, setImages }: InputImageFilesProps) => {
 
           <label className="flex gap-2 cursor-pointer w-full border border-yellow-400 bg-white text-sm py-2 px-4 rounded-full justify-center items-center text-center ">
             <IoIosImages className="font-semibold text-xl" />
-            Seleccionar desde galería
+            {translate('SELECT_FROM_GALLERY')}
             <input
               type="file"
               accept="image/*"

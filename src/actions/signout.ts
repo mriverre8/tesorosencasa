@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@/supabase/server';
 
 export async function signout() {
   const supabase = await createClient();
@@ -14,6 +14,9 @@ export async function signout() {
     redirect('/error');
   }
 
+  /* revalidatePath('/', 'layout');
+  redirect('/'); */
+
   revalidatePath('/', 'layout');
-  redirect('/');
+  redirect('/login');
 }

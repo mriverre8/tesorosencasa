@@ -2,8 +2,10 @@ import CreateProductForm from '@/pages/Admin/CreateProductForm/CreateProductForm
 
 export default async function CreateProduct() {
   return (
-    <main>
-      <CreateProductForm />
-    </main>
+    <div className="bg-background">
+      <main>
+        <CreateProductForm />
+      </main>
+    </div>
   );
 }

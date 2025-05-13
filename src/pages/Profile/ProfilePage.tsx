@@ -1,15 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import { User } from '@supabase/supabase-js';
+
 import { signout } from '@/actions/signout';
 import LightboxOptions from '@/components/Lightbox/LightboxOptions';
 import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 import { MdEmail, MdLock } from 'react-icons/md';
 import { FaEdit } from 'react-icons/fa';
+import { User } from '@/types/user';
 
 interface ProfileProps {
-  user: User | null;
+  user: User;
 }
 
 const ProfilePage = ({ user }: ProfileProps) => {
@@ -24,18 +25,11 @@ const ProfilePage = ({ user }: ProfileProps) => {
     setIsLoading(false);
   };
 
-  const extraerUsuario = (correo: string) => {
-    if (correo.includes('@')) {
-      return correo.split('@')[0];
-    }
-    return '';
-  };
-
   return (
     <>
       <div className="mt-2.5 ">
         <h1 className="text-2xl font-semibold mb-2 ">
-          ¡Bienvenido/a {extraerUsuario(user?.email || '')}!
+          ¡Bienvenido/a {user?.username}!
         </h1>
         <div className="flex flex-col gap-2">
           <div>
@@ -48,10 +42,8 @@ const ProfilePage = ({ user }: ProfileProps) => {
                 type="email"
                 placeholder="Email"
                 value={user?.email}
-                /* onChange={(e) => setEmail(e.target.value)} */
-                required
                 className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base "
-                disabled={!isEditing}
+                disabled
               />
             </div>
           </div>
@@ -82,8 +74,8 @@ const ProfilePage = ({ user }: ProfileProps) => {
                 <div className="flex relative">
                   <MdLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-base sm:text-xl opacity-50 pointer-events-none" />
                   <input
-                    id="password"
-                    name="password"
+                    id="password2"
+                    name="password2"
                     type="password"
                     placeholder="Nueva contraseña"
                     /* value={password} */

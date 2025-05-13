@@ -1,3 +1,4 @@
+import { translate } from '@/locales/translate';
 import React from 'react';
 import { FaSpinner } from 'react-icons/fa';
 
@@ -12,7 +13,7 @@ const LightboxLoader = ({ isLightboxOpen }: Props) => {
       <div className="flex items-center justify-center h-full w-full">
         <div className="flex flex-row justify-center items-center gap-4 bg-white px-10 py-4 rounded-md">
           <FaSpinner className="animate-spin text-2xl" />
-          <p>Cargando...</p>
+          <p>{translate('LOADING')}</p>
         </div>
       </div>
     </div>

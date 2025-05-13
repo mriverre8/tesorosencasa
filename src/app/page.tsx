@@ -6,7 +6,8 @@ import Alert from '@/components/Alert';
 
 import { getAllProducts } from '@/actions/getAllProducts';
 
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@/supabase/server';
+import { getFilters } from '@/actions/getFilters';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -15,8 +16,8 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const fetchedData = await getAllProducts();
-  const tesorosData = fetchedData ?? [];
+  const filtersData = await getFilters();
+  console.log('Filters:', filtersData);
 
   return (
     <div className="flex flex-col justify-between min-h-screen bg-background">
@@ -28,7 +29,7 @@ export default async function Home() {
               type={1}
               text={'El tablón de anuncios estará disponible proximamente.'}
             />
-            <HomePage tesorosData={tesorosData} />
+            <HomePage filtersData={filtersData} />
           </div>
         </Layout>
       </main>

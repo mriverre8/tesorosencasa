@@ -1,5 +1,6 @@
 'use client';
 
+import { translate } from '@/locales/translate';
 import Image from 'next/image';
 
 interface LightboxImagesProps {
@@ -37,16 +38,16 @@ const LightboxImages = ({
           />
           <div className="flex justify-between items-center gap-3 mt-3 mb-3 w-full px-2">
             <button
-              className="border rounded-full py-1 px-4 w-full "
+              className="py-0.5 px-4 w-full text-sm hover:text-primary"
               onClick={closeAction}
             >
-              Volver
+              {translate('GO_BACK')}
             </button>
             <button
-              className="bg-red-600 rounded-full py-1 px-4 text-white w-full"
+              className="bg-red-600 rounded-full py-0.5 px-4 text-white w-full text-sm"
               onClick={() => removeImage(data.index)}
             >
-              Eliminar
+              {translate('DELETE')}
             </button>
           </div>
         </div>

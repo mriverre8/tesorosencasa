@@ -1,111 +1,58 @@
 'use client';
 
-import React, { useState } from 'react';
-
-// Icons
-import { FaFilter, FaInstagram } from 'react-icons/fa';
-import { BiSearchAlt } from 'react-icons/bi';
-import { IoClose } from 'react-icons/io5';
+import React, { useEffect, useState } from 'react';
 
 // Components
+import ActiveFiltersContainer from '@/pages/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
 import CardMobile from '@/components/CardMobile';
-import LightboxFilters from '@/components/Lightbox/LightboxFilters';
-
-// Utilities
-import {
-  generateFilters,
-  obtainFilteredResults,
-  removeAppliedFilter,
-} from '@/utils/utilsHomePage';
+import LightboxFilters from '@/pages/Home/LightboxFilters/LightboxFilters';
 
 // Types
 import { Tesoro } from '@/types/tesoro';
+import { getAllProducts } from '@/actions/getAllProducts';
+import SearchBar from './SearchBar/SearchBar';
+import LightboxLoader from '@/components/Lightbox/LightboxLoader';
+import { translate } from '@/locales/translate';
 
 interface Props {
-  tesorosData: Tesoro[];
+  filtersData: Record<string, (string | number)[]>;
 }
 
-const HomePage = ({ tesorosData }: Props) => {
-  const [filters, setFilters] = useState(() => generateFilters(tesorosData));
+const HomePage = ({ filtersData }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [tesorosData, setTesorosData] = useState<Tesoro[]>([]);
+  const [filters, setFilters] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilterSelector, setShowFilterSelector] = useState(false);
 
-  const filteredResults = obtainFilteredResults(filters, tesorosData);
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      const fetchedData = await getAllProducts(1, 15, filters);
+      const tesorosData = fetchedData ?? [];
+      setTesorosData(tesorosData);
+      setIsLoading(false);
+    }
 
-  const filteredTesoros = filteredResults.filter((tesoro) =>
-    tesoro.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    fetchData();
+  }, [filters]);
 
   return (
     <>
       <div className="my-2.5">
         {/* Filters */}
-        <div className="flex gap-2 max-w-[1220px] overflow-y-auto mb-3 text-xs">
-          {Object.entries(filters).map(([category, options]) =>
-            options.map((option, index) =>
-              option.type === 'checkbox' && option.checked ? (
-                <button
-                  key={`${category}-${index}`}
-                  onClick={() =>
-                    setFilters(
-                      removeAppliedFilter(
-                        category,
-                        option.valueCheckbox!,
-                        filters
-                      )
-                    )
-                  }
-                  className="bg-primary rounded-full px-3 py-1 gap-1 flex items-center justify-center whitespace-nowrap mt-2.5 "
-                >
-                  {option.valueCheckbox}
-                  <IoClose />
-                </button>
-              ) : option.type === 'range' && option.valueRangeChanged ? (
-                <button
-                  key={`${category}-${index}`}
-                  onClick={() =>
-                    setFilters(
-                      removeAppliedFilter(category, option.valueRange!, filters)
-                    )
-                  }
-                  className="bg-primary rounded-full px-3 py-1 flex items-center justify-center gap-1 whitespace-nowrap mt-2.5"
-                >
-                  Precio hasta {option.valueRange} €
-                  <IoClose />
-                </button>
-              ) : null
-            )
-          )}
-        </div>
+        <ActiveFiltersContainer filters={filters} setFilters={setFilters} />
         {/* Buscador */}
-        <div className="flex justify-center items-center gap-2 pr-1 relative">
-          {tesorosData.length > 0 && (
-            <button
-              className={`bg-white p-2.5 rounded-full border border-gray-300 relative hover:outline-none hover:ring-primary ${showFilterSelector ? 'ring-2 ring-primary' : ''}`}
-              onClick={() => {
-                setShowFilterSelector(!showFilterSelector);
-              }}
-            >
-              <FaFilter
-                className={`${showFilterSelector ? 'text-primary' : ''}`}
-              />
-            </button>
-          )}
-          <div className="flex w-full relative">
-            <BiSearchAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
-            <input
-              className="w-full py-2 pl-10 pr-5 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Buscar tesoros"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-        </div>
-
+        <SearchBar
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          showFilterSelector={showFilterSelector}
+          setShowFilterSelector={setShowFilterSelector}
+        />
         {/* Productos */}
-        {filteredTesoros.length > 0 ? (
-          <div className=" mt-5 ">
-            {filteredTesoros.map((tesoro, index) => (
+        {tesorosData.length > 0 ? (
+          <div className="mt-5 ">
+            {tesorosData.map((tesoro, index) => (
               <div key={index}>
                 <CardMobile tesoro={tesoro} />
               </div>
@@ -114,17 +61,18 @@ const HomePage = ({ tesorosData }: Props) => {
         ) : (
           <div className="flex justify-center items-center my-24 ">
             <p className="text-center text-gray-400">
-              No hay tesoros disponibles.
+              {translate('NO_TREASURES_FOUND')}
             </p>
           </div>
         )}
       </div>
 
+      <LightboxLoader isLightboxOpen={isLoading} />
       {/* Lightbox de filtros */}
-
       <LightboxFilters
         isLightboxOpen={showFilterSelector}
         closeAction={() => setShowFilterSelector(false)}
+        filtersData={filtersData}
         filters={filters}
         setFilters={setFilters}
       />

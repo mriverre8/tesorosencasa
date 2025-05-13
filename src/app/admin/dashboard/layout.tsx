@@ -1,25 +1,29 @@
-import AdminSidePanel from '@/components/AdminSidePanel';
+import { getUserById } from '@/actions/getUserById';
+import TopbarAdmin from '@/components/TopbarAdmin';
+import { createClient } from '@/supabase/server';
+import { redirect } from 'next/navigation';
 
-export default function Layout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const userData = user ? await getUserById(user.id) : null;
+
+  if (userData?.role !== 'ADMIN') {
+    redirect('/login');
+  }
+
   return (
     <>
-      <AdminSidePanel />
-      <main>
-        <div className="mt-[69px] md:ml-72 md:mt-0">
-          <div className="block md:hidden">
-            {/* Mostrar children en pantallas pequeñas */}
-            {children}
-          </div>
-          <div className="hidden md:block">
-            {/* Mostrar texto en pantallas grandes */}
-            <p>Este es un texto que se muestra en pantallas grandes.</p>
-          </div>
-        </div>
-      </main>
+      <TopbarAdmin />
+      <div className="mt-[69px]">{children}</div>
     </>
   );
 }

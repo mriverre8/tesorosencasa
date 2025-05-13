@@ -2,6 +2,7 @@ import { findCountryByName } from '@/utils/utilsForm';
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import countriesMock from '@/mocks/countries.json';
+import { translate } from '@/locales/translate';
 /* import { getCountries } from '@/actions/getCountries'; */
 
 interface PropsType {
@@ -82,7 +83,7 @@ const InputCountries = ({ value, updateForm }: PropsType) => {
   return (
     <div className="relative">
       <label htmlFor="origin" className="px-0.5 text-sm">
-        Origen
+        {translate('TREASAURE_ORIGIN')}
       </label>
 
       <div className="flex flex-col w-full relative">
@@ -104,12 +105,12 @@ const InputCountries = ({ value, updateForm }: PropsType) => {
           id="origin"
           name="origin"
           type="text"
-          placeholder="Desconocido"
+          placeholder={translate('UNKNOWN')}
           value={value}
           onChange={handleOriginChange}
           onFocus={() => setShowDropdown(true)}
           onBlur={handlleOriginBlur}
-          className="border border-gray-300 rounded-full py-2 pr-8 pl-[51px] w-full focus:ring-2 focus:ring-yellow-400 outline-none"
+          className="border border-gray-300 rounded-full py-2 pr-8 pl-[51px] w-full focus:ring-2 focus:ring-primary outline-none"
         />
 
         {value && (
@@ -145,7 +146,9 @@ const InputCountries = ({ value, updateForm }: PropsType) => {
               </li>
             ))
           ) : (
-            <li className="px-4 py-2 text-gray-500 text-sm">Sin resultados</li>
+            <li className="px-4 py-2 text-gray-500 text-sm">
+              {translate('NO_RESULTS')}
+            </li>
           )}
         </ul>
       )}
