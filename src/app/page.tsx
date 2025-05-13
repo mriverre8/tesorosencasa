@@ -1,10 +1,9 @@
+import React from 'react';
 import Layout from '@/components/Layout';
 import HomePage from '@/pages/Home/HomePage';
 import Topbar from '@/components/Topbar';
 import Footer from '@/components/Footer';
 import Alert from '@/components/Alert';
-
-import { getAllProducts } from '@/actions/getAllProducts';
 
 import { createClient } from '@/supabase/server';
 import { getFilters } from '@/actions/getFilters';

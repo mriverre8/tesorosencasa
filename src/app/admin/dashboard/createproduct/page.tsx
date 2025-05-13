@@ -1,3 +1,4 @@
+import React from 'react';
 import CreateProductForm from '@/pages/Admin/CreateProductForm/CreateProductForm';
 
 export default async function CreateProduct() {

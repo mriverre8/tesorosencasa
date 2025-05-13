@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 import { useState } from 'react';
 

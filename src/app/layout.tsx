@@ -1,3 +1,4 @@
+import React from 'react';
 import LightboxError from '@/components/Lightbox/LightboxError';
 import './globals.css';
 import { Parkinsans } from 'next/font/google';
