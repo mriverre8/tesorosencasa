@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=ParkinSans+Narrow&display=swap');
-
 :root {
   --bg: #f5f1e3;
   --primary: #facc15;
@@ -8,10 +6,6 @@
   /* --color-bg-app-dark: #1a1a1a; */
   /* --color-text-app: #333333; */
   /* --color-text-app-dark: #ffffff; */
-}
-
-.font-parkinsans {
-  font-family: 'ParkinSans Narrow', sans-serif;
 }
 
 /* @media (prefers-color-scheme: dark) {
