@@ -44,9 +44,14 @@ export async function getFilters() {
       }
 
       if (data?.length) {
-        filters[field] = data.map((item) =>
-          String(item[field as keyof typeof item])
-        );
+        const uniqueValues = new Set<string>();
+
+        data.forEach((item) => {
+          const value = String(item[field as keyof typeof item]);
+          uniqueValues.add(value);
+        });
+
+        filters[field] = Array.from(uniqueValues);
       }
     }
   }

@@ -1,16 +1,21 @@
-import { findCountryByName } from '@/utils/utilsForm';
-import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import countriesMock from '@/mocks/countries.json';
-import { translate } from '@/locales/translate';
-/* import { getCountries } from '@/actions/getCountries'; */
+import Image from 'next/image';
 
-interface PropsType {
+// Utils
+import { findCountryByName } from '@/utils/utilsForm';
+
+// Countries data
+import countriesMock from '@/mocks/countries.json';
+
+// Translation
+import { translate } from '@/locales/translate';
+
+interface Props {
   value: string;
   updateForm: (key: string, value: string) => void;
 }
 
-const InputCountries = ({ value, updateForm }: PropsType) => {
+const InputCountries = ({ value, updateForm }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Contiene los países que se obtienen de la API
@@ -61,7 +66,6 @@ const InputCountries = ({ value, updateForm }: PropsType) => {
 
   // Obtiene los países al cargar el componente y los guarda en el estado
   useEffect(() => {
-    /* getCountries().then(setCountries); */
     setCountries(countriesMock);
   }, []);
 

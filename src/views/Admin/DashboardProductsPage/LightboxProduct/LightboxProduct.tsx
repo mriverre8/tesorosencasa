@@ -1,11 +1,19 @@
 'use client';
 
-import { Tesoro } from '@/types/tesoro';
-import Image from 'next/image';
 import React, { useState } from 'react';
+import Image from 'next/image';
+
+// Components
 import LightboxLoader from '../../../../components/Lightbox/LightboxLoader';
 import LightboxOptions from '../../../../components/Lightbox/LightboxOptions';
+
+// Actions
 import { deleteProductById } from '@/actions/deleteProductById';
+
+// Types
+import { tesoros } from '@prisma/client';
+
+// Translation
 import { translate } from '@/locales/translate';
 
 interface Props {
@@ -13,7 +21,7 @@ interface Props {
   onClose: () => void;
   setIsFinalMsgText: (value: string) => void;
   setIsFinalMsgTitle: (value: string) => void;
-  tesoro: Tesoro;
+  tesoro: tesoros;
   onDelete: () => void;
 }
 const LightboxProduct = ({
@@ -105,7 +113,7 @@ const LightboxProduct = ({
                   {translate('TREASAURE_CATEGORY')}
                 </p>
                 <p className="text-sm">
-                  {tesoro.type ? tesoro.type : translate('UNKNOWN')}
+                  {tesoro.category ? tesoro.category : translate('UNKNOWN')}
                 </p>
               </div>
             </div>

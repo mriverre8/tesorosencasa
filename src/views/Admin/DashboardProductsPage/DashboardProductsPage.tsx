@@ -1,23 +1,29 @@
 'use client';
 
-import React from 'react';
-import { BiSearchAlt } from 'react-icons/bi';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
+// Icons
+import { BiSearchAlt } from 'react-icons/bi';
+
+// Components
 import ProductCard from '../../../components/ProductCard';
-import { Tesoro } from '@/types/tesoro';
 import LightboxProduct from '@/views/Admin/DashboardProductsPage/LightboxProduct/LightboxProduct';
 import LightboxMessage from '@/components/Lightbox/LightboxMessage';
+
+// Types
+import { tesoros } from '@prisma/client';
+
+// Translation
 import { translate } from '@/locales/translate';
 
 interface Props {
-  tesorosData: Tesoro[];
+  tesorosData: tesoros[];
 }
 
 export default function DashboardProductsPage({ tesorosData }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState<Tesoro | null>(null);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<tesoros | null>(null);
+  const [isProductLightboxOpen, setIsProductLightboxOpen] = useState(false);
   const [isFinalMsg, setIsFinalMsg] = useState(false);
   const [isFinalMsgTitle, setIsFinalMsgTitle] = useState('');
   const [isFinalMsgText, setIsFinalMsgText] = useState('');
@@ -26,9 +32,9 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
     tesoro.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handlePreview = (tesoro: Tesoro) => {
+  const handlePreview = (tesoro: tesoros) => {
     setSelectedProduct(tesoro);
-    setIsLightboxOpen(true);
+    setIsProductLightboxOpen(true);
   };
 
   return (
@@ -67,13 +73,13 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
       </div>
       {selectedProduct && (
         <LightboxProduct
-          isLightboxOpen={isLightboxOpen}
-          onClose={() => setIsLightboxOpen(false)}
+          isLightboxOpen={isProductLightboxOpen}
+          onClose={() => setIsProductLightboxOpen(false)}
           setIsFinalMsgTitle={setIsFinalMsgTitle}
           setIsFinalMsgText={setIsFinalMsgText}
           tesoro={selectedProduct}
           onDelete={() => {
-            setIsLightboxOpen(false);
+            setIsProductLightboxOpen(false);
             setIsFinalMsg(true);
           }}
         />

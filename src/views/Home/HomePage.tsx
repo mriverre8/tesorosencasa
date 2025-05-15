@@ -3,15 +3,19 @@
 import React, { useEffect, useState } from 'react';
 
 // Components
+import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 import ActiveFiltersContainer from '@/views/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
-import CardMobile from '@/components/CardMobile';
+import SearchBar from './SearchBar/SearchBar';
 import LightboxFilters from '@/views/Home/LightboxFilters/LightboxFilters';
+import CardMobile from '@/components/CardMobile';
 
 // Types
-import { Tesoro } from '@/types/tesoro';
+import { tesoros } from '@prisma/client';
+
+// Actions
 import { getAllProducts } from '@/actions/getAllProducts';
-import SearchBar from './SearchBar/SearchBar';
-import LightboxLoader from '@/components/Lightbox/LightboxLoader';
+
+// Translation
 import { translate } from '@/locales/translate';
 
 interface Props {
@@ -19,37 +23,37 @@ interface Props {
 }
 
 const HomePage = ({ filtersData }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [tesorosData, setTesorosData] = useState<Tesoro[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLightboxFiltersOpen, setIsLightboxFiltersOpen] = useState(false);
+
+  const [tesorosData, setTesorosData] = useState<tesoros[]>([]);
+
   const [filters, setFilters] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
-  const [showFilterSelector, setShowFilterSelector] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
-      const fetchedData = await getAllProducts(1, 15, filters);
-      const tesorosData = fetchedData ?? [];
+      const tesorosData = await getAllProducts(1, 15, filters);
       setTesorosData(tesorosData);
       setIsLoading(false);
     }
-
     fetchData();
   }, [filters]);
 
   return (
     <>
       <div className="my-2.5">
-        {/* Filters */}
+        {/* Contenedor con los filtros aplicados */}
         <ActiveFiltersContainer filters={filters} setFilters={setFilters} />
-        {/* Buscador */}
+        {/* Buscador de tesoros */}
         <SearchBar
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          showFilterSelector={showFilterSelector}
-          setShowFilterSelector={setShowFilterSelector}
+          isLightboxFiltersOpen={isLightboxFiltersOpen}
+          setIsLightboxFiltersOpen={setIsLightboxFiltersOpen}
         />
-        {/* Productos */}
+        {/* Tesoros */}
         {tesorosData.length > 0 ? (
           <div className="mt-5 ">
             {tesorosData.map((tesoro, index) => (
@@ -66,12 +70,11 @@ const HomePage = ({ filtersData }: Props) => {
           </div>
         )}
       </div>
-
+      {/* Lightboxes */}
       <LightboxLoader isLightboxOpen={isLoading} />
-      {/* Lightbox de filtros */}
       <LightboxFilters
-        isLightboxOpen={showFilterSelector}
-        closeAction={() => setShowFilterSelector(false)}
+        isLightboxOpen={isLightboxFiltersOpen}
+        closeLightbox={() => setIsLightboxFiltersOpen(false)}
         filtersData={filtersData}
         filters={filters}
         setFilters={setFilters}
