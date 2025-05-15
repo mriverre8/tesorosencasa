@@ -1,11 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
-import { Tesoro } from '@/types/tesoro';
 import { BiWorld } from 'react-icons/bi';
 import { FaHammer } from 'react-icons/fa6';
+import { tesoros } from '@prisma/client';
 
 interface ProductProps {
-  tesoro: Tesoro;
+  tesoro: tesoros;
 }
 
 const Card = ({ tesoro }: ProductProps) => {

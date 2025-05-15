@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { BiSearchAlt } from 'react-icons/bi';
 
 // Components
-import ProductCard from '../../../components/ProductCard';
+import ProductCard from './ProductCard/ProductCard';
 import LightboxProduct from '@/views/Admin/DashboardProductsPage/LightboxProduct/LightboxProduct';
 import LightboxMessage from '@/components/Lightbox/LightboxMessage';
 
