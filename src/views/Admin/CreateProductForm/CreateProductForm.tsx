@@ -1,18 +1,24 @@
 'use client';
 
-import React from 'react';
-import { newProduct } from '@/actions/newproduct';
+import React, { useState } from 'react';
+
+// Hooks
 import { useForm } from '@/hooks/useForm';
 
+// Actions
+import { newProduct } from '@/actions/newproduct';
+
+// Utils
 import { acceptOnlyNumbers } from '@/utils/utilsForm';
 
-import { useState } from 'react';
-
+// Components
 import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 import LightboxMessage from '@/components/Lightbox/LightboxMessage';
-import InputImageFiles from '@/components/Form/InputImageFiles';
-import InputCountries from '@/components/Form/InputCountries';
-import InputCondition from '@/components/Form/InputCondition';
+import InputImageFiles from '@/views/Admin/CreateProductForm/InputImageFiles/InputImageFiles';
+import InputCountries from '@/views/Admin/CreateProductForm/InputCountries/InputCountries';
+import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/InputCondition';
+
+//Translation
 import { translate } from '@/locales/translate';
 
 // TODO: Reformatear las imagenes para que ocupen menos espacio y se suban más rápido ( también así habrá mas espacio en el servidor )

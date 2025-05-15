@@ -2,7 +2,7 @@ import React from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 
 interface Props {
-  type: number;
+  type?: number;
   text: string;
 }
 

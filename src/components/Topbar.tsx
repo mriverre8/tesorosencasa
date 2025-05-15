@@ -3,6 +3,7 @@
 import React /* , { useState } */ from 'react';
 /* import Link from 'next/link'; */
 import Layout from './Layout';
+import { translate } from '@/locales/translate';
 /* import { GiHamburgerMenu } from 'react-icons/gi';
 
 import { User } from '@supabase/supabase-js'; */
@@ -19,8 +20,8 @@ const Topbar = (/* { user }: Props */) => {
         <div className="flex justify-between items-center h-[69px]">
           <div className="flex items-center">
             <div className="flex gap-2 text-3xl font-bold whitespace-nowrap text-secondary">
-              <h1 className="text-primary">Tesoros</h1>
-              <h1>en Casa</h1>
+              <h1 className="text-primary">{translate('TESOROS_EN_CASA_1')}</h1>
+              <h1>{translate('TESOROS_EN_CASA_2')}</h1>
             </div>
           </div>
           {/* <GiHamburgerMenu

@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 
+// Icons
 import { FaCameraRetro } from 'react-icons/fa';
 import { IoIosImages } from 'react-icons/io';
-import LightboxImages from '../../views/Admin/CreateProductForm/LightboxImages/LightboxImages';
+
+// Components
+import LightboxImages from '@/views/Admin/CreateProductForm/LightboxImages/LightboxImages';
+
+// Translation
 import { translate } from '@/locales/translate';
 
-interface InputImageFilesProps {
+interface Props {
   images: File[];
   setImages: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
-const InputImageFiles = ({ images, setImages }: InputImageFilesProps) => {
+const InputImageFiles = ({ images, setImages }: Props) => {
   // Contiene un objeto (index, f) que representa la imagen seleccionada para mostrar en el lightbox
   const [selectedImage, setSelectedImage] = useState<{
     index: number;
@@ -60,7 +65,7 @@ const InputImageFiles = ({ images, setImages }: InputImageFilesProps) => {
         </label>
 
         <div className="flex gap-2">
-          <label className="flex cursor-pointer bg-yellow-400 text-white  rounded-full items-center justify-center">
+          <label className="flex cursor-pointer bg-primary text-white  rounded-full items-center justify-center">
             <FaCameraRetro className="font-semibold m-3 text-lg" />
             <input
               type="file"
@@ -71,7 +76,7 @@ const InputImageFiles = ({ images, setImages }: InputImageFilesProps) => {
             />
           </label>
 
-          <label className="flex gap-2 cursor-pointer w-full border border-yellow-400 bg-white text-sm py-2 px-4 rounded-full justify-center items-center text-center ">
+          <label className="flex gap-2 cursor-pointer w-full border border-primary bg-white text-sm py-2 px-4 rounded-full justify-center items-center text-center ">
             <IoIosImages className="font-semibold text-xl" />
             {translate('SELECT_FROM_GALLERY')}
             <input
@@ -112,7 +117,7 @@ const InputImageFiles = ({ images, setImages }: InputImageFilesProps) => {
       <LightboxImages
         isLightboxOpen={isLightboxOpen}
         data={selectedImage}
-        closeAction={() => setIsLightboxOpen(false)}
+        closeLightbox={() => setIsLightboxOpen(false)}
         setImages={setImages}
       />
     </>
