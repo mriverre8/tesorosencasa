@@ -1,10 +1,15 @@
-import { translate } from '@/locales/translate';
 import React from 'react';
+
+// Translation
+import { translate } from '@/locales/translate';
+
+// Icons
 import { FaSpinner } from 'react-icons/fa';
 
 interface Props {
   isLightboxOpen: boolean;
 }
+
 const LightboxLoader = ({ isLightboxOpen }: Props) => {
   if (!isLightboxOpen) return null;
 

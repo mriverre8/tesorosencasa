@@ -1,7 +1,11 @@
 'use client';
 
 import React from 'react';
+
+// Translation
 import { translate } from '@/locales/translate';
+
+// Icons
 import { IoClose } from 'react-icons/io5';
 
 interface Props {
@@ -12,6 +16,7 @@ interface Props {
 const ActiveFiltersContainer = ({ filters, setFilters }: Props) => {
   const handleRemoveFilter = (category: string, value: string | number) => {
     const newFilters = { ...filters };
+
     newFilters[category] = newFilters[category].filter((v) => v !== value);
 
     if (newFilters[category].length === 0) {

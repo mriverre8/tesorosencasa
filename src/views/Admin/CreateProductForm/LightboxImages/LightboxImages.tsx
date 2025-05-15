@@ -1,26 +1,28 @@
 'use client';
 
 import React from 'react';
-import { translate } from '@/locales/translate';
 import Image from 'next/image';
 
-interface LightboxImagesProps {
+// Translation
+import { translate } from '@/locales/translate';
+
+interface Props {
   isLightboxOpen: boolean;
+  closeLightbox: () => void;
   data: { index: number; imageFile: File };
-  closeAction: () => void;
   setImages: (updateFn: (prevImages: File[]) => File[]) => void;
 }
 
 const LightboxImages = ({
   isLightboxOpen,
+  closeLightbox,
   data,
-  closeAction,
   setImages,
-}: LightboxImagesProps) => {
+}: Props) => {
   // Función que elimina la imagen seleccionada del array de imágenes y cierra el lightbox
   const removeImage = (index: number) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    closeAction();
+    closeLightbox();
   };
 
   if (!isLightboxOpen || !data) return null;
@@ -40,7 +42,7 @@ const LightboxImages = ({
           <div className="flex justify-between items-center gap-3 mt-3 mb-3 w-full px-2">
             <button
               className="py-0.5 px-4 w-full text-sm hover:text-primary"
-              onClick={closeAction}
+              onClick={closeLightbox}
             >
               {translate('GO_BACK')}
             </button>

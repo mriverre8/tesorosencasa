@@ -1,15 +1,23 @@
 import React from 'react';
-import { Tesoro } from '@/types/tesoro';
+
+// Components
 import Carousel from './Carousel';
-import { BiWorld } from 'react-icons/bi';
-import { FaHammer } from 'react-icons/fa6';
+
+// Translation
 import { translate } from '@/locales/translate';
 
-interface CardMobileProps {
-  tesoro: Tesoro;
+// Icons
+import { BiWorld } from 'react-icons/bi';
+import { FaHammer } from 'react-icons/fa6';
+
+// Types
+import { tesoros } from '@prisma/client';
+
+interface Props {
+  tesoro: tesoros;
 }
 
-const CardMobile = ({ tesoro }: CardMobileProps) => {
+const CardMobile = ({ tesoro }: Props) => {
   return (
     <div className="flex flex-col mb-2">
       <Carousel tesoro={tesoro} />

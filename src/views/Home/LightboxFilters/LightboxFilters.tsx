@@ -1,14 +1,18 @@
-import { translate } from '@/locales/translate';
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
+
+// Translation
+import { translate } from '@/locales/translate';
+
+// Icons
 import { IoIosArrowForward } from 'react-icons/io';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 
-interface ProductsProps {
+interface Props {
   isLightboxOpen: boolean;
   filtersData: Record<string, (string | number)[]>;
   filters: Record<string, (string | number)[]>;
   setFilters: (filters: Record<string, (string | number)[]>) => void;
-  closeAction: () => void;
+  closeLightbox: () => void;
 }
 
 const LightboxFilters = ({
@@ -16,8 +20,8 @@ const LightboxFilters = ({
   filtersData,
   filters,
   setFilters,
-  closeAction,
-}: ProductsProps) => {
+  closeLightbox,
+}: Props) => {
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({});
   const [selectedFilters, setSelectedFilters] = useState<
     Record<string, (string | number)[]>
@@ -101,12 +105,12 @@ const LightboxFilters = ({
 
   const submitFilters = () => {
     setFilters(selectedFilters);
-    closeAction();
+    closeLightbox();
   };
 
   const cancelFilters = () => {
     setSelectedFilters(previousFilters);
-    closeAction();
+    closeLightbox();
   };
 
   const renderFilterInput = (category: string, values: (string | number)[]) =>
@@ -117,7 +121,7 @@ const LightboxFilters = ({
             <label>0</label>
             <input
               type="range"
-              className="cursor-pointer w-full accent-yellow-400"
+              className="cursor-pointer w-full accent-primary"
               min="0"
               max={value as number}
               value={
@@ -145,7 +149,7 @@ const LightboxFilters = ({
           <input
             id={`${category}-${value}`}
             type="checkbox"
-            className="cursor-pointer accent-yellow-400"
+            className="cursor-pointer accent-primary"
             checked={selectedFilters[category]?.includes(value) || false}
             onChange={() => handleCheckboxChange(category, value as string)}
           />
@@ -159,7 +163,7 @@ const LightboxFilters = ({
   return (
     <div
       className="bg-black/50 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5"
-      onClick={closeAction}
+      onClick={closeLightbox}
     >
       <div className="flex items-center justify-center h-full w-full">
         <div
@@ -178,7 +182,7 @@ const LightboxFilters = ({
                   className="flex justify-between items-center cursor-pointer py-2 border-b"
                 >
                   <div className="flex items-center gap-2">
-                    <h3 className="font-medium">{category}</h3>
+                    <h3 className="font-medium">{translate(category)}</h3>
                     <p className="text-sm text-primary ">
                       {selectedFilters[category] &&
                         selectedFilters[category].length}

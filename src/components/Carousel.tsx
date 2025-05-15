@@ -1,15 +1,16 @@
 'use client';
 
-import React from 'react';
-import { Tesoro } from '@/types/tesoro';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { useState } from 'react';
 
-interface CarouselProps {
-  tesoro: Tesoro;
+// Types
+import { tesoros } from '@prisma/client';
+
+interface Props {
+  tesoro: tesoros;
 }
 
-const Carousel = ({ tesoro }: CarouselProps) => {
+const Carousel = ({ tesoro }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragStartY, setDragStartY] = useState(0);

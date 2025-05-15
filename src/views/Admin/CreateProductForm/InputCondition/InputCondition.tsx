@@ -1,5 +1,7 @@
-import { translate } from '@/locales/translate';
 import React, { useEffect, useRef, useState } from 'react';
+
+// Translation
+import { translate } from '@/locales/translate';
 
 const CONDITIONS = [
   'CONDITION_1',
@@ -10,12 +12,12 @@ const CONDITIONS = [
   'CONDITION_6',
 ] as const;
 
-interface PropsType {
+interface Props {
   value: string;
   updateForm: (key: string, value: string) => void;
 }
 
-const InputCondition = ({ value, updateForm }: PropsType) => {
+const InputCondition = ({ value, updateForm }: Props) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

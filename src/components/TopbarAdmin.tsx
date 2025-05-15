@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import LightboxLoader from './Lightbox/LightboxLoader';
 import LightboxOptions from './Lightbox/LightboxOptions';
+import { translate } from '@/locales/translate';
 
 const TopbarAdmin = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,15 +30,17 @@ const TopbarAdmin = () => {
           <Layout>
             <div className="flex justify-between items-center relative h-[69px]">
               <div className="flex items-center">
-                <div className="flex gap-2 text-3xl font-bold whitespace-nowrap text-green-600">
-                  <h1 className="text-yellow-400">Tesoros</h1>
-                  <h1>en Casa</h1>
+                <div className="flex gap-2 text-3xl font-bold whitespace-nowrap text-secondary">
+                  <h1 className="text-primary">
+                    {translate('TESOROS_EN_CASA_1')}
+                  </h1>
+                  <h1>{translate('TESOROS_EN_CASA_2')}</h1>
                 </div>
               </div>
 
               <GiHamburgerMenu
                 size={24}
-                className="text-green-600 cursor-pointer"
+                className="text-secondary cursor-pointer"
                 onClick={() => setMenuOpen(!menuOpen)}
               />
             </div>

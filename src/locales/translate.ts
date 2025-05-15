@@ -1,14 +1,12 @@
 import translations from '../locales/es.json';
 
-type TranslationKeys = keyof typeof translations;
-
 type TranslationVariables = Record<string, string | number>;
 
 export function translate(
-  key: TranslationKeys,
+  key: string,
   vars: TranslationVariables = {}
 ): string {
-  const template = translations[key];
+  const template = translations[key as keyof typeof translations];
 
   if (!template) {
     return `[missing translation: ${key}]`;
