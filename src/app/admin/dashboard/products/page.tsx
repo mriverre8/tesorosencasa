@@ -1,10 +1,10 @@
 import React from 'react';
-import { getAllProducts } from '@/actions/getAllProducts';
+import { getProducts } from '@/actions/getProducts';
 import DashboardProductsPage from '@/views/Admin/DashboardProductsPage/DashboardProductsPage';
 
 export default async function Products() {
-  const fetchedData = await getAllProducts();
-  const tesorosData = fetchedData ?? [];
+  const tesorosData = await getProducts();
+
   return (
     <div className="bg-background">
       <main>

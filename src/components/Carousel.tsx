@@ -95,16 +95,18 @@ const Carousel = ({ tesoro }: Props) => {
         }}
       >
         {tesoro.images.map((image, index) => (
-          <Image
+          <div
             key={index}
-            src={image}
-            alt={tesoro.name}
-            width={3024}
-            height={4032}
-            className="rounded-sm object-cover"
-            priority={false}
-            loading="lazy"
-          />
+            className="relative aspect-[3/4] w-full shrink-0 rounded-sm overflow-hidden flex items-center justify-center bg-black"
+          >
+            <Image
+              src={image}
+              alt={tesoro.name}
+              width={600}
+              height={600}
+              quality={100}
+            />
+          </div>
         ))}
       </div>
 
