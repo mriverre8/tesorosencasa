@@ -10,10 +10,14 @@ import { IoClose } from 'react-icons/io5';
 
 interface Props {
   filters: Record<string, (string | number)[]>;
-  setFilters: (state: Record<string, (string | number)[]>) => void;
+  onChangeFilters: (
+    optionalPageSize?: number,
+    optionalFilters?: Record<string, (string | number)[]>,
+    optionalSearchTerm?: string
+  ) => void;
 }
 
-const ActiveFiltersContainer = ({ filters, setFilters }: Props) => {
+const ActiveFiltersContainer = ({ filters, onChangeFilters }: Props) => {
   const handleRemoveFilter = (category: string, value: string | number) => {
     const newFilters = { ...filters };
 
@@ -23,7 +27,7 @@ const ActiveFiltersContainer = ({ filters, setFilters }: Props) => {
       delete newFilters[category];
     }
 
-    setFilters(newFilters);
+    onChangeFilters(undefined, newFilters, undefined);
   };
 
   return (
@@ -37,7 +41,9 @@ const ActiveFiltersContainer = ({ filters, setFilters }: Props) => {
               onClick={() => handleRemoveFilter(category, value)}
               className="bg-primary rounded-full px-3 py-1 gap-1 flex items-center justify-center whitespace-nowrap mt-1"
             >
-              {typeof value === 'number' ? `${value} €` : value}
+              {typeof value === 'number'
+                ? translate('PRICE_TO', { price: value })
+                : value}
               <IoClose />
             </button>
           ))

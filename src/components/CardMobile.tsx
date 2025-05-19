@@ -67,9 +67,22 @@ const CardMobile = ({ tesoro }: Props) => {
           )}
         </div>
       )}
+      <div className="flex px-1 mt-1 mb-2 text-sm">
+        <div className="flex flex-col">
+          <p className="text-xs text-gray-400">
+            {translate('TREASSAURE_CONDITION')}
+          </p>
+          <p className="text-sm">{tesoro.condition}</p>
+        </div>
+      </div>
       <div className="flex justify-between px-1 my-1 text-sm">
         <p className="">{translate('UNITS', { units: tesoro.units })}</p>
-        <p className="font-bold"> {tesoro.price} €</p>
+        <div className="flex flex-row items-center gap-1">
+          <p className="font-bold"> {tesoro.price} €</p>
+          <p className="text-xs text-gray-400">
+            {translate('TREASAURE_PRICE_X_UNITS')}
+          </p>
+        </div>
       </div>
     </div>
   );

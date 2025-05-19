@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { /* useEffect, */ useState } from 'react';
 
 // Components
 import LightboxLoader from '@/components/Lightbox/LightboxLoader';
@@ -13,50 +13,67 @@ import CardMobile from '@/components/CardMobile';
 import { tesoros } from '@prisma/client';
 
 // Actions
-import { getAllProducts } from '@/actions/getAllProducts';
+import { getProductsByFilters } from '@/actions/getProductsByFilters';
 
 // Translation
 import { translate } from '@/locales/translate';
 
 interface Props {
   filtersData: Record<string, (string | number)[]>;
+  tesorosData: tesoros[];
 }
 
-const HomePage = ({ filtersData }: Props) => {
-  const [isLoading, setIsLoading] = useState(true);
+const HomePage = ({ filtersData, tesorosData }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isLightboxFiltersOpen, setIsLightboxFiltersOpen] = useState(false);
 
-  const [tesorosData, setTesorosData] = useState<tesoros[]>([]);
+  const [tesoros, setTesoros] = useState(tesorosData);
 
   const [filters, setFilters] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      const tesorosData = await getAllProducts(1, 15, filters);
-      setTesorosData(tesorosData);
-      setIsLoading(false);
-    }
-    fetchData();
-  }, [filters]);
+  const [pageSize /* , setPageSize */] = useState(15);
+
+  const onChangeFilters = async (
+    optionalPageSize?: number,
+    optionalFilters?: Record<string, (string | number)[]>,
+    optionalSearchTerm?: string
+  ) => {
+    const effectiveFilters = optionalFilters ?? filters;
+    const effectivePageSize = optionalPageSize ?? pageSize;
+    const effectiveSearchTerm = optionalSearchTerm ?? searchTerm;
+
+    setIsLoading(true);
+    setFilters(effectiveFilters);
+    setSearchTerm(effectiveSearchTerm);
+    const filteredTesoros = await getProductsByFilters(
+      effectivePageSize,
+      effectiveFilters,
+      effectiveSearchTerm
+    );
+    setTesoros(filteredTesoros);
+    setIsLoading(false);
+  };
 
   return (
     <>
       <div className="my-2.5">
         {/* Contenedor con los filtros aplicados */}
-        <ActiveFiltersContainer filters={filters} setFilters={setFilters} />
+        <ActiveFiltersContainer
+          filters={filters}
+          onChangeFilters={onChangeFilters}
+        />
         {/* Buscador de tesoros */}
         <SearchBar
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
           isLightboxFiltersOpen={isLightboxFiltersOpen}
           setIsLightboxFiltersOpen={setIsLightboxFiltersOpen}
+          onChangeFilters={onChangeFilters}
+          disabled={tesoros.length === 0}
         />
         {/* Tesoros */}
-        {tesorosData.length > 0 ? (
+        {tesoros.length > 0 ? (
           <div className="mt-5 ">
-            {tesorosData.map((tesoro, index) => (
+            {tesoros.map((tesoro, index) => (
               <div key={index}>
                 <CardMobile tesoro={tesoro} />
               </div>
@@ -77,7 +94,7 @@ const HomePage = ({ filtersData }: Props) => {
         closeLightbox={() => setIsLightboxFiltersOpen(false)}
         filtersData={filtersData}
         filters={filters}
-        setFilters={setFilters}
+        onChangeFilters={onChangeFilters}
       />
     </>
   );

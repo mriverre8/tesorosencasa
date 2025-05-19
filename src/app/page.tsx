@@ -1,16 +1,20 @@
 import React from 'react';
 
-import Layout from '@/components/Layout';
-
-import HomePage from '@/views/Home/HomePage';
-import Alert from '@/components/Alert';
-
+// Components
 import Topbar from '@/components/Topbar';
 import Footer from '@/components/Footer';
 
+import Layout from '@/components/Layout';
+import Alert from '@/components/Alert';
+
+import HomePage from '@/views/Home/HomePage';
+
+// Actions
 import { getFilters } from '@/actions/getFilters';
+import { getProducts } from '@/actions/getProducts';
 
 export default async function Home() {
+  const tesorosData = await getProducts();
   const filtersData = await getFilters();
 
   return (
@@ -20,9 +24,10 @@ export default async function Home() {
         <Layout>
           <div className="flex flex-col mt-[90px] ">
             <Alert
+              type={1}
               text={'El tablón de anuncios estará disponible proximamente.'}
             />
-            <HomePage filtersData={filtersData} />
+            <HomePage filtersData={filtersData} tesorosData={tesorosData} />
           </div>
         </Layout>
       </main>

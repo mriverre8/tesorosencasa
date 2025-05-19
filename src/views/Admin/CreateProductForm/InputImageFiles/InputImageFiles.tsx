@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
+import NextImage from 'next/image';
 
 // Icons
 import { FaCameraRetro } from 'react-icons/fa';
@@ -8,8 +8,12 @@ import { IoIosImages } from 'react-icons/io';
 // Components
 import LightboxImages from '@/views/Admin/CreateProductForm/LightboxImages/LightboxImages';
 
+// Utils
+import { convertToWebP } from '@/utils/utils';
+
 // Translation
 import { translate } from '@/locales/translate';
+import LightboxMessage from '@/components/Lightbox/LightboxMessage';
 
 interface Props {
   images: File[];
@@ -25,29 +29,68 @@ const InputImageFiles = ({ images, setImages }: Props) => {
 
   // Estado que controla si el lightbox está abierto o cerrado
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isLightboxMsgOpen, setIsLightboxMsgOpen] = useState(false);
+  const [isFinalMsgTitle, setIsFinalMsgTitle] = useState('');
+  const [isFinalMsgText, setIsFinalMsgText] = useState('');
 
   // Función que se ejecuta cuando se añade un file al input
   // Se añade al array de imágenes si no está repetida
   // Si se supera el límite de 6 imágenes, se muestra un aviso
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
     const newFiles = Array.from(e.target.files);
 
-    // Filtra imágenes repetidas
-    const filteredFiles = newFiles.filter(
+    // Filtrar duplicados antes de conversión
+    const uniqueFiles = newFiles.filter(
       (newFile) =>
         !images.some(
           (image) => image.name === newFile.name && image.size === newFile.size
         )
     );
 
-    if (images.length + filteredFiles.length > 6) {
-      alert('Solo puedes subir un máximo de 6 imágenes.');
+    if (images.length + uniqueFiles.length > 6) {
+      setIsFinalMsgTitle('Aviso');
+      setIsFinalMsgText('Solo puedes subir un máximo de 6 imágenes.');
+      setIsLightboxMsgOpen(true);
       return;
     }
 
-    setImages((prevImages) => [...prevImages, ...filteredFiles]);
+    try {
+      // Convertir a WebP con manejo de errores
+      const webpFiles = await Promise.all(
+        uniqueFiles.map((file) =>
+          convertToWebP(file).catch((err) => {
+            console.error('Error al convertir imagen:', file.name, err);
+            setIsFinalMsgTitle('Error');
+            setIsFinalMsgText(
+              `No se pudo convertir la imagen ${file.name} a WebP.`
+            );
+            setIsLightboxMsgOpen(true);
+            return null; // Devuelve null si falla
+          })
+        )
+      );
+
+      // Filtrar archivos fallidos
+      const validWebpFiles = webpFiles.filter(
+        (file): file is File => file !== null
+      );
+
+      if (validWebpFiles.length === 0) {
+        setIsFinalMsgTitle('Error');
+        setIsFinalMsgText('No se pudo convertir ninguna imagen.');
+        setIsLightboxMsgOpen(true);
+        return;
+      }
+
+      setImages((prevImages) => [...prevImages, ...validWebpFiles]);
+    } catch (error) {
+      console.error('Error inesperado al procesar imágenes:', error);
+      setIsFinalMsgTitle('Error');
+      setIsFinalMsgText('Hubo un error inesperado al procesar las imágenes');
+      setIsLightboxMsgOpen(true);
+    }
   };
 
   // Función que abre el lightbox con la imagen seleccionada
@@ -96,7 +139,7 @@ const InputImageFiles = ({ images, setImages }: Props) => {
                 key={index}
                 className="w-24 h-24 relative overflow-hidden rounded-lg bg-gray-200"
               >
-                <Image
+                <NextImage
                   src={URL.createObjectURL(file)}
                   alt={`Preview ${index}`}
                   width={96} // 24 Tailwind * 4px = 96px
@@ -119,6 +162,17 @@ const InputImageFiles = ({ images, setImages }: Props) => {
         data={selectedImage}
         closeLightbox={() => setIsLightboxOpen(false)}
         setImages={setImages}
+      />
+      <LightboxMessage
+        isLightboxOpen={isLightboxMsgOpen}
+        onClose={() => {
+          setIsLightboxMsgOpen(false);
+          setIsFinalMsgText('');
+          setIsFinalMsgTitle('');
+        }}
+        title={isFinalMsgTitle}
+        text={isFinalMsgText}
+        buttonText={translate('GO_BACK')}
       />
     </>
   );

@@ -55,7 +55,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
         {/* Contenedor de los tesoros filtrados que ocupa el espacio restante */}
         <div className="flex-grow ">
           {filteredTesoros.length > 0 ? (
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4">
               {filteredTesoros.map((tesoro, index) => (
                 <div key={index} onClick={() => handlePreview(tesoro)}>
                   <ProductCard {...tesoro} />

@@ -28,18 +28,26 @@ const LightboxImages = ({
   if (!isLightboxOpen || !data) return null;
 
   return (
-    <div className="bg-black/50 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5">
-      <div className="flex items-center justify-center h-full w-full">
-        <div className="w-full p-0.5 bg-white rounded-lg ">
-          <Image
-            src={URL.createObjectURL(data.imageFile)}
-            alt={`Preview ${data.index}`}
-            layout="responsive"
-            width={500}
-            height={500}
-            className="w-full h-full object-cover rounded-t-lg "
-          />
-          <div className="flex justify-between items-center gap-3 mt-3 mb-3 w-full px-2">
+    <div className="bg-black/70 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5">
+      <div className="flex items-start justify-center h-full w-full pt-20">
+        <div className="">
+          <div className="relative aspect-[3/4] w-full overflow-hidden flex items-center justify-center bg-black rounded-sm">
+            <Image
+              src={URL.createObjectURL(data.imageFile)}
+              alt={`Preview ${data.index}`}
+              width={600}
+              height={600}
+              quality={100}
+              className="rounded-sm"
+            />
+          </div>
+          <div className="text-center">
+            <p className="text-white">
+              {(data.imageFile.size / (1024 * 1024)).toFixed(2)} MB
+            </p>
+          </div>
+
+          <div className="flex justify-between items-center gap-3 mt-3 mb-3 w-full px-2 py-2 rounded-full bg-white">
             <button
               className="py-0.5 px-4 w-full text-sm hover:text-primary"
               onClick={closeLightbox}

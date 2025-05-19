@@ -62,139 +62,143 @@ const LightboxProduct = ({
 
   return (
     <>
-      <div className="bg-black/50 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5">
-        <div className="flex items-center justify-center h-full w-full">
-          <div className="flex flex-col w-[calc(100vw-20px)] gap-3 bg-white px-10 py-5 rounded-md ">
+      <div className="bg-black/70 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5">
+        <div className="flex items-start justify-center h-full w-full pt-28">
+          <div className="flex flex-col w-[calc(100vw-20px)] gap-3 bg-white px-10 py-5 rounded-md">
             <h1 className="text-2xl font-bold">{tesoro.name}</h1>
-            <h2 className="font-semibold">{translate('TREASAURE_STATE')}</h2>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col">
-                <p className="text-xs text-gray-400">
-                  {translate('TREASSAURE_CONDITION')}
-                </p>
-                <p className="text-sm">{tesoro.condition}</p>
-              </div>
-            </div>
-            <h2 className="font-semibold">
-              {translate('TREASAURE_BACKGROUND')}
-            </h2>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col">
-                <p className="text-xs text-gray-400">
-                  {translate('TREASAURE_ORIGIN')}
-                </p>
-                <p className="text-sm">
-                  {tesoro.origin ? tesoro.origin : translate('UNKNOWN')}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-xs text-gray-400">
-                  {translate('TREASAURE_BRAND')}
-                </p>
-                <p className="text-sm ">
-                  {tesoro.brand ? tesoro.brand : translate('UNKNOWN')}
-                </p>
-              </div>
-            </div>
-            <h2 className="font-semibold">
-              {translate('TREASAURE_FABRICATION')}
-            </h2>
-            <div className="flex flex-row gap-5">
-              <div className="flex flex-col">
-                <p className="text-xs text-gray-400">
-                  {translate('TREASAURE_MATERIAL')}
-                </p>
-                <p className="text-sm">
-                  {tesoro.material ? tesoro.material : translate('UNKNOWN')}
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <p className="text-xs text-gray-400">
-                  {translate('TREASAURE_CATEGORY')}
-                </p>
-                <p className="text-sm">
-                  {tesoro.category ? tesoro.category : translate('UNKNOWN')}
-                </p>
-              </div>
-            </div>
-            {(tesoro.large ||
-              tesoro.width ||
-              tesoro.height ||
-              tesoro.diameter) && (
-              <>
-                <h2 className="font-semibold">
-                  {translate('TREASAURE_DIMENSIONS')}
-                </h2>
-                <div className="flex flex-row gap-5">
-                  {tesoro.large && (
-                    <div className="flex flex-col justify-center items-center text-center">
-                      <p className="text-xs text-gray-400">
-                        {translate('LARGE')}
-                      </p>
-                      <p className="text-sm">{tesoro.large} cm</p>
-                    </div>
-                  )}
-                  {tesoro.width && (
-                    <div className="flex flex-col justify-center items-center text-center">
-                      <p className="text-xs text-gray-400">
-                        {translate('WIDTH')}
-                      </p>
-                      <p className="text-sm">{tesoro.width} cm</p>
-                    </div>
-                  )}
-                  {tesoro.height && (
-                    <div className="flex flex-col justify-center items-center text-center">
-                      <p className="text-xs text-gray-400">
-                        {translate('HEIGHT')}
-                      </p>
-                      <p className="text-sm">{tesoro.height} cm</p>
-                    </div>
-                  )}
-                  {tesoro.diameter && (
-                    <div className="flex flex-col justify-center items-center text-center">
-                      <p className="text-xs text-gray-400">
-                        {translate('DIAMETER')}
-                      </p>
-                      <p className="text-sm">{tesoro.diameter} cm</p>
-                    </div>
-                  )}
+            <div className="flex flex-col gap-3 h-[400px] overflow-y-auto">
+              <h2 className="font-semibold">{translate('TREASAURE_STATE')}</h2>
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-col">
+                  <p className="text-xs text-gray-400">
+                    {translate('TREASSAURE_CONDITION')}
+                  </p>
+                  <p className="text-sm">{tesoro.condition}</p>
                 </div>
-              </>
-            )}
-
-            <h2 className="font-semibold">{translate('TREASAURE_STOCK')}</h2>
-            <div className="flex flex-row gap-5">
-              <div className="flex flex-col justify-center items-center text-center">
-                <p className="text-xs text-gray-400">
-                  {translate('TREASAURE_UNITS')}
-                </p>
-                <p className="text-sm">{tesoro.units}</p>
               </div>
-              <div className="flex flex-col justify-center items-center text-center">
-                <p className="text-xs text-gray-400">
-                  {translate('TREASAURE_PRICE')}
-                </p>
-                <p className="text-sm">{tesoro.price} €</p>
-              </div>
-            </div>
-            <h2 className="font-semibold">
-              {translate('TREASAURE_MULTIMEDIA_1')}
-            </h2>
-            <div className="flex gap-2 overflow-x-auto whitespace-nowrap pb-2">
-              {tesoro.images.map((image, index) => (
-                <div
-                  key={index}
-                  className="inline-block w-24 h-24 relative overflow-hidden rounded-lg bg-gray-200 shrink-0"
-                >
-                  <Image
-                    src={image}
-                    alt={`Preview ${index}`}
-                    width={96}
-                    height={96}
-                    className="object-cover w-full h-full"
-                  />
+              <h2 className="font-semibold">
+                {translate('TREASAURE_BACKGROUND')}
+              </h2>
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-col">
+                  <p className="text-xs text-gray-400">
+                    {translate('TREASAURE_ORIGIN')}
+                  </p>
+                  <p className="text-sm">
+                    {tesoro.origin ? tesoro.origin : translate('UNKNOWN')}
+                  </p>
                 </div>
-              ))}
+                <div className="flex flex-col">
+                  <p className="text-xs text-gray-400">
+                    {translate('TREASAURE_BRAND')}
+                  </p>
+                  <p className="text-sm ">
+                    {tesoro.brand ? tesoro.brand : translate('UNKNOWN')}
+                  </p>
+                </div>
+              </div>
+              <h2 className="font-semibold">
+                {translate('TREASAURE_FABRICATION')}
+              </h2>
+              <div className="flex flex-row gap-5">
+                <div className="flex flex-col">
+                  <p className="text-xs text-gray-400">
+                    {translate('TREASAURE_MATERIAL')}
+                  </p>
+                  <p className="text-sm">
+                    {tesoro.material ? tesoro.material : translate('UNKNOWN')}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-xs text-gray-400">
+                    {translate('TREASAURE_CATEGORY')}
+                  </p>
+                  <p className="text-sm">
+                    {tesoro.category ? tesoro.category : translate('UNKNOWN')}
+                  </p>
+                </div>
+              </div>
+              {(tesoro.large ||
+                tesoro.width ||
+                tesoro.height ||
+                tesoro.diameter) && (
+                <>
+                  <h2 className="font-semibold">
+                    {translate('TREASAURE_DIMENSIONS')}
+                  </h2>
+                  <div className="flex flex-row gap-5">
+                    {tesoro.large && (
+                      <div className="flex flex-col justify-center items-center text-center">
+                        <p className="text-xs text-gray-400">
+                          {translate('LARGE')}
+                        </p>
+                        <p className="text-sm">{tesoro.large} cm</p>
+                      </div>
+                    )}
+                    {tesoro.width && (
+                      <div className="flex flex-col justify-center items-center text-center">
+                        <p className="text-xs text-gray-400">
+                          {translate('WIDTH')}
+                        </p>
+                        <p className="text-sm">{tesoro.width} cm</p>
+                      </div>
+                    )}
+                    {tesoro.height && (
+                      <div className="flex flex-col justify-center items-center text-center">
+                        <p className="text-xs text-gray-400">
+                          {translate('HEIGHT')}
+                        </p>
+                        <p className="text-sm">{tesoro.height} cm</p>
+                      </div>
+                    )}
+                    {tesoro.diameter && (
+                      <div className="flex flex-col justify-center items-center text-center">
+                        <p className="text-xs text-gray-400">
+                          {translate('DIAMETER')}
+                        </p>
+                        <p className="text-sm">{tesoro.diameter} cm</p>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+              <h2 className="font-semibold">{translate('TREASAURE_STOCK')}</h2>
+              <div className="flex flex-row gap-5">
+                <div className="flex flex-col justify-center items-center text-center">
+                  <p className="text-xs text-gray-400">
+                    {translate('TREASAURE_UNITS')}
+                  </p>
+                  <p className="text-sm">{tesoro.units}</p>
+                </div>
+                <div className="flex flex-col justify-center items-center text-center">
+                  <p className="text-xs text-gray-400">
+                    {translate('TREASAURE_PRICE')}{' '}
+                    {translate('TREASAURE_PRICE_X_UNITS')}
+                  </p>
+                  <p className="text-sm">{tesoro.price} €</p>
+                </div>
+              </div>
+              <h2 className="font-semibold">
+                {translate('TREASAURE_MULTIMEDIA_1')}
+              </h2>
+              <div className="pb-2">
+                <div className="flex gap-2 w-full overflow-x-auto">
+                  {tesoro.images.map((image, index) => (
+                    <div
+                      key={index}
+                      className="inline-block w-24 h-24 relative overflow-hidden rounded-lg bg-gray-200 shrink-0"
+                    >
+                      <Image
+                        src={image}
+                        alt={`Preview ${index}`}
+                        width={96}
+                        height={96}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
             <div className="flex gap-3 justify-center items-center text-sm">
               <button
