@@ -11,7 +11,11 @@ interface Props {
   isLightboxOpen: boolean;
   filtersData: Record<string, (string | number)[]>;
   filters: Record<string, (string | number)[]>;
-  setFilters: (filters: Record<string, (string | number)[]>) => void;
+  onChangeFilters: (
+    optionalPageSize?: number,
+    optionalFilters?: Record<string, (string | number)[]>,
+    optionalSearchTerm?: string
+  ) => void;
   closeLightbox: () => void;
 }
 
@@ -19,7 +23,7 @@ const LightboxFilters = ({
   isLightboxOpen,
   filtersData,
   filters,
-  setFilters,
+  onChangeFilters,
   closeLightbox,
 }: Props) => {
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({});
@@ -104,7 +108,7 @@ const LightboxFilters = ({
   };
 
   const submitFilters = () => {
-    setFilters(selectedFilters);
+    onChangeFilters(undefined, selectedFilters, undefined);
     closeLightbox();
   };
 
@@ -162,10 +166,10 @@ const LightboxFilters = ({
 
   return (
     <div
-      className="bg-black/50 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5"
+      className="bg-black/70 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5"
       onClick={closeLightbox}
     >
-      <div className="flex items-center justify-center h-full w-full">
+      <div className="flex items-start justify-center h-full w-full pt-20">
         <div
           className="w-full max-w-md bg-white p-6 rounded-lg shadow-xl"
           onClick={(e) => e.stopPropagation()}

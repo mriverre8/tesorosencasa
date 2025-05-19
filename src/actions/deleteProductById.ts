@@ -2,73 +2,71 @@
 
 import { createClient } from '@/supabase/server';
 
-export async function deleteProductById(
-  productId: string
-): Promise<{ success: boolean; message?: string }> {
+export async function deleteProductById(productId: string) {
   const supabase = await createClient();
-
-  // Paso 1: Obtener el producto antes de eliminarlo
-  const { data: product, error: fetchError } = await supabase
-    .from('tesoros')
-    .select('images')
-    .eq('id', productId)
-    .single();
-
-  if (fetchError) {
-    console.error('Error al obtener el producto:', fetchError);
-    return { success: false, message: 'Error al obtener el producto' };
-  }
-
-  const fullImageUrls: string[] = product?.images || [];
-
-  // Paso 2: Extraer rutas relativas y descargar imágenes
   const imageDataList: { path: string; file: Blob }[] = [];
+  const imagePaths: string[] = [];
 
-  for (const url of fullImageUrls) {
-    const pathStart = url.indexOf('/tesoros-bucket/');
-    const relativePath =
-      pathStart !== -1
-        ? url.substring(pathStart + '/tesoros-bucket/'.length)
-        : '';
+  try {
+    // 1. Obtener el producto
+    const { data: product, error: fetchError } = await supabase
+      .from('tesoros')
+      .select('images')
+      .eq('id', productId)
+      .single();
 
-    if (!relativePath) continue;
+    if (fetchError || !product) {
+      throw new Error('Error al obtener el producto');
+    }
 
-    try {
+    const fullImageUrls: string[] = product.images || [];
+
+    // 2. Descargar imágenes y preparar paths
+    for (const url of fullImageUrls) {
+      const relativePath = url.split('/tesoros-bucket/').pop();
+
+      if (!relativePath) {
+        throw new Error('Error al eliminar la imagen');
+      }
+
       const response = await fetch(url);
+      if (!response.ok) {
+        console.warn('No se pudo descargar la imagen:', url);
+        continue;
+      }
       const blob = await response.blob();
       imageDataList.push({ path: relativePath, file: blob });
-    } catch (err) {
-      console.error('Error al descargar la imagen antes de borrarla:', err);
+      imagePaths.push(relativePath);
     }
-  }
 
-  const imagePaths = imageDataList.map((img) => img.path);
+    console.log('imagePaths:', imagePaths);
 
-  // Paso 3: Eliminar imágenes del bucket
-  if (imagePaths.length > 0) {
-    const { error: storageError } = await supabase.storage
-      .from('tesoros-bucket')
-      .remove(imagePaths);
+    // 3. Eliminar imágenes del bucket
+    if (imagePaths.length > 0) {
+      const { error: storageError } = await supabase.storage
+        .from('tesoros-bucket')
+        .remove(imagePaths);
 
-    if (storageError) {
-      console.error('Error al eliminar imágenes del storage:', storageError);
-      return {
-        success: false,
-        message: 'Error al eliminar imágenes del bucket',
-      };
+      if (storageError) {
+        throw new Error('Error al eliminar imágenes del bucket');
+      }
     }
-  }
 
-  // Paso 4: Eliminar el producto de la base de datos
-  const { error: deleteError } = await supabase
-    .from('tesoros')
-    .delete()
-    .eq('id', productId);
+    // 4. Eliminar el producto
+    const { error: deleteError } = await supabase
+      .from('tesoros')
+      .delete()
+      .eq('id', productId);
 
-  if (deleteError) {
-    console.error('Error al eliminar el producto:', deleteError);
+    if (deleteError) {
+      throw new Error('Error al eliminar el producto');
+    }
+    console.log('Producto eliminado:');
+    return { success: true };
+  } catch (err) {
+    console.error('Error al eliminar producto:', err);
 
-    // Paso 5: Restaurar imágenes si falla el delete
+    // 5. Restaurar imágenes si algo falla
     for (const { path, file } of imageDataList) {
       const { error: reuploadError } = await supabase.storage
         .from('tesoros-bucket')
@@ -81,9 +79,6 @@ export async function deleteProductById(
       }
     }
 
-    return { success: false, message: 'Error al eliminar el producto' };
+    return { success: false, message: (err as Error).message };
   }
-
-  console.log('Producto eliminado correctamente');
-  return { success: true };
 }

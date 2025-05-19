@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Hooks
 import { useForm } from '@/hooks/useForm';
@@ -82,7 +82,12 @@ export default function CreateProductForm() {
         return;
       }
     }
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    console.log('images', images);
+  }, [images]);
 
   return (
     <>

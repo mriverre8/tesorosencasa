@@ -51,7 +51,7 @@ export async function newProduct(formData: FormData, images: File[]) {
 
   try {
     for (const image of images) {
-      const path = `products/${randomUUID()}_${image.name}`;
+      const path = `products/${randomUUID()}`;
       const { error } = await supabase.storage
         .from('tesoros-bucket')
         .upload(path, image);

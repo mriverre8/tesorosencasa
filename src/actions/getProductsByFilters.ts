@@ -1,23 +1,3 @@
-/* 'use server';
-
-import { createClient } from '@/utils/supabase/server';
-
-export async function getAllProducts() {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase
-    .from('tesoros') // Reemplaza 'nombre_de_tu_tabla' con el nombre de tu tabla
-    .select('*'); // Selecciona todos los campos
-
-  if (error) {
-    console.error('Error al obtener los registros:', error);
-  } else {
-    console.log('Registros obtenidos:', data);
-    return data; // Devuelve los registros obtenidos
-  }
-}
- */
-
 'use server';
 
 import { createClient } from '@/supabase/server';
@@ -28,18 +8,15 @@ type Filters = {
   brand?: string[];
   material?: string[];
   category?: string[];
-  price?: number[]; // Se asume que solo tendrá un número máximo
+  price?: number[];
 };
 
-export async function getAllProducts(
-  page: number = 1,
-  pageSize: number = 15,
-  filters: Filters = {}
+export async function getProductsByFilters(
+  pageSize: number,
+  filters: Filters,
+  searchTerm: string
 ) {
   const supabase = await createClient();
-
-  const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
 
   let query = supabase.from('tesoros').select('*');
 
@@ -68,8 +45,13 @@ export async function getAllProducts(
     query = query.lte('price', filters.price[0]); // hasta ese valor
   }
 
-  // Paginación
-  query = query.range(from, to);
+  // Filtrar por searchTerm si se proporciona
+  if (searchTerm.trim() !== '') {
+    query = query.ilike('name', `%${searchTerm}%`);
+  }
+
+  // Paginación: siempre desde 0 hasta pageSize - 1
+  query = query.range(0, pageSize - 1);
 
   const { data, error } = await query;
 
