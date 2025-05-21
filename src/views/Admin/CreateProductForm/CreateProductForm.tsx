@@ -21,6 +21,7 @@ import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/Input
 //Translation
 import { translate } from '@/locales/translate';
 import { trackEvent } from '@/actions/trackEvent';
+import { uploadImage } from '@/actions/uploadImage';
 
 // TODO: Reformatear las imagenes para que ocupen menos espacio y se suban más rápido ( también así habrá mas espacio en el servidor )
 export default function CreateProductForm() {
@@ -67,7 +68,24 @@ export default function CreateProductForm() {
 
     if (formIsValid && images.length > 0) {
       setIsLoading(true);
-      const response = await newProduct(formData, images);
+
+      const uploadedImages: string[] = [];
+
+      try {
+        images.map(async (image) => {
+          const imagePublicUrl = await uploadImage(image);
+          uploadedImages.push(imagePublicUrl);
+        });
+      } catch (error) {
+        setIsFinalMsgTitle('Error');
+        setIsFinalMsgText(
+          (error as Error).message || 'Error al crear el tesoro'
+        );
+        setIsLoading(false);
+        return;
+      }
+
+      const response = await newProduct(formData, uploadedImages);
       if (response.success) {
         setIsFinalMsgTitle(translate('SUCCESS_TREASAURE_CREATION_TITLE'));
         setIsFinalMsgText(translate('SUCCESS_TREASAURE_CREATION_TEXT'));
