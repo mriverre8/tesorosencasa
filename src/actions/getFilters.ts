@@ -24,7 +24,11 @@ export async function getFilters() {
         .limit(1);
 
       if (error) {
-        console.error(`Error fetching max price:`, error.message);
+        console.error('[GET FILTERS ERROR] Error fetching max price:', {
+          message: error.message,
+          field,
+          timestamp: new Date().toISOString(),
+        });
         continue;
       }
 
@@ -39,7 +43,10 @@ export async function getFilters() {
         .not(field, 'is', null);
 
       if (error) {
-        console.error(`Error fetching ${field}:`, error.message);
+        console.error(`[GET FILTERS ERROR] Error fetching ${field}:`, {
+          message: error.message,
+          timestamp: new Date().toISOString(),
+        });
         continue;
       }
 
@@ -55,6 +62,11 @@ export async function getFilters() {
       }
     }
   }
+
+  console.log('[GET FILTERS] Filters completed', {
+    fields: Object.keys(filters),
+    timestamp: new Date().toISOString(),
+  });
 
   return filters;
 }

@@ -49,6 +49,11 @@ export async function newProduct(formData: FormData, images: File[]) {
 
   const uploadedPaths: string[] = [];
 
+  console.log('[NEW PRODUCT] Upload started:', {
+    name: product.name,
+    timestamp: new Date().toISOString(),
+  });
+
   try {
     for (const image of images) {
       const path = `products/${randomUUID()}`;
@@ -62,7 +67,13 @@ export async function newProduct(formData: FormData, images: File[]) {
       const { data: urlData } = supabase.storage
         .from('tesoros-bucket')
         .getPublicUrl(path);
+
       product.images.push(urlData.publicUrl);
+
+      console.log('[NEW PRODUCT] Image uploaded:', {
+        path,
+        publicUrl: urlData.publicUrl,
+      });
     }
 
     const { error: insertError } = await supabase
@@ -71,9 +82,19 @@ export async function newProduct(formData: FormData, images: File[]) {
     if (insertError)
       throw new Error('Error al insertar: ' + insertError.message);
 
+    console.log('[NEW PRODUCT] Inserted into database:', {
+      name: product.name,
+      images: product.images.length,
+      timestamp: new Date().toISOString(),
+    });
+
     return { success: true };
   } catch (err) {
-    console.error(err);
+    console.error('[NEW PRODUCT ERROR]', {
+      message: (err as Error).message,
+      stack: (err as Error).stack,
+      timestamp: new Date().toISOString(),
+    });
     if (uploadedPaths.length) {
       await supabase.storage.from('tesoros-bucket').remove(uploadedPaths);
     }
