@@ -32,8 +32,6 @@ const Login = () => {
 
     //Valores del formulario
     const formData = new FormData(event.target as HTMLFormElement);
-    console.log(formValues);
-    console.log(formData);
     if (formIsValid) {
       setIsLoading(true);
       await login(formData); // Llamar a la función de login

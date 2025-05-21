@@ -40,8 +40,6 @@ const Register = () => {
 
     //Valores del formulario
     const formData = new FormData(event.target as HTMLFormElement);
-    console.log(formValues);
-    console.log(formData);
     if (formIsValid) {
       setIsLoading(true);
       await signup(formData); // Llamar a la función de registro
