@@ -56,9 +56,17 @@ export async function getProductsByFilters(
   const { data, error } = await query;
 
   if (error) {
-    console.error('Error al obtener los registros:', error);
+    console.error('[GET PRODUCTS BY FILTERS ERROR]', {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      timestamp: new Date().toISOString(),
+    });
     return [];
   }
-
+  console.log('[GET PRODUCTS BY FILTERS] Query successful', {
+    results: data.length,
+    timestamp: new Date().toISOString(),
+  });
   return data;
 }

@@ -19,6 +19,11 @@ export async function signup(formData: FormData) {
   });
 
   if (authError || !authData.user) {
+    console.error('[SIGNUP ERROR]', {
+      message: authError?.message,
+      email,
+      timestamp: new Date().toISOString(),
+    });
     redirect('/error');
   }
 
@@ -34,9 +39,20 @@ export async function signup(formData: FormData) {
   ]);
 
   if (insertError) {
-    console.error('Error inserting user data:', insertError);
+    console.error('[SIGNUP ERROR] Error inserting user in database:', {
+      message: insertError.message,
+      email,
+      userId: authData.user.id,
+      timestamp: new Date().toISOString(),
+    });
     redirect('/error');
   }
+
+  console.log('[SIGNUP] Signup successful', {
+    userId: authData.user.id,
+    email,
+    timestamp: new Date().toISOString(),
+  });
 
   revalidatePath('/', 'layout');
   redirect('/account');

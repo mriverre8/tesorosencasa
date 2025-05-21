@@ -26,12 +26,12 @@ export async function deleteProductById(productId: string) {
       const relativePath = url.split('/tesoros-bucket/').pop();
 
       if (!relativePath) {
-        throw new Error('Error al eliminar la imagen');
+        throw new Error(`URL inválida al eliminar imagen: ${url}`);
       }
 
       const response = await fetch(url);
       if (!response.ok) {
-        console.warn('No se pudo descargar la imagen:', url);
+        console.warn('[DELETE PRODUCT WARN] Imagen no descargada:', url);
         continue;
       }
       const blob = await response.blob();
@@ -39,7 +39,10 @@ export async function deleteProductById(productId: string) {
       imagePaths.push(relativePath);
     }
 
-    console.log('imagePaths:', imagePaths);
+    console.log('[DELETE PRODUCT] Imágenes a eliminar:', {
+      count: imagePaths.length,
+      paths: imagePaths,
+    });
 
     // 3. Eliminar imágenes del bucket
     if (imagePaths.length > 0) {
@@ -61,10 +64,18 @@ export async function deleteProductById(productId: string) {
     if (deleteError) {
       throw new Error('Error al eliminar el producto');
     }
-    console.log('Producto eliminado:');
+
+    console.log('[DELETE PRODUCT] Producto eliminado correctamente', {
+      productId,
+      timestamp: new Date().toISOString(),
+    });
+
     return { success: true };
   } catch (err) {
-    console.error('Error al eliminar producto:', err);
+    console.error('[DELETE PRODUCT ERROR]', {
+      message: (err as Error).message,
+      timestamp: new Date().toISOString(),
+    });
 
     // 5. Restaurar imágenes si algo falla
     for (const { path, file } of imageDataList) {
@@ -73,9 +84,12 @@ export async function deleteProductById(productId: string) {
         .upload(path, file, { upsert: true });
 
       if (reuploadError) {
-        console.error(`Error al restaurar imagen ${path}:`, reuploadError);
+        console.error('[DELETE PRODUCT ERROR] Error al restaurar imagen:', {
+          path,
+          message: reuploadError.message,
+        });
       } else {
-        console.log(`Imagen restaurada: ${path}`);
+        console.log('[DELETE PRODUCT] Imagen restaurada:', path);
       }
     }
 

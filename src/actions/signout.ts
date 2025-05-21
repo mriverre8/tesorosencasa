@@ -9,13 +9,21 @@ export async function signout() {
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signOut();
-  console.log(error);
+
   if (error) {
-    redirect('/error');
+    console.error('[SIGNOUT ERROR]', {
+      code: error.code,
+      message: error.message,
+      stack: error.stack,
+    });
+    /* redirect('/error'); */
+    redirect('/admin/dashboard/createproduct');
   }
 
-  /* revalidatePath('/', 'layout');
-  redirect('/'); */
+  console.log('[SIGN OUT]', {
+    message: 'User signed out',
+    timestamp: new Date().toISOString(),
+  });
 
   revalidatePath('/', 'layout');
   redirect('/login');

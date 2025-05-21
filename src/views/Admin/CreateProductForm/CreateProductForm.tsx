@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 // Hooks
 import { useForm } from '@/hooks/useForm';
@@ -20,6 +20,7 @@ import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/Input
 
 //Translation
 import { translate } from '@/locales/translate';
+import { trackEvent } from '@/actions/trackEvent';
 
 // TODO: Reformatear las imagenes para que ocupen menos espacio y se suban más rápido ( también así habrá mas espacio en el servidor )
 export default function CreateProductForm() {
@@ -57,6 +58,7 @@ export default function CreateProductForm() {
   //Función para enviar el formulario
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    await trackEvent('submit_treasaure', 'Click on create treasaure');
 
     validateAll(); // Validar todos los campos del formulario
 
@@ -84,10 +86,6 @@ export default function CreateProductForm() {
     }
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    console.log('images', images);
-  }, [images]);
 
   return (
     <>

@@ -8,10 +8,18 @@ export async function getProducts() {
   const { data, error } = await supabase.from('tesoros').select('*');
 
   if (error) {
-    console.error('Error al obtener los registros:', error);
+    console.error('[GET PRODUCTS ERROR]', {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      timestamp: new Date().toISOString(),
+    });
     return [];
   } else {
-    console.log('Registros obtenidos:', data);
+    console.log('[GET PRODUCTS] Records retrieved:', {
+      count: data.length,
+      timestamp: new Date().toISOString(),
+    });
     return data;
   }
 }
