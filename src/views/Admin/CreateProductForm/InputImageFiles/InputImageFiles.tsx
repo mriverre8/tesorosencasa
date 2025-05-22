@@ -133,7 +133,7 @@ const InputImageFiles = ({ images, setImages }: Props) => {
         </div>
 
         {images.length > 0 ? (
-          <div className="flex flex-wrap gap-2 mt-2">
+          <div className="flex flex-wrap gap-2 mt-2 justify-center">
             {images.map((file, index) => (
               <div
                 key={index}

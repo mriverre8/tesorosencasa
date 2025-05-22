@@ -1,4 +1,6 @@
 import React from 'react';
+import ButtonSecondary from '../ButtonSecondary';
+import ButtonPrimary from '../ButtonPrimary';
 
 interface Props {
   isLightboxOpen: boolean;
@@ -26,19 +28,13 @@ const LightboxOptions = ({
         <div className="flex flex-col justify-center items-center gap-2 bg-white px-10 py-5 rounded-md text-center">
           <h1 className="text-lg font-bold">{title}</h1>
           <p className="text-sm">{text}</p>
-          <div className="flex flex-row gap-2">
-            <button
-              onClick={() => onClose()}
-              className="bg-secondary text-white text-sm px-4 py-1 rounded-full hover:bg-secondary-hover transition duration-300 mt-5"
-            >
-              {buttonText}
-            </button>
-            <button
-              onClick={() => onAccept()}
-              className="bg-secondary text-white text-sm px-4 py-1 rounded-full hover:bg-secondary-hover transition duration-300 mt-5"
-            >
-              {buttonText2}
-            </button>
+          <div className="flex flex-row gap-2 text-sm mt-5">
+            <ButtonSecondary buttonText={buttonText} buttonAction={onClose} />
+            <ButtonPrimary
+              alternative={true}
+              buttonText={buttonText2}
+              buttonAction={onAccept}
+            />
           </div>
         </div>
       </div>

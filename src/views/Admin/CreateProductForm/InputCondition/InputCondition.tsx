@@ -9,7 +9,6 @@ const CONDITIONS = [
   'CONDITION_3',
   'CONDITION_4',
   'CONDITION_5',
-  'CONDITION_6',
 ] as const;
 
 interface Props {
@@ -45,28 +44,28 @@ const InputCondition = ({ value, updateForm }: Props) => {
 
   const clearSelection = (e: React.MouseEvent) => {
     e.preventDefault();
-    updateForm('condition', '');
+    updateForm('condition', translate('CONDITION_6'));
     setShowDropdown(false);
   };
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
       <label htmlFor="condition" className="px-0.5 text-sm block mb-1">
-        {translate('TREASSAURE_CONDITION')}*
+        {translate('TREASSAURE_CONDITION')}
       </label>
       <input type="hidden" name="condition" value={value} />
       <div className="relative">
         <button
           type="button"
           className={`w-full border border-gray-300 rounded-full py-2 px-4 text-left bg-white focus:ring-2 focus:ring-primary outline-none ${
-            value ? 'text-black' : 'text-gray-400'
+            value !== translate('CONDITION_6') ? 'text-black' : 'text-gray-400'
           }`}
           onClick={() => setShowDropdown((prev) => !prev)}
         >
-          {value ? value : translate('UNKNOWN')}
+          {value}
         </button>
 
-        {value && (
+        {value !== translate('CONDITION_6') && (
           <button
             onClick={clearSelection}
             className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"

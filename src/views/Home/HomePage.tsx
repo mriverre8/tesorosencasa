@@ -7,7 +7,8 @@ import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 import ActiveFiltersContainer from '@/views/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
 import SearchBar from './SearchBar/SearchBar';
 import LightboxFilters from '@/views/Home/LightboxFilters/LightboxFilters';
-import CardMobile from '@/components/CardMobile';
+import CardMobile from './CardMobile/CardMobile';
+import Card from './Card/Card';
 
 // Types
 import { tesoros } from '@prisma/client';
@@ -68,14 +69,19 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
           isLightboxFiltersOpen={isLightboxFiltersOpen}
           setIsLightboxFiltersOpen={setIsLightboxFiltersOpen}
           onChangeFilters={onChangeFilters}
-          disabled={tesoros.length === 0}
+          disabled={tesorosData.length === 0}
         />
         {/* Tesoros */}
         {tesoros.length > 0 ? (
-          <div className="mt-5 ">
+          <div className="mt-5 mobile:grid mobile:grid-cols-2 mobile:gap-4 sm:grid-cols-3 lg:grid-cols-5 ">
             {tesoros.map((tesoro, index) => (
               <div key={index}>
-                <CardMobile tesoro={tesoro} />
+                <div className="block mobile:hidden">
+                  <CardMobile tesoro={tesoro} />
+                </div>
+                <div className="hidden mobile:block">
+                  <Card tesoro={tesoro} />
+                </div>
               </div>
             ))}
           </div>

@@ -1,15 +1,11 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-
 import { createClient } from '@/supabase/server';
 
 export async function login(formData: FormData) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -23,7 +19,7 @@ export async function login(formData: FormData) {
       message: error.message,
       stack: error.stack,
     });
-    /* return { error: error.code }; */
+    throw new Error('LOGIN_GENERIC_ERROR');
   }
 
   console.log('[LOGIN SUCCESS]', {
@@ -31,9 +27,5 @@ export async function login(formData: FormData) {
     timestamp: new Date().toISOString(),
   });
 
-  /* revalidatePath('/', 'layout');
-  redirect('/'); */
-
-  revalidatePath('/', 'layout');
-  redirect('/admin/dashboard/createproduct');
+  redirect('/dashboard/createproduct');
 }

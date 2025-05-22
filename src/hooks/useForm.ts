@@ -37,14 +37,6 @@ const validateProductName = (value: string): FormField => {
   return { value, error: '', required: true };
 };
 
-const validateProductCondition = (value: string): FormField => {
-  if (value === '') {
-    return { value, error: 'productcondition_empty', required: true };
-  }
-
-  return { value, error: '', required: true };
-};
-
 const validateProductBrand = (value: string): FormField => {
   /* const regex = /^[^0-9\s][a-zA-Z\s]*$|^$/; */
   const regex = /^[^\s].*$|^$/;
@@ -111,7 +103,6 @@ export const useForm = (initialForm: FormState) => {
     email: validateUserEmail,
     // Product valodators
     name: validateProductName,
-    condition: validateProductCondition,
     brand: validateProductBrand,
     material: validateProductMaterial,
     category: validateProductCategory,

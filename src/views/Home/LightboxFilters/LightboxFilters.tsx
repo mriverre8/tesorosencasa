@@ -7,6 +7,10 @@ import { translate } from '@/locales/translate';
 import { IoIosArrowForward } from 'react-icons/io';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 
+// Components
+import ButtonPrimary from '@/components/ButtonPrimary';
+import ButtonSecondary from '@/components/ButtonSecondary';
+
 interface Props {
   isLightboxOpen: boolean;
   filtersData: Record<string, (string | number)[]>;
@@ -208,27 +212,23 @@ const LightboxFilters = ({
             ))}
           </div>
 
-          <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center text-sm gap-2 mt-6">
+            <ButtonSecondary
+              buttonAction={cancelFilters}
+              buttonText={translate('GO_BACK')}
+            />
             {hasChanges && (
-              <button
-                className="bg-secondary hover:bg-secondary-hover rounded-full text-sm text-white px-3.5 py-0.5"
-                onClick={submitFilters}
-              >
-                {translate('APPLY_FILTERS')}
-              </button>
+              <ButtonPrimary
+                buttonAction={submitFilters}
+                buttonText={translate('APPLY_FILTERS')}
+              />
             )}
-            <button
-              className="bg-secondary hover:bg-secondary-hover rounded-full text-sm text-white px-3.5 py-0.5"
-              onClick={cancelFilters}
-            >
-              {translate('GO_BACK')}
-            </button>
           </div>
 
           {hasAppliedFilters && (
-            <div className="flex justify-center mt-2">
+            <div className="flex justify-center mt-4">
               <button
-                className="flex items-center gap-1 text-sm text-red-600 px-3.5 py-0.5"
+                className="flex items-center gap-1 text-sm text-red-600 px-3.5 py-0.5 whitespace-nowrap"
                 onClick={clearFilters}
               >
                 <RiDeleteBin5Line />

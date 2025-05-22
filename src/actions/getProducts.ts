@@ -5,7 +5,10 @@ import { createClient } from '@/supabase/server';
 export async function getProducts() {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.from('tesoros').select('*');
+  const { data, error } = await supabase
+    .from('tesoros')
+    .select('*')
+    .range(0, 14);
 
   if (error) {
     console.error('[GET PRODUCTS ERROR]', {

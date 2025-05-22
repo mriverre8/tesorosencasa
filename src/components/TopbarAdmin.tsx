@@ -52,14 +52,14 @@ const TopbarAdmin = () => {
           <div className="md:hidden absolute top-16 left-0 w-full bg-white bg-opacity-80 backdrop-blur-md border-b p-5 z-40">
             <div className="flex flex-col text-center gap-2">
               <Link
-                href={'/admin/dashboard/createproduct'}
+                href={'/dashboard/createproduct'}
                 className="py-2 hover:bg-slate-100"
                 onClick={() => setMenuOpen(false)}
               >
                 Crea un Tesoro
               </Link>
               <Link
-                href={'/admin/dashboard/products'}
+                href={'/dashboard/products'}
                 className="py-2 hover:bg-slate-100"
                 onClick={() => setMenuOpen(false)}
               >

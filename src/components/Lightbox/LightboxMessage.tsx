@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonPrimary from '../ButtonPrimary';
 
 interface Props {
   isLightboxOpen: boolean;
@@ -21,13 +22,10 @@ const LightboxMessage = ({
       <div className="flex items-center justify-center h-full w-full">
         <div className="flex flex-col justify-center items-center gap-2 bg-white px-10 py-5 rounded-md text-center">
           <h1 className="text-lg font-bold">{title}</h1>
-          <p className="text-sm">{text}</p>
-          <button
-            onClick={() => onClose()}
-            className="bg-secondary text-white px-4 py-1.5 rounded-full hover:bg-secondary-hover transition duration-300 mt-5"
-          >
-            {buttonText}
-          </button>
+          <p className="text-sm mb-5">{text}</p>
+          <div className="text-sm">
+            <ButtonPrimary buttonText={buttonText} buttonAction={onClose} />
+          </div>
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ export default function CreateProductForm() {
 
   const initialForm = {
     name: { value: '', error: '', required: true },
-    condition: { value: '', error: '', required: true },
+    condition: { value: translate('CONDITION_6'), error: '', required: true },
     // Sección de procedencia
     origin: { value: '', error: '', required: false },
     brand: { value: '', error: '', required: false },
@@ -112,8 +112,8 @@ export default function CreateProductForm() {
           {translate('NEW_TREASAURE')}
         </h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
             <div>
               <label htmlFor="name" className="px-0.5 text-sm">
                 {translate('TREASAURE_NAME')}*
@@ -138,11 +138,6 @@ export default function CreateProductForm() {
                 value={formValues.condition.value}
                 updateForm={updateForm}
               />
-              {!formIsValid && !!formValues.condition.error && (
-                <p className="text-xs pt-1 text-red-600 ">
-                  {formValues.condition.error}
-                </p>
-              )}
             </div>
           </div>
 
@@ -169,11 +164,11 @@ export default function CreateProductForm() {
                   placeholder={translate('UNKNOWN')}
                   className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                 />
-                <p className="text-xs pt-1 text-red-600 ">
-                  {!formIsValid && !!formValues.brand.error
-                    ? formValues.brand.error
-                    : '\u00A0'}
-                </p>
+                {!formIsValid && !!formValues.brand.error && (
+                  <p className="text-xs pt-1 text-red-600 ">
+                    {formValues.brand.error}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -197,11 +192,11 @@ export default function CreateProductForm() {
                   placeholder={translate('UNKNOWN')}
                   className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                 />
-                <p className="text-xs pt-1 text-red-600 ">
-                  {!formIsValid && !!formValues.material.error
-                    ? formValues.material.error
-                    : '\u00A0'}
-                </p>
+                {!formIsValid && !!formValues.material.error && (
+                  <p className="text-xs pt-1 text-red-600 ">
+                    {formValues.material.error}
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="type" className="px-0.5 text-sm">
@@ -217,11 +212,11 @@ export default function CreateProductForm() {
                   placeholder={translate('OTHER')}
                   className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                 />
-                <p className="text-xs pt-1 text-red-600 ">
-                  {!formIsValid && !!formValues.category.error
-                    ? formValues.category.error
-                    : '\u00A0'}
-                </p>
+                {!formIsValid && !!formValues.category.error && (
+                  <p className="text-xs pt-1 text-red-600 ">
+                    {formValues.category.error}
+                  </p>
+                )}
               </div>
             </div>
           </div>

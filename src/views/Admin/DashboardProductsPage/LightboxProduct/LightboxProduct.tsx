@@ -15,6 +15,8 @@ import { tesoros } from '@prisma/client';
 
 // Translation
 import { translate } from '@/locales/translate';
+import ButtonPrimary from '@/components/ButtonPrimary';
+import ButtonSecondary from '@/components/ButtonSecondary';
 
 interface Props {
   isLightboxOpen: boolean;
@@ -201,18 +203,15 @@ const LightboxProduct = ({
               </div>
             </div>
             <div className="flex gap-3 justify-center items-center text-sm">
-              <button
-                className="py-0.5 px-4 hover:text-primary"
-                onClick={onClose}
-              >
-                {translate('GO_BACK')}
-              </button>
-              <button
-                className="bg-red-600 text-white rounded-full py-0.5 px-4"
-                onClick={() => handleDelete()}
-              >
-                {translate('DELETE')}
-              </button>
+              <ButtonSecondary
+                buttonAction={onClose}
+                buttonText={translate('GO_BACK')}
+              />
+              <ButtonPrimary
+                alternative={true}
+                buttonAction={handleDelete}
+                buttonText={translate('DELETE')}
+              />
             </div>
           </div>
         </div>
