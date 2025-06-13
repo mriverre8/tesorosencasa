@@ -27,5 +27,5 @@ export async function login(formData: FormData) {
     timestamp: new Date().toISOString(),
   });
 
-  redirect('/dashboard/createproduct');
+  redirect('/createproduct');
 }

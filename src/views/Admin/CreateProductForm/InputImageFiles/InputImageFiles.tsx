@@ -152,7 +152,9 @@ const InputImageFiles = ({ images, setImages }: Props) => {
           </div>
         ) : (
           <div className="mt-2 text-center">
-            <p className="text-xs pt-1 text-red-600">productimages_empty</p>
+            <p className="text-xs pt-1 text-red-600">
+              {translate('INPUT_PRODUCT_IMAGES_EMPTY')}
+            </p>
           </div>
         )}
       </div>

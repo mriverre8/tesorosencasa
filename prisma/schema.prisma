@@ -15,7 +15,7 @@ model tesoros {
   condition String
   origin    String?
   brand     String?
-  material  String?
+  material  String[]
   category  String?
   large     Int?
   width     Int?
@@ -33,7 +33,25 @@ model users {
   role     Role   @default(USER)
 }
 
+model alerts {
+  id      Int     @id @default(autoincrement())
+  text    String  @default("")
+  view    View    @unique
+  type    Alert
+  visible Boolean @default(false)
+}
+
 enum Role {
   ADMIN
   USER
+}
+
+enum Alert {
+  I
+  W
+  E
+}
+
+enum View {
+  HOME
 }

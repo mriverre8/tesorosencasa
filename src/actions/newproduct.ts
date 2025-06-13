@@ -10,7 +10,7 @@ interface ProductData {
   images: string[];
   origin?: string;
   brand?: string;
-  material?: string;
+  material?: string[];
   category?: string;
   large?: number;
   width?: number;
@@ -27,7 +27,11 @@ const parseNumber = (val: FormDataEntryValue | null): number | undefined => {
   return num && !isNaN(Number(num)) ? Number(num) : undefined;
 };
 
-export async function newProduct(formData: FormData, images: string[]) {
+export async function newProduct(
+  formData: FormData,
+  materials: string[],
+  images: string[]
+) {
   const supabase = await createClient();
 
   const product: ProductData = {
@@ -37,7 +41,7 @@ export async function newProduct(formData: FormData, images: string[]) {
     price: parseNumber(formData.get('price'))!,
     origin: parseString(formData.get('origin')),
     brand: parseString(formData.get('brand')),
-    material: parseString(formData.get('material')),
+    material: materials.length > 0 ? materials : undefined,
     category: parseString(formData.get('category')),
     large: parseNumber(formData.get('large')),
     width: parseNumber(formData.get('width')),

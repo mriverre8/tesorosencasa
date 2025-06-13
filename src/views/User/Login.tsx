@@ -44,10 +44,10 @@ const Login = () => {
         await login(formData);
         clearForm();
         setIsLoading(false);
-      } catch {
+      } catch (error) {
         // TODO: handle errors
-        /* setFinalErrorMsg(translate((error as Error).message));
-        setIsErrorMsg(true); */
+        setFinalErrorMsg(translate((error as Error).message));
+        setIsErrorMsg(true);
       }
       setIsLoading(false);
     }

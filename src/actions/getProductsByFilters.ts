@@ -34,7 +34,7 @@ export async function getProductsByFilters(
   }
 
   if (filters.material?.length) {
-    query = query.in('material', filters.material);
+    query = query.overlaps('material', filters.material);
   }
 
   if (filters.category?.length) {
