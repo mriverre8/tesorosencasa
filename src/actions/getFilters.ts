@@ -54,8 +54,13 @@ export async function getFilters() {
         const uniqueValues = new Set<string>();
 
         data.forEach((item) => {
-          const value = String(item[field as keyof typeof item]);
-          uniqueValues.add(value);
+          const value = item[field as keyof typeof item];
+
+          if (field === 'material' && Array.isArray(value)) {
+            value.forEach((mat) => uniqueValues.add(String(mat)));
+          } else {
+            uniqueValues.add(String(value));
+          }
         });
 
         filters[field] = Array.from(uniqueValues);

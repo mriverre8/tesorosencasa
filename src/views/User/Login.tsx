@@ -1,43 +1,63 @@
 'use client';
 
-import React from 'react';
-/* import Link from 'next/link'; */
-/* import { useState } from 'react'; */
+import React, { useState } from 'react';
+
+// Hooks
+import { useForm } from '@/hooks/useForm';
+import { useRouter } from 'next/navigation';
+
+// Icons
 import { MdEmail } from 'react-icons/md';
 import { MdLock } from 'react-icons/md';
-/* import { FcGoogle } from 'react-icons/fc';
-import { FaApple } from 'react-icons/fa';
-import { FaGithub } from 'react-icons/fa'; */
-import { login } from '@/actions/login';
-import { useForm } from '@/hooks/useForm';
-import { useState } from 'react';
+
+// Components
 import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 
+// Actions
+import { login } from '@/actions/login';
+
+// Translation
+import { translate } from '@/locales/translate';
+import LightboxMessage from '@/components/Lightbox/LightboxMessage';
+
+const initialForm = {
+  email: { value: '', error: '', required: true },
+  password: { value: '', error: '', required: true },
+};
+
 const Login = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isErrorMsg, setIsErrorMsg] = useState(false);
+  const [finalErrorMsg, setFinalErrorMsg] = useState('');
 
-  const initialForm = {
-    email: { value: '', error: '', required: true },
-    password: { value: '', error: '', required: true },
-  };
-
-  //Inicialización del formulario
   const { formValues, formIsValid, updateForm, clearForm, validateAll } =
     useForm(initialForm);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    validateAll(); // Validar todos los campos del formulario
+    validateAll();
 
-    //Valores del formulario
-    const formData = new FormData(event.target as HTMLFormElement);
     if (formIsValid) {
       setIsLoading(true);
-      await login(formData); // Llamar a la función de login
-      clearForm();
+      try {
+        const formData = new FormData(event.target as HTMLFormElement);
+        await login(formData);
+        clearForm();
+        router.push('/products');
+        setIsLoading(false);
+      } catch (error) {
+        setFinalErrorMsg(translate((error as Error).message));
+        setIsErrorMsg(true);
+      }
       setIsLoading(false);
     }
+  };
+
+  const closeErrorMsg = () => {
+    setIsErrorMsg(false);
+    setFinalErrorMsg('');
   };
 
   return (
@@ -45,7 +65,7 @@ const Login = () => {
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl mt-[17vh]">
         <div className="flex items-center justify-center mb-4">
           <h2 className="text-xl sm:text-2xl font-semibold text-center">
-            Iniciar sessión
+            {translate('LOGIN')}
           </h2>
         </div>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -56,7 +76,7 @@ const Login = () => {
               id="email"
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder={translate('EMAIL')}
               value={formValues.email.value}
               onChange={(e) => updateForm('email', e.target.value)}
               required
@@ -69,7 +89,7 @@ const Login = () => {
               id="password"
               name="password"
               type="password"
-              placeholder="Contraseña"
+              placeholder={translate('PASSWORD')}
               value={formValues.password.value}
               onChange={(e) => updateForm('password', e.target.value)}
               required
@@ -80,33 +100,18 @@ const Login = () => {
             type="submit"
             className="w-full bg-secondary text-white py-2 rounded-full hover:bg-secondary-hover transition text-sm sm:text-base"
           >
-            Entrar
+            {translate('ENTER')}
           </button>
         </form>
-        {/* <div className="flex w-full justify-center items-center mt-4">
-        <p className="text-xs sm:text-sm text-gray-500 text-center">
-          Inicia sessión con
-        </p>
-      </div>
-      <div className="flex gap-2 mb-4 mt-1.5 text-center justify-center items-center text-lg sm:text-2xl">
-        <button className="bg-background p-2 rounded-full transform transition-transform hover:scale-125">
-          <FcGoogle />
-        </button>
-        <button className="bg-background p-2 rounded-full transform transition-transform hover:scale-125">
-          <FaApple />
-        </button>
-        <button className="bg-background p-2 rounded-full transform transition-transform hover:scale-125">
-          <FaGithub />
-        </button>
-      </div>
-      <p className="mt-4 text-center text-xs sm:text-sm text-gray-500">
-        No tienes cuenta?{' '}
-        <Link href="/register" className="text-primary hover:underline">
-          Regístrate
-        </Link>
-      </p> */}
       </div>
       <LightboxLoader isLightboxOpen={isLoading} />
+      <LightboxMessage
+        isLightboxOpen={isErrorMsg}
+        onClose={() => closeErrorMsg()}
+        title={translate('LOGIN_FAILED')}
+        text={finalErrorMsg}
+        buttonText={translate('GO_BACK')}
+      />
     </>
   );
 };

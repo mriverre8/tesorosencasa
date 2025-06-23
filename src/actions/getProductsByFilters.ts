@@ -34,7 +34,7 @@ export async function getProductsByFilters(
   }
 
   if (filters.material?.length) {
-    query = query.in('material', filters.material);
+    query = query.overlaps('material', filters.material);
   }
 
   if (filters.category?.length) {
@@ -45,7 +45,6 @@ export async function getProductsByFilters(
     query = query.lte('price', filters.price[0]); // hasta ese valor
   }
 
-  // Filtrar por searchTerm si se proporciona
   if (searchTerm.trim() !== '') {
     query = query.ilike('name', `%${searchTerm}%`);
   }

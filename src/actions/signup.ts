@@ -1,15 +1,11 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-
 import { createClient } from '@/supabase/server';
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
@@ -24,15 +20,14 @@ export async function signup(formData: FormData) {
       email,
       timestamp: new Date().toISOString(),
     });
-    redirect('/error');
+    throw new Error('SIGNUP_GENERIC_ERROR');
   }
 
   const username = email.split('@')[0];
 
-  // Insertar el nuevo usuario en la tabla Users
   const { error: insertError } = await supabase.from('users').insert([
     {
-      id: authData.user.id, // usar el ID del usuario de Supabase Auth
+      id: authData.user.id,
       username,
       email,
     },
@@ -45,7 +40,7 @@ export async function signup(formData: FormData) {
       userId: authData.user.id,
       timestamp: new Date().toISOString(),
     });
-    redirect('/error');
+    throw new Error('SIGNUP_GENERIC_ERROR');
   }
 
   console.log('[SIGNUP] Signup successful', {
@@ -54,6 +49,5 @@ export async function signup(formData: FormData) {
     timestamp: new Date().toISOString(),
   });
 
-  revalidatePath('/', 'layout');
-  redirect('/account');
+  redirect('/register/nextsteps');
 }
