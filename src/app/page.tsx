@@ -35,7 +35,7 @@ export default async function Home() {
       <main>
         <Layout>
           <div className="flex flex-col mt-[90px] ">
-            {alert.visible && <Alert type={alert.type} text={alert.text} />}
+            {alert?.visible && <Alert type={alert.type} text={alert.text} />}
             <HomePage filtersData={filtersData} tesorosData={tesorosData} />
           </div>
         </Layout>

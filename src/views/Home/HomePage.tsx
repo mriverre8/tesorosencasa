@@ -120,7 +120,7 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
           </div>
         ) : (
           <div className="flex justify-center items-center my-24 ">
-            <p className="text-center text-gray-400">
+            <p className="text-center text-gray-400 text-sm">
               {translate('NO_TREASURES_FOUND')}
             </p>
           </div>

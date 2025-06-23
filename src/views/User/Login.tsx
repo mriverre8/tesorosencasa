@@ -45,7 +45,7 @@ const Login = () => {
         const formData = new FormData(event.target as HTMLFormElement);
         await login(formData);
         clearForm();
-        router.push('/createproduct');
+        router.push('/products');
         setIsLoading(false);
       } catch (error) {
         setFinalErrorMsg(translate((error as Error).message));
