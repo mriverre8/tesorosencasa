@@ -5,23 +5,20 @@ import { translate } from '@/locales/translate';
 
 // Icons
 import { FaSpinner } from 'react-icons/fa';
+import Lightbox from './Lightbox';
 
 interface Props {
   isLightboxOpen: boolean;
 }
 
 const LightboxLoader = ({ isLightboxOpen }: Props) => {
-  if (!isLightboxOpen) return null;
-
   return (
-    <div className="bg-black/70 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5">
-      <div className="flex items-center justify-center h-full w-full">
-        <div className="flex flex-row justify-center items-center gap-4 bg-white px-10 py-4 rounded-md">
-          <FaSpinner className="animate-spin text-2xl" />
-          <p>{translate('LOADING')}</p>
-        </div>
+    <Lightbox isOpen={isLightboxOpen}>
+      <div className="flex flex-col text-center items-center gap-3">
+        <FaSpinner className="animate-spin text-2xl text-secondary" />
+        <p>{translate('LOADING')}</p>
       </div>
-    </div>
+    </Lightbox>
   );
 };
 

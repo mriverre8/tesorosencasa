@@ -7,7 +7,7 @@ export default function LoginPage() {
     <main>
       <div className="bg-background min-h-screen">
         <Layout>
-          <div className="flex ">
+          <div className="flex justify-center ">
             <Login />
           </div>
         </Layout>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Hooks
 import { useForm } from '@/hooks/useForm';
@@ -22,22 +23,26 @@ import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/Input
 import { translate } from '@/locales/translate';
 import { trackEvent } from '@/actions/trackEvent';
 import { uploadImage } from '@/actions/uploadImage';
+import InputMaterial from './InputMaterial/InputMaterial';
 
-// TODO: Reformatear las imagenes para que ocupen menos espacio y se suban más rápido ( también así habrá mas espacio en el servidor )
 export default function CreateProductForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFinalMsg, setIsFinalMsg] = useState(false);
   const [isFinalMsgTitle, setIsFinalMsgTitle] = useState('');
   const [isFinalMsgText, setIsFinalMsgText] = useState('');
 
+  const router = useRouter();
+  const [onCloseCallback, setOnCloseCallback] = useState<() => void>(
+    () => () => setIsFinalMsg(false)
+  );
+
   const initialForm = {
     name: { value: '', error: '', required: true },
-    condition: { value: '', error: '', required: true },
+    condition: { value: translate('CONDITION_6'), error: '', required: true },
     // Sección de procedencia
     origin: { value: '', error: '', required: false },
     brand: { value: '', error: '', required: false },
     // Sección de fabricación
-    material: { value: '', error: '', required: false },
     category: { value: '', error: '', required: false },
     // Sección de dimensiones
     large: { value: '', error: '', required: false },
@@ -48,6 +53,9 @@ export default function CreateProductForm() {
     units: { value: '', error: '', required: true },
     price: { value: '', error: '', required: true },
   };
+
+  // Campo de materiales
+  const [materials, setMaterials] = useState<string[]>([]);
 
   //Campo de imágenes
   const [images, setImages] = useState<File[]>([]);
@@ -77,7 +85,7 @@ export default function CreateProductForm() {
           uploadedImages.push(imagePublicUrl);
         });
       } catch (error) {
-        setIsFinalMsgTitle('Error');
+        setIsFinalMsgTitle(translate('ERROR'));
         setIsFinalMsgText(
           (error as Error).message || 'Error al crear el tesoro'
         );
@@ -85,18 +93,21 @@ export default function CreateProductForm() {
         return;
       }
 
-      const response = await newProduct(formData, uploadedImages);
+      const response = await newProduct(formData, materials, uploadedImages);
       if (response.success) {
         setIsFinalMsgTitle(translate('SUCCESS_TREASAURE_CREATION_TITLE'));
         setIsFinalMsgText(translate('SUCCESS_TREASAURE_CREATION_TEXT'));
         clearForm(); // Limpiar el formulario después de enviar
         setImages([]); // Limpiar las imágenes después de enviar
+        setMaterials([]); // Limpiar los materiales después de enviar
         setIsLoading(false);
         setIsFinalMsg(true); // Mostrar el mensaje de éxito
+        setOnCloseCallback(() => () => router.push('/products'));
         return;
       } else {
-        setIsFinalMsgTitle('Error');
+        setIsFinalMsgTitle(translate('ERROR'));
         setIsFinalMsgText(response.message || 'Error al crear el tesoro');
+        setOnCloseCallback(() => () => setIsFinalMsg(false));
         setIsLoading(false);
         setIsFinalMsg(true); // Mostrar el mensaje de error
         return;
@@ -112,8 +123,8 @@ export default function CreateProductForm() {
           {translate('NEW_TREASAURE')}
         </h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
             <div>
               <label htmlFor="name" className="px-0.5 text-sm">
                 {translate('TREASAURE_NAME')}*
@@ -125,11 +136,11 @@ export default function CreateProductForm() {
                 value={formValues.name.value}
                 maxLength={30}
                 onChange={(e) => updateForm('name', e.target.value)}
-                className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                className={`border rounded-full px-4 py-2 w-full focus:ring-2  outline-none ${!formIsValid && !!formValues.name.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
               />
               {!formIsValid && !!formValues.name.error && (
-                <p className="text-xs pt-1 text-red-600 ">
-                  {formValues.name.error}
+                <p className="text-xs pt-1 text-red-600 px-0.5">
+                  {translate(formValues.name.error)}
                 </p>
               )}
             </div>
@@ -138,11 +149,6 @@ export default function CreateProductForm() {
                 value={formValues.condition.value}
                 updateForm={updateForm}
               />
-              {!formIsValid && !!formValues.condition.error && (
-                <p className="text-xs pt-1 text-red-600 ">
-                  {formValues.condition.error}
-                </p>
-              )}
             </div>
           </div>
 
@@ -167,13 +173,13 @@ export default function CreateProductForm() {
                   onChange={(e) => updateForm('brand', e.target.value)}
                   type="text"
                   placeholder={translate('UNKNOWN')}
-                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                  className={`border  rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.brand.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
                 />
-                <p className="text-xs pt-1 text-red-600 ">
-                  {!formIsValid && !!formValues.brand.error
-                    ? formValues.brand.error
-                    : '\u00A0'}
-                </p>
+                {!formIsValid && !!formValues.brand.error && (
+                  <p className="text-xs pt-1 text-red-600 px-0.5 ">
+                    {translate(formValues.brand.error)}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -183,26 +189,10 @@ export default function CreateProductForm() {
               {translate('TREASAURE_FABRICATION')}
             </h2>
             <div className="grid grid-cols-1 gap-2">
-              <div>
-                <label htmlFor="material" className="px-0.5 text-sm">
-                  {translate('TREASAURE_MATERIAL')}
-                </label>
-                <input
-                  id="material"
-                  name="material"
-                  value={formValues.material.value}
-                  maxLength={30}
-                  onChange={(e) => updateForm('material', e.target.value)}
-                  type="text"
-                  placeholder={translate('UNKNOWN')}
-                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
-                />
-                <p className="text-xs pt-1 text-red-600 ">
-                  {!formIsValid && !!formValues.material.error
-                    ? formValues.material.error
-                    : '\u00A0'}
-                </p>
-              </div>
+              <InputMaterial
+                materials={materials}
+                setMaterials={setMaterials}
+              />
               <div>
                 <label htmlFor="type" className="px-0.5 text-sm">
                   {translate('TREASAURE_CATEGORY')}
@@ -215,13 +205,13 @@ export default function CreateProductForm() {
                   onChange={(e) => updateForm('category', e.target.value)}
                   type="text"
                   placeholder={translate('OTHER')}
-                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                  className={`border  rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.category.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
                 />
-                <p className="text-xs pt-1 text-red-600 ">
-                  {!formIsValid && !!formValues.category.error
-                    ? formValues.category.error
-                    : '\u00A0'}
-                </p>
+                {!formIsValid && !!formValues.category.error && (
+                  <p className="px-0.5 text-xs pt-1 text-red-600 ">
+                    {translate(formValues.category.error)}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -244,9 +234,9 @@ export default function CreateProductForm() {
                       acceptOnlyNumbers(e, 'large', updateForm, true)
                     }
                     inputMode="numeric"
-                    maxLength={10}
+                    maxLength={3}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className="border  rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -266,9 +256,9 @@ export default function CreateProductForm() {
                       acceptOnlyNumbers(e, 'width', updateForm, true)
                     }
                     inputMode="numeric"
-                    maxLength={10}
+                    maxLength={3}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className="border  rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -288,9 +278,9 @@ export default function CreateProductForm() {
                       acceptOnlyNumbers(e, 'height', updateForm, true)
                     }
                     inputMode="numeric"
-                    maxLength={10}
+                    maxLength={3}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className="border  rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -310,9 +300,9 @@ export default function CreateProductForm() {
                       acceptOnlyNumbers(e, 'diameter', updateForm, true)
                     }
                     inputMode="numeric"
-                    maxLength={10}
+                    maxLength={3}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className="border  rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -341,14 +331,14 @@ export default function CreateProductForm() {
                   onChange={(e) =>
                     acceptOnlyNumbers(e, 'units', updateForm, true)
                   }
-                  maxLength={4}
+                  maxLength={2}
                   inputMode="numeric"
                   type="text"
-                  className="border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                  className={`border  rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.units.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
                 />
-                <p className="text-xs pt-1 text-red-600">
+                <p className="px-0.5 text-xs pt-1 text-red-600">
                   {!formIsValid && !!formValues.units.error
-                    ? formValues.units.error
+                    ? translate(formValues.units.error)
                     : '\u00A0'}
                 </p>
               </div>
@@ -362,19 +352,19 @@ export default function CreateProductForm() {
                     name="price"
                     value={formValues.price.value}
                     onChange={(e) => acceptOnlyNumbers(e, 'price', updateForm)}
-                    maxLength={10}
+                    maxLength={7}
                     inputMode="decimal"
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-8 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className={`border  rounded-full pl-4 pr-8 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.price.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     €
                   </button>
                 </div>
 
-                <p className="text-xs pt-1 text-red-600">
+                <p className="px-0.5 text-xs pt-1 text-red-600">
                   {!formIsValid && !!formValues.price.error
-                    ? formValues.price.error
+                    ? translate(formValues.price.error)
                     : '\u00A0'}
                 </p>
               </div>
@@ -393,7 +383,7 @@ export default function CreateProductForm() {
       <LightboxLoader isLightboxOpen={isLoading} />
       <LightboxMessage
         isLightboxOpen={isFinalMsg}
-        onClose={() => setIsFinalMsg(false)}
+        onClose={onCloseCallback}
         title={isFinalMsgTitle}
         text={isFinalMsgText}
         buttonText={translate('ACCEPT')}

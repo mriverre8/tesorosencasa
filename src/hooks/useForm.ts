@@ -25,66 +25,45 @@ const validateUserEmail = (value: string): FormField => {
 
 const validateProductName = (value: string): FormField => {
   if (value === '') {
-    return { value, error: 'productname_empty', required: true };
+    return { value, error: 'INPUT_PRODUCT_NAME_EMPTY', required: true };
   }
 
-  /* const regex = /^[^0-9\s][a-zA-Z\s]*$/; */
-  const regex = /^[^\s].*$/;
+  const regex = /^[^\s].*$/; // Valida cadenas de texto que no comienzan con un espacio en blanco
   if (!regex.test(value)) {
-    return { value, error: 'productname_invalid', required: true };
-  }
-
-  return { value, error: '', required: true };
-};
-
-const validateProductCondition = (value: string): FormField => {
-  if (value === '') {
-    return { value, error: 'productcondition_empty', required: true };
+    return { value, error: 'INPUT_PRODUCT_NAME_INVALID', required: true };
   }
 
   return { value, error: '', required: true };
 };
 
 const validateProductBrand = (value: string): FormField => {
-  /* const regex = /^[^0-9\s][a-zA-Z\s]*$|^$/; */
   const regex = /^[^\s].*$|^$/;
   if (!regex.test(value)) {
-    return { value, error: 'productbrand_invalid', required: false };
-  }
-
-  return { value, error: '', required: false };
-};
-
-const validateProductMaterial = (value: string): FormField => {
-  /* const regex = /^[^0-9\s][a-zA-Z\s]*$|^$/; */
-  const regex = /^$|^[a-zA-Z][a-zA-Z\s]*$/;
-  if (!regex.test(value)) {
-    return { value, error: 'productmaterial_invalid', required: false };
+    return { value, error: 'INPUT_PRODUCT_BRAND_INVALID', required: false };
   }
 
   return { value, error: '', required: false };
 };
 
 const validateProductCategory = (value: string): FormField => {
-  /* const regex = /^[^0-9\s][a-zA-Z\s]*$|^$/; */
-  const regex = /^$|^[a-zA-Z][a-zA-Z\s]*$/;
+  const regex = /^(?! )[^\d]*$/;
   if (!regex.test(value)) {
-    return { value, error: 'productcategory_invalid', required: false };
+    return { value, error: 'INPUT_PRODUCT_CATEGORY_INVALID', required: false };
   }
 
   return { value, error: '', required: false };
 };
 
 const validateProductUnits = (value: string): FormField => {
-  const unitsRegex = /^\d+$/;
+  const unitsRegex = /^[^0].*$/;
 
   if (value.trim() === '') {
-    return { value, error: 'productunits_empty', required: true };
+    return { value, error: 'INPUT_PRODUCT_UNITS_EMPTY', required: true };
   }
 
   return {
     value,
-    error: unitsRegex.test(value) ? '' : 'productunits_format',
+    error: unitsRegex.test(value) ? '' : 'INPUT_PRODUCT_UNITS_INVALID',
     required: true,
   };
 };
@@ -92,12 +71,12 @@ const validateProductUnits = (value: string): FormField => {
 const validateProductPrice = (value: string): FormField => {
   const priceRegex = /^[0-9]+(,[0-9]+)?$/;
   if (value.trim() === '') {
-    return { value, error: 'productprice_empty', required: true };
+    return { value, error: 'INPUT_PRODUCT_PRICE_EMPTY', required: true };
   }
 
   return {
     value,
-    error: priceRegex.test(value) ? '' : 'productprice_format',
+    error: priceRegex.test(value) ? '' : 'INPUT_PRODUCT_PRICE_INVALID',
     required: true,
   };
 };
@@ -109,11 +88,10 @@ export const useForm = (initialForm: FormState) => {
   const validatorObject: Record<string, (value: string) => FormField> = {
     // User validators
     email: validateUserEmail,
-    // Product valodators
+    // Product validators
     name: validateProductName,
-    condition: validateProductCondition,
     brand: validateProductBrand,
-    material: validateProductMaterial,
+
     category: validateProductCategory,
     units: validateProductUnits,
     price: validateProductPrice,

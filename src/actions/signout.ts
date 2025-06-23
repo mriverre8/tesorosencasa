@@ -17,7 +17,7 @@ export async function signout() {
       stack: error.stack,
     });
     /* redirect('/error'); */
-    redirect('/admin/dashboard/createproduct');
+    redirect('/createproduct');
   }
 
   console.log('[SIGN OUT]', {
@@ -26,5 +26,5 @@ export async function signout() {
   });
 
   revalidatePath('/', 'layout');
-  redirect('/login');
+  redirect('/');
 }

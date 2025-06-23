@@ -49,24 +49,31 @@ const TopbarAdmin = () => {
 
         {/* Menú desplegable en móviles */}
         {menuOpen && (
-          <div className="md:hidden absolute top-16 left-0 w-full bg-white bg-opacity-80 backdrop-blur-md border-b p-5 z-40">
-            <div className="flex flex-col text-center gap-2">
+          <div className="md:hidden absolute top-12 left-0 w-full bg-white bg-opacity-80 backdrop-blur-md border-b p-5 z-40">
+            <div className="flex flex-col text-center">
               <Link
-                href={'/admin/dashboard/createproduct'}
+                href={'/'}
+                className="py-2 hover:bg-slate-100"
+                onClick={() => setMenuOpen(false)}
+              >
+                Inicio
+              </Link>
+              {/* <Link
+                href={'/createproduct'}
                 className="py-2 hover:bg-slate-100"
                 onClick={() => setMenuOpen(false)}
               >
                 Crea un Tesoro
-              </Link>
+              </Link> */}
               <Link
-                href={'/admin/dashboard/products'}
+                href={'/products'}
                 className="py-2 hover:bg-slate-100"
                 onClick={() => setMenuOpen(false)}
               >
                 Ver todos los Tesoros
               </Link>
               <button
-                className="text-red-500"
+                className="py-2 text-red-500"
                 onClick={() => setIsDeleteMsg(true)}
               >
                 Cerrar sesión
@@ -115,10 +122,10 @@ const TopbarAdmin = () => {
         isLightboxOpen={isDeleteMsg}
         onClose={() => setIsDeleteMsg(false)}
         onAccept={() => handleSignOut()}
-        title="Cerrar Sesión"
-        text={'¿Estás seguro de que quieres cerrar sesión?'}
-        buttonText="Volver"
-        buttonText2="Cerrar Sesión"
+        title={translate('SIGN_OUT')}
+        text={translate('SIGN_OUT_CONFIRMATION')}
+        buttonText={translate('GO_BACK')}
+        buttonText2={translate('SIGN_OUT')}
       />
 
       <LightboxLoader isLightboxOpen={isLoading} />

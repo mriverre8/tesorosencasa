@@ -7,6 +7,11 @@ import { translate } from '@/locales/translate';
 import { IoIosArrowForward } from 'react-icons/io';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 
+// Components
+import ButtonPrimary from '@/components/ButtonPrimary';
+import ButtonSecondary from '@/components/ButtonSecondary';
+import Lightbox from '@/components/Lightbox/Lightbox';
+
 interface Props {
   isLightboxOpen: boolean;
   filtersData: Record<string, (string | number)[]>;
@@ -162,83 +167,67 @@ const LightboxFilters = ({
       )
     );
 
-  if (!isLightboxOpen) return null;
-
   return (
-    <div
-      className="bg-black/70 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5"
-      onClick={closeLightbox}
-    >
-      <div className="flex items-start justify-center h-full w-full pt-20">
-        <div
-          className="w-full max-w-md bg-white p-6 rounded-lg shadow-xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h2 className="text-2xl font-semibold text-center mb-4">
-            {translate('FILTER_RESULTS')}
-          </h2>
+    <Lightbox isOpen={isLightboxOpen} onClose={closeLightbox}>
+      <h2 className="text-2xl font-semibold text-center mb-4">
+        {translate('FILTER_RESULTS')}
+      </h2>
 
-          <div className="space-y-4 overflow-y-auto h-[45vh] px-3">
-            {Object.entries(filtersData).map(([category, values]) => (
-              <div key={category} className="filter-section relative">
-                <div
-                  onClick={() => toggleDropdown(category)}
-                  className="flex justify-between items-center cursor-pointer py-2 border-b"
-                >
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-medium">{translate(category)}</h3>
-                    <p className="text-sm text-primary ">
-                      {selectedFilters[category] &&
-                        selectedFilters[category].length}
-                    </p>
-                  </div>
-                  <span
-                    className={`transition-transform ${openDropdown[category] ? 'rotate-90' : ''}`}
-                  >
-                    <IoIosArrowForward />
-                  </span>
-                </div>
-
-                {openDropdown[category] && (
-                  <div className="flex flex-col text-sm gap-2 text-gray-500 mt-2">
-                    {renderFilterInput(category, values)}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-center gap-2 mt-6">
-            {hasChanges && (
-              <button
-                className="bg-secondary hover:bg-secondary-hover rounded-full text-sm text-white px-3.5 py-0.5"
-                onClick={submitFilters}
-              >
-                {translate('APPLY_FILTERS')}
-              </button>
-            )}
-            <button
-              className="bg-secondary hover:bg-secondary-hover rounded-full text-sm text-white px-3.5 py-0.5"
-              onClick={cancelFilters}
+      <div className="space-y-4 overflow-y-auto h-[45vh] px-3">
+        {Object.entries(filtersData).map(([category, values]) => (
+          <div key={category} className="filter-section relative">
+            <div
+              onClick={() => toggleDropdown(category)}
+              className="flex justify-between items-center cursor-pointer py-2 border-b"
             >
-              {translate('GO_BACK')}
-            </button>
-          </div>
-
-          {hasAppliedFilters && (
-            <div className="flex justify-center mt-2">
-              <button
-                className="flex items-center gap-1 text-sm text-red-600 px-3.5 py-0.5"
-                onClick={clearFilters}
+              <div className="flex items-center gap-2">
+                <h3 className="font-medium">{translate(category)}</h3>
+                <p className="text-sm text-primary ">
+                  {selectedFilters[category] &&
+                    selectedFilters[category].length}
+                </p>
+              </div>
+              <span
+                className={`transition-transform ${openDropdown[category] ? 'rotate-90' : ''}`}
               >
-                <RiDeleteBin5Line />
-                {translate('CLEAR_FILTERS')}
-              </button>
+                <IoIosArrowForward />
+              </span>
             </div>
-          )}
-        </div>
+
+            {openDropdown[category] && (
+              <div className="flex flex-col text-sm gap-2 text-gray-500 mt-2">
+                {renderFilterInput(category, values)}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
-    </div>
+
+      <div className="flex justify-center text-sm gap-2 mt-6">
+        <ButtonSecondary
+          buttonAction={cancelFilters}
+          buttonText={translate('GO_BACK')}
+        />
+        {hasChanges && (
+          <ButtonPrimary
+            buttonAction={submitFilters}
+            buttonText={translate('APPLY_FILTERS')}
+          />
+        )}
+      </div>
+
+      {hasAppliedFilters && (
+        <div className="flex justify-center mt-4">
+          <button
+            className="flex items-center gap-1 text-sm text-red-600 px-3.5 py-0.5 whitespace-nowrap"
+            onClick={clearFilters}
+          >
+            <RiDeleteBin5Line />
+            {translate('CLEAR_FILTERS')}
+          </button>
+        </div>
+      )}
+    </Lightbox>
   );
 };
 

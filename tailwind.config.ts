@@ -17,8 +17,7 @@ export default {
         'secondary-hover': 'var(--secondary-hover)',
       },
       screens: {
-        xs: '420px', // Definimos xs para pantallas menores a sm
-        sm: '550px',
+        mobile: '450px',
       },
     },
   },

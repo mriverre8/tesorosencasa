@@ -1,19 +1,16 @@
 'use client';
 
 import React /* , { useState } */ from 'react';
-/* import Link from 'next/link'; */
+import Link from 'next/link';
 import Layout from './Layout';
 import { translate } from '@/locales/translate';
-/* import { GiHamburgerMenu } from 'react-icons/gi';
+import { MdAdminPanelSettings } from 'react-icons/md';
 
-import { User } from '@supabase/supabase-js'; */
+interface Props {
+  isAdminLogged: boolean;
+}
 
-/* interface Props {
-  user: User | null;
-} */
-
-const Topbar = (/* { user }: Props */) => {
-  /* const [isMenuOpen, setIsMenuOpen] = useState(false); */
+const Topbar = ({ isAdminLogged }: Props) => {
   return (
     <nav className="bg-white bg-opacity-80 backdrop-blur-md fixed top-0 w-full border-b z-50">
       <Layout>
@@ -24,39 +21,13 @@ const Topbar = (/* { user }: Props */) => {
               <h1>{translate('TESOROS_EN_CASA_2')}</h1>
             </div>
           </div>
-          {/* <GiHamburgerMenu
-            size={24}
-            className="text-secondary cursor-pointer"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          /> */}
+          <Link href={isAdminLogged ? '/products' : '/login'}>
+            <MdAdminPanelSettings
+              size={24}
+              className="text-secondary hover:text-secondary-hover cursor-pointer"
+            />
+          </Link>
         </div>
-
-        {/* <div
-          className={`gap-5 pt-3 pb-5 text-center ${isMenuOpen ? 'block' : 'hidden'} flex flex-col`}
-        >
-          {!user ? (
-            <>
-              <Link href="/login" className="hover:text-primary">
-                Iniciar sesión
-              </Link>
-              <Link
-                href="/register"
-                className="bg-secondary hover:bg-secondary-hover text-white rounded-full py-1 px-3"
-              >
-                Registrarse
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link href="/" className=" hover:text-primary">
-                Catálogo
-              </Link>
-              <Link href="/profile" className=" hover:text-primary">
-                Perfil
-              </Link>
-            </>
-          )}
-        </div> */}
       </Layout>
     </nav>
   );
