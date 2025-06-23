@@ -57,7 +57,7 @@ const InputCondition = ({ value, updateForm }: Props) => {
       <div className="relative">
         <button
           type="button"
-          className={`w-full border border-gray-300 rounded-full py-2 px-4 text-left bg-white focus:ring-2 focus:ring-primary outline-none ${
+          className={`w-full border rounded-full py-2 px-4 text-left bg-white focus:ring-2 focus:ring-primary outline-none ${
             value !== translate('CONDITION_6') ? 'text-black' : 'text-gray-400'
           }`}
           onClick={() => setShowDropdown((prev) => !prev)}

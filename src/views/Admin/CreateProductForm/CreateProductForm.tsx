@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Hooks
 import { useForm } from '@/hooks/useForm';
@@ -24,12 +25,16 @@ import { trackEvent } from '@/actions/trackEvent';
 import { uploadImage } from '@/actions/uploadImage';
 import InputMaterial from './InputMaterial/InputMaterial';
 
-// TODO: Reformatear las imagenes para que ocupen menos espacio y se suban más rápido ( también así habrá mas espacio en el servidor )
 export default function CreateProductForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isFinalMsg, setIsFinalMsg] = useState(false);
   const [isFinalMsgTitle, setIsFinalMsgTitle] = useState('');
   const [isFinalMsgText, setIsFinalMsgText] = useState('');
+
+  const router = useRouter();
+  const [onCloseCallback, setOnCloseCallback] = useState<() => void>(
+    () => () => setIsFinalMsg(false)
+  );
 
   const initialForm = {
     name: { value: '', error: '', required: true },
@@ -38,7 +43,6 @@ export default function CreateProductForm() {
     origin: { value: '', error: '', required: false },
     brand: { value: '', error: '', required: false },
     // Sección de fabricación
-    /* material: { value: '', error: '', required: false }, */
     category: { value: '', error: '', required: false },
     // Sección de dimensiones
     large: { value: '', error: '', required: false },
@@ -81,7 +85,7 @@ export default function CreateProductForm() {
           uploadedImages.push(imagePublicUrl);
         });
       } catch (error) {
-        setIsFinalMsgTitle('Error');
+        setIsFinalMsgTitle(translate('ERROR'));
         setIsFinalMsgText(
           (error as Error).message || 'Error al crear el tesoro'
         );
@@ -98,10 +102,12 @@ export default function CreateProductForm() {
         setMaterials([]); // Limpiar los materiales después de enviar
         setIsLoading(false);
         setIsFinalMsg(true); // Mostrar el mensaje de éxito
+        setOnCloseCallback(() => () => router.push('/products'));
         return;
       } else {
-        setIsFinalMsgTitle('Error');
+        setIsFinalMsgTitle(translate('ERROR'));
         setIsFinalMsgText(response.message || 'Error al crear el tesoro');
+        setOnCloseCallback(() => () => setIsFinalMsg(false));
         setIsLoading(false);
         setIsFinalMsg(true); // Mostrar el mensaje de error
         return;
@@ -130,10 +136,10 @@ export default function CreateProductForm() {
                 value={formValues.name.value}
                 maxLength={30}
                 onChange={(e) => updateForm('name', e.target.value)}
-                className={`border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2  outline-none ${!formIsValid && !!formValues.name.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
+                className={`border rounded-full px-4 py-2 w-full focus:ring-2  outline-none ${!formIsValid && !!formValues.name.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
               />
               {!formIsValid && !!formValues.name.error && (
-                <p className="text-xs pt-1 text-red-600 ">
+                <p className="text-xs pt-1 text-red-600 px-0.5">
                   {translate(formValues.name.error)}
                 </p>
               )}
@@ -167,10 +173,10 @@ export default function CreateProductForm() {
                   onChange={(e) => updateForm('brand', e.target.value)}
                   type="text"
                   placeholder={translate('UNKNOWN')}
-                  className={`border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.brand.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
+                  className={`border  rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.brand.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
                 />
                 {!formIsValid && !!formValues.brand.error && (
-                  <p className="text-xs pt-1 text-red-600 ">
+                  <p className="text-xs pt-1 text-red-600 px-0.5 ">
                     {translate(formValues.brand.error)}
                   </p>
                 )}
@@ -199,10 +205,10 @@ export default function CreateProductForm() {
                   onChange={(e) => updateForm('category', e.target.value)}
                   type="text"
                   placeholder={translate('OTHER')}
-                  className={`border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.category.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
+                  className={`border  rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.category.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
                 />
                 {!formIsValid && !!formValues.category.error && (
-                  <p className="text-xs pt-1 text-red-600 ">
+                  <p className="px-0.5 text-xs pt-1 text-red-600 ">
                     {translate(formValues.category.error)}
                   </p>
                 )}
@@ -230,7 +236,7 @@ export default function CreateProductForm() {
                     inputMode="numeric"
                     maxLength={3}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className="border  rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -252,7 +258,7 @@ export default function CreateProductForm() {
                     inputMode="numeric"
                     maxLength={3}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className="border  rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -274,7 +280,7 @@ export default function CreateProductForm() {
                     inputMode="numeric"
                     maxLength={3}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className="border  rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -296,7 +302,7 @@ export default function CreateProductForm() {
                     inputMode="numeric"
                     maxLength={3}
                     type="text"
-                    className="border border-gray-300 rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+                    className="border  rounded-full pl-4 pr-12 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     cm
@@ -328,9 +334,9 @@ export default function CreateProductForm() {
                   maxLength={2}
                   inputMode="numeric"
                   type="text"
-                  className={`border border-gray-300 rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.units.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
+                  className={`border  rounded-full px-4 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.units.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
                 />
-                <p className="text-xs pt-1 text-red-600">
+                <p className="px-0.5 text-xs pt-1 text-red-600">
                   {!formIsValid && !!formValues.units.error
                     ? translate(formValues.units.error)
                     : '\u00A0'}
@@ -349,14 +355,14 @@ export default function CreateProductForm() {
                     maxLength={7}
                     inputMode="decimal"
                     type="text"
-                    className={`border border-gray-300 rounded-full pl-4 pr-8 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.price.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
+                    className={`border  rounded-full pl-4 pr-8 py-2 w-full focus:ring-2 outline-none ${!formIsValid && !!formValues.price.error ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'}`}
                   />
                   <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 ">
                     €
                   </button>
                 </div>
 
-                <p className="text-xs pt-1 text-red-600">
+                <p className="px-0.5 text-xs pt-1 text-red-600">
                   {!formIsValid && !!formValues.price.error
                     ? translate(formValues.price.error)
                     : '\u00A0'}
@@ -377,7 +383,7 @@ export default function CreateProductForm() {
       <LightboxLoader isLightboxOpen={isLoading} />
       <LightboxMessage
         isLightboxOpen={isFinalMsg}
-        onClose={() => setIsFinalMsg(false)}
+        onClose={onCloseCallback}
         title={isFinalMsgTitle}
         text={isFinalMsgText}
         buttonText={translate('ACCEPT')}

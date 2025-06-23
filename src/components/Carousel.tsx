@@ -6,18 +6,20 @@ import Image from 'next/image';
 // Types
 import { tesoros } from '@prisma/client';
 
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
+
 interface Props {
   tesoro: tesoros;
 }
 
 const Carousel = ({ tesoro }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [dragStartX, setDragStartX] = useState(0);
-  const [dragStartY, setDragStartY] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const [offsetX, setOffsetX] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-  const [isHorizontalScroll, setIsHorizontalScroll] = useState(false);
+  // const [dragStartX, setDragStartX] = useState(0);
+  // const [dragStartY, setDragStartY] = useState(0);
+  // const [dragging, setDragging] = useState(false);
+  // const [offsetX, setOffsetX] = useState(0);
+  const [isTransitioning /* , setIsTransitioning */] = useState(true);
+  // const [isHorizontalScroll, setIsHorizontalScroll] = useState(false);
 
   const prevSlide = () => {
     if (currentIndex > 0) {
@@ -31,12 +33,13 @@ const Carousel = ({ tesoro }: Props) => {
     }
   };
 
+  /*
   const handleTouchStart = (e: React.TouchEvent) => {
     setDragging(true);
     setIsTransitioning(false);
     setDragStartX(e.touches[0].clientX);
     setDragStartY(e.touches[0].clientY);
-    setIsHorizontalScroll(false); // Inicialmente asumimos que no es scroll horizontal
+    setIsHorizontalScroll(false);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -49,9 +52,9 @@ const Carousel = ({ tesoro }: Props) => {
       // Determinar si el movimiento es más horizontal que vertical
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
         setIsHorizontalScroll(true);
-        document.body.style.overflow = 'hidden'; // Bloquear scroll vertical
+        document.body.style.overflow = 'hidden'; 
       } else {
-        return; // Si es más vertical, salir sin modificar offsetX
+        return;
       }
     }
 
@@ -59,7 +62,7 @@ const Carousel = ({ tesoro }: Props) => {
       (currentIndex === 0 && deltaX > 0) ||
       (currentIndex === tesoro.images.length - 1 && deltaX < 0)
     ) {
-      setOffsetX(0); // Evitar moverse fuera de los límites
+      setOffsetX(0);
     } else {
       setOffsetX(deltaX);
     }
@@ -78,21 +81,37 @@ const Carousel = ({ tesoro }: Props) => {
     }
 
     setOffsetX(0);
-    document.body.style.overflow = ''; // Restaurar scroll vertical
+    document.body.style.overflow = '';
   };
+  */
 
   return (
-    <div
-      className="w-full max-w-lg mx-auto overflow-hidden"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
+    <div className="w-full max-w-lg mx-auto relative overflow-hidden">
+      {/* Controles de flechas */}
+      {currentIndex > 0 && (
+        <button
+          onClick={prevSlide}
+          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white/70 hover:bg-background text-black p-1 rounded-full shadow z-10 "
+        >
+          <IoIosArrowBack className="" />
+        </button>
+      )}
+      {currentIndex < tesoro.images.length - 1 && (
+        <button
+          onClick={nextSlide}
+          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white/70 hover:bg-background text-black p-1 rounded-full shadow z-10 "
+        >
+          <IoIosArrowForward />
+        </button>
+      )}
       <div
         className={`flex ${isTransitioning ? 'transition-transform ease-in-out duration-300' : ''}`}
         style={{
-          transform: `translateX(calc(-${currentIndex * 100}% + ${offsetX}px))`,
+          transform: `translateX(-${currentIndex * 100}%)`,
         }}
+        // onTouchStart={handleTouchStart}
+        // onTouchMove={handleTouchMove}
+        // onTouchEnd={handleTouchEnd}
       >
         {tesoro.images.map((image, index) => (
           <div

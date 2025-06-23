@@ -1,6 +1,5 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { createClient } from '@/supabase/server';
 
 export async function login(formData: FormData) {
@@ -27,5 +26,5 @@ export async function login(formData: FormData) {
     timestamp: new Date().toISOString(),
   });
 
-  redirect('/createproduct');
+  return { success: true };
 }

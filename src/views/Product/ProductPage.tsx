@@ -13,13 +13,13 @@ interface Props {
 
 const ProductPage = ({ productData }: Props) => {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 justify-center items-center mobile:text-center">
       <div className="flex justify-center items-center">
         <Link
           href={'/'}
           className="hover:text-primary transition duration-300 underline underline-offset-2 whitespace-nowrap"
         >
-          Volver
+          {translate('GO_BACK')}
         </Link>
       </div>
       <div className="flex-wrap gap-4 justify-center items-center hidden mobile:block">
@@ -29,7 +29,7 @@ const ProductPage = ({ productData }: Props) => {
         <Carousel tesoro={productData} />
       </div>
 
-      <div className="flex flex-col gap-3 rounded-md justify-center items-center mt-4 mb-10">
+      <div className="flex flex-col gap-3 rounded-md justify-center items-center mt-4 mb-10 max-w-[400px]">
         <h1 className="text-2xl font-bold">{productData.name}</h1>
         <div className="flex flex-col gap-3 ">
           <div className="flex flex-col gap-2">
@@ -41,7 +41,7 @@ const ProductPage = ({ productData }: Props) => {
             </div>
           </div>
           <h2 className="font-semibold">{translate('TREASAURE_BACKGROUND')}</h2>
-          <div className="flex gap-5">
+          <div className="flex gap-5 flex-col">
             <div className="flex flex-col">
               <p className="text-xs text-gray-400">
                 {translate('TREASAURE_ORIGIN')}
@@ -62,7 +62,7 @@ const ProductPage = ({ productData }: Props) => {
           <h2 className="font-semibold">
             {translate('TREASAURE_FABRICATION')}
           </h2>
-          <div className="flex flex-row gap-5">
+          <div className="flex gap-5 flex-col">
             <div className="flex flex-col">
               <p className="text-xs text-gray-400">
                 {translate('TREASAURE_MATERIAL')}
@@ -94,7 +94,7 @@ const ProductPage = ({ productData }: Props) => {
               <h2 className="font-semibold">
                 {translate('TREASAURE_DIMENSIONS')}
               </h2>
-              <div className="flex flex-row gap-5">
+              <div className="flex flex-row gap-5 mobile:justify-center">
                 {productData.large && (
                   <div className="flex flex-col justify-center items-center text-center">
                     <p className="text-xs text-gray-400">
@@ -131,7 +131,7 @@ const ProductPage = ({ productData }: Props) => {
             </>
           )}
           <h2 className="font-semibold">{translate('TREASAURE_STOCK')}</h2>
-          <div className="flex flex-row gap-5">
+          <div className="flex flex-row gap-5 mobile:justify-center">
             <div className="flex flex-col justify-center items-center text-center">
               <p className="text-xs text-gray-400">
                 {translate('TREASAURE_UNITS')}

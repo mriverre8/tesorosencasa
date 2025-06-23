@@ -45,7 +45,6 @@ const LightboxProduct = ({
   const [isDeleteMsg, setIsDeleteMsg] = useState(false);
 
   const handleDelete = async () => {
-    // Cierra el Lightbox de producto y abre el de confirmación
     onClose();
     setIsDeleteMsg(true);
   };
@@ -53,7 +52,7 @@ const LightboxProduct = ({
   const cancelDelete = () => {
     setIsDeleteMsg(false);
     setTimeout(() => {
-      reopen(); // 👈 Reabre el de producto
+      reopen();
     }, 10);
   };
 
@@ -232,7 +231,7 @@ const LightboxProduct = ({
       <LightboxLoader isLightboxOpen={isLoading} />
       <LightboxOptions
         isLightboxOpen={isDeleteMsg}
-        onClose={cancelDelete} // 👈 Aquí lo usamos correctamente
+        onClose={cancelDelete}
         onAccept={deleteProduct}
         title={translate('DELETE_TREASURE_TITLE')}
         text={translate('DELETE_TREASURE_TEXT', { name: tesoro.name })}

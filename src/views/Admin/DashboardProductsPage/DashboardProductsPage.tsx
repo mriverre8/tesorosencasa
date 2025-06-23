@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
 import { RiDeleteBin5Line } from 'react-icons/ri';
+import { IoAdd } from 'react-icons/io5';
 
 // Actions
 import { deleteProducts } from '@/actions/deleteProducts';
@@ -21,6 +22,7 @@ import { tesoros } from '@prisma/client';
 
 // Translation
 import { translate } from '@/locales/translate';
+import Link from 'next/link';
 
 interface Props {
   tesorosData: tesoros[];
@@ -81,21 +83,20 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
         </div>
         {/* Contenedor de los tesoros filtrados que ocupa el espacio restante */}
         <div className="flex-grow ">
-          {filteredTesoros.length > 0 ? (
-            <div className="flex flex-col gap-4">
-              {filteredTesoros.map((tesoro, index) => (
-                <div key={index} onClick={() => handlePreview(tesoro)}>
-                  <ProductCard {...tesoro} />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="flex justify-center items-center  ">
-              <p className="text-center text-gray-400">
-                {translate('NO_TREASURES_FOUND')}
-              </p>
-            </div>
-          )}
+          <div className="flex flex-col gap-4">
+            {filteredTesoros.map((tesoro, index) => (
+              <div key={index} onClick={() => handlePreview(tesoro)}>
+                <ProductCard {...tesoro} />
+              </div>
+            ))}
+          </div>
+
+          <Link
+            href={'/createproduct'}
+            className={`flex bg-white rounded-lg py-4 px-3 w-full ${filteredTesoros.length > 0 ? 'mt-4' : ''} items-center justify-center text-secondary`}
+          >
+            <IoAdd className="text-xl" />
+          </Link>
         </div>
       </div>
       {selectedProduct && (
@@ -124,10 +125,10 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
         isLightboxOpen={isDeleteAllOpen}
         onClose={() => setIsDeleteAllOpen(false)}
         onAccept={() => handleDeleteAll()}
-        title="Eliminar tesoros"
-        text={'¿Estás seguro de que quieres eliminar todos los tesoros?'}
-        buttonText="Volver"
-        buttonText2="Eliminar"
+        title={translate('DELETE_ALL_TREASURES_TITLE')}
+        text={translate('DELETE_ALL_TREASURES_TEXT')}
+        buttonText={translate('GO_BACK')}
+        buttonText2={translate('DELETE')}
       />
       <LightboxLoader isLightboxOpen={isLoading} />
     </>

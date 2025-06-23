@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 // Hooks
 import { useForm } from '@/hooks/useForm';
+import { useRouter } from 'next/navigation';
 
 // Icons
 import { MdEmail } from 'react-icons/md';
@@ -25,6 +26,7 @@ const initialForm = {
 };
 
 const Login = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isErrorMsg, setIsErrorMsg] = useState(false);
   const [finalErrorMsg, setFinalErrorMsg] = useState('');
@@ -43,9 +45,9 @@ const Login = () => {
         const formData = new FormData(event.target as HTMLFormElement);
         await login(formData);
         clearForm();
+        router.push('/createproduct');
         setIsLoading(false);
       } catch (error) {
-        // TODO: handle errors
         setFinalErrorMsg(translate((error as Error).message));
         setIsErrorMsg(true);
       }

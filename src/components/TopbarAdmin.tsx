@@ -58,13 +58,13 @@ const TopbarAdmin = () => {
               >
                 Inicio
               </Link>
-              <Link
+              {/* <Link
                 href={'/createproduct'}
                 className="py-2 hover:bg-slate-100"
                 onClick={() => setMenuOpen(false)}
               >
                 Crea un Tesoro
-              </Link>
+              </Link> */}
               <Link
                 href={'/products'}
                 className="py-2 hover:bg-slate-100"
@@ -122,10 +122,10 @@ const TopbarAdmin = () => {
         isLightboxOpen={isDeleteMsg}
         onClose={() => setIsDeleteMsg(false)}
         onAccept={() => handleSignOut()}
-        title="Cerrar Sesión"
-        text={'¿Estás seguro de que quieres cerrar sesión?'}
-        buttonText="Volver"
-        buttonText2="Cerrar Sesión"
+        title={translate('SIGN_OUT')}
+        text={translate('SIGN_OUT_CONFIRMATION')}
+        buttonText={translate('GO_BACK')}
+        buttonText2={translate('SIGN_OUT')}
       />
 
       <LightboxLoader isLightboxOpen={isLoading} />

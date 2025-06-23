@@ -23,7 +23,7 @@ export default function CarouselHorizontal({ tesoro }: Props) {
       <div className="flex items-center justify-center gap-4 max-w-[800px] w-full">
         {/* Imagen previa */}
         <div
-          className={`invisible lg:visible w-[20%] aspect-[3/4] rounded overflow-hidden ${current - 1 > 0 ? 'bg-black' : ''} flex items-center justify-center`}
+          className={`hidden lg:block w-[20%] aspect-[3/4] rounded overflow-hidden ${current - 1 > 0 ? 'bg-black' : ''} flex items-center justify-center`}
         >
           {current - 1 > 0 && (
             <Image
@@ -84,7 +84,7 @@ export default function CarouselHorizontal({ tesoro }: Props) {
           )}
         </div>
         <div
-          className={`invisible lg:visible w-[20%] aspect-[3/4] rounded overflow-hidden ${current + 1 < tesoro.images.length - 1 ? 'bg-black' : ''} flex items-center justify-center`}
+          className={`hidden lg:block w-[20%] aspect-[3/4] rounded overflow-hidden ${current + 1 < tesoro.images.length - 1 ? 'bg-black' : ''} flex items-center justify-center`}
         >
           {current + 1 < tesoro.images.length - 1 && (
             <Image

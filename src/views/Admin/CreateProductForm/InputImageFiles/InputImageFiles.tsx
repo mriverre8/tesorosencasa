@@ -50,8 +50,8 @@ const InputImageFiles = ({ images, setImages }: Props) => {
     );
 
     if (images.length + uniqueFiles.length > 6) {
-      setIsFinalMsgTitle('Aviso');
-      setIsFinalMsgText('Solo puedes subir un máximo de 6 imágenes.');
+      setIsFinalMsgTitle(translate('WARNING'));
+      setIsFinalMsgText(translate('MAX_IMAGES_LIMIT', { limit: 6 }));
       setIsLightboxMsgOpen(true);
       return;
     }
@@ -62,9 +62,9 @@ const InputImageFiles = ({ images, setImages }: Props) => {
         uniqueFiles.map((file) =>
           convertToWebP(file).catch((err) => {
             console.error('Error al convertir imagen:', file.name, err);
-            setIsFinalMsgTitle('Error');
+            setIsFinalMsgTitle(translate('ERROR'));
             setIsFinalMsgText(
-              `No se pudo convertir la imagen ${file.name} a WebP.`
+              translate('ERROR_CANT_CONVERT_IMAGE', { fileName: file.name })
             );
             setIsLightboxMsgOpen(true);
             return null; // Devuelve null si falla
@@ -78,17 +78,17 @@ const InputImageFiles = ({ images, setImages }: Props) => {
       );
 
       if (validWebpFiles.length === 0) {
-        setIsFinalMsgTitle('Error');
-        setIsFinalMsgText('No se pudo convertir ninguna imagen.');
+        setIsFinalMsgTitle(translate('ERROR'));
+        setIsFinalMsgText(translate('ERROR_CONVERTING_ANY_IMAGE'));
         setIsLightboxMsgOpen(true);
         return;
       }
 
       setImages((prevImages) => [...prevImages, ...validWebpFiles]);
     } catch (error) {
-      console.error('Error inesperado al procesar imágenes:', error);
-      setIsFinalMsgTitle('Error');
-      setIsFinalMsgText('Hubo un error inesperado al procesar las imágenes');
+      console.error('Error al manejar los archivos de imagen:', error);
+      setIsFinalMsgTitle(translate('ERROR'));
+      setIsFinalMsgText(translate('ERROR_UNEXTECTED_IMAGES'));
       setIsLightboxMsgOpen(true);
     }
   };

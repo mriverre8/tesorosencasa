@@ -7,8 +7,8 @@ export async function getUserById(userId: string) {
 
   const { data, error } = await supabase
     .from('users')
-    .select('*') // Selecciona todos los campos
-    .eq('id', userId); // Filtra por el ID del usuario
+    .select('*')
+    .eq('id', userId);
 
   if (error) {
     console.error('[GET USER ERROR]', {
@@ -18,13 +18,13 @@ export async function getUserById(userId: string) {
       hint: error.hint,
       timestamp: new Date().toISOString(),
     });
-    return null; // O puedes manejar el error de manera distinta si lo prefieres
+    return null;
   } else {
     console.log('[GET USER] User retrieved:', {
       userId,
       data,
       timestamp: new Date().toISOString(),
     });
-    return data[0]; // Devuelve los datos del producto encontrado
+    return data[0];
   }
 }

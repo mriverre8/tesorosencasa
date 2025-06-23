@@ -62,7 +62,7 @@ const InputMaterial = ({ materials, setMaterials }: Props) => {
       <label htmlFor="material" className="px-0.5 text-sm">
         {translate('TREASAURE_MATERIAL')}
       </label>
-      <div className="flex gap-2 mt-1">
+      <div className="flex gap-2">
         <input
           id="material"
           name="material"
@@ -87,7 +87,7 @@ const InputMaterial = ({ materials, setMaterials }: Props) => {
         </button>
       </div>
 
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="px-0.5 text-red-500 text-xs mt-1">{error}</p>}
 
       <ul className="mt-3 space-y-2 mb-1">
         {materials.map((material, index) => (
@@ -95,9 +95,9 @@ const InputMaterial = ({ materials, setMaterials }: Props) => {
             key={index}
             className="flex justify-between items-center px-4 py-1"
           >
-            <span className="text-sm">
-              {index + 1}. {material}
-            </span>
+            <div className="flex text-sm gap-2">
+              <p className="font-semibold">{index + 1}.</p> <p>{material}</p>
+            </div>
             <button
               onClick={() => handleRemove(material)}
               className="text-red-500 hover:text-red-700 text-sm"

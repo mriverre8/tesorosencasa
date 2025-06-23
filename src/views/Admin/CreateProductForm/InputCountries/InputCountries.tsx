@@ -114,7 +114,7 @@ const InputCountries = ({ value, updateForm }: Props) => {
           onChange={handleOriginChange}
           onFocus={() => setShowDropdown(true)}
           onBlur={handlleOriginBlur}
-          className="border border-gray-300 rounded-full py-2 pr-8 pl-[51px] w-full focus:ring-2 focus:ring-primary outline-none"
+          className="border  rounded-full py-2 pr-8 pl-[51px] w-full focus:ring-2 focus:ring-primary outline-none"
         />
 
         {value && (

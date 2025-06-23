@@ -21,7 +21,7 @@ const Topbar = ({ isAdminLogged }: Props) => {
               <h1>{translate('TESOROS_EN_CASA_2')}</h1>
             </div>
           </div>
-          <Link href={isAdminLogged ? '/createproduct' : '/login'}>
+          <Link href={isAdminLogged ? '/products' : '/login'}>
             <MdAdminPanelSettings
               size={24}
               className="text-secondary hover:text-secondary-hover cursor-pointer"

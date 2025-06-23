@@ -4,6 +4,8 @@ import { getProductById } from '@/actions/getProductById';
 import ProductPage from '@/views/Product/ProductPage';
 import Topbar from '@/components/Topbar';
 import Footer from '@/components/Footer';
+import { createClient } from '@/supabase/server';
+import { getUserById } from '@/actions/getUserById';
 
 export default async function Product({
   params,
@@ -12,9 +14,18 @@ export default async function Product({
 }) {
   const { id } = await params;
   const tesoroData = await getProductById(id);
+
+  // Getting user data to see if user is loged in and has admin role
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const userData = user ? await getUserById(user.id) : null;
+
   return (
     <div className="flex flex-col justify-between min-h-screen bg-background">
-      <Topbar />
+      <Topbar isAdminLogged={userData?.role === 'ADMIN'} />
       <main>
         <div className="mt-[90px]">
           <Layout>

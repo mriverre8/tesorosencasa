@@ -7,8 +7,8 @@ export async function getProductById(productId: string) {
 
   const { data, error } = await supabase
     .from('tesoros')
-    .select('*') // Selecciona todos los campos
-    .eq('id', productId); // Filtra por el ID del usuario
+    .select('*')
+    .eq('id', productId);
 
   if (error) {
     console.error('[GET PRODUCT ERROR]', {
@@ -18,13 +18,13 @@ export async function getProductById(productId: string) {
       hint: error.hint,
       timestamp: new Date().toISOString(),
     });
-    return null; // O puedes manejar el error de manera distinta si lo prefieres
+    return null;
   } else {
     console.log('[GET PRODUCT] Product retrieved:', {
       productId,
       data,
       timestamp: new Date().toISOString(),
     });
-    return data[0]; // Devuelve los datos del producto encontrado
+    return data[0];
   }
 }

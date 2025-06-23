@@ -4,7 +4,7 @@ import { createClient } from '@/supabase/server';
 
 export async function deleteProducts() {
   const supabase = await createClient();
-  const bucketName = 'tesoros-bucket'; // Cambia esto si tu bucket tiene otro nombre
+  const bucketName = 'tesoros-bucket';
 
   try {
     // 1. Eliminar todos los productos de la tabla 'tesoros'

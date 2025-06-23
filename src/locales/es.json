@@ -2,7 +2,7 @@
   "TESOROS_EN_CASA_1": "Tesoros",
   "TESOROS_EN_CASA_2": "en casa",
   "CONTACT": "Contacto",
-  "CONTACT_IG": "Envíame un DM por Instagram",
+  "CONTACT_IG": "Envíame un mensaje por Instagram",
   "VERSION": "Versión ${version}",
   "LOGIN": "Iniciar sesión",
   "REGISTER": "Regístrate",
@@ -78,7 +78,17 @@
   "INPUT_PRODUCT_IMAGES_EMPTY": "Por favor, añade al menos una imagen del tesoro.",
   "ACCEPT": "Aceptar",
   "DELETE_TREASURE_TITLE": "Eliminar tesoro",
+  "DELETE_ALL_TREASURES_TITLE": "Eliminar todos los tesoros",
+  "DELETE_ALL_TREASURES_TEXT": "¿Estás seguro de que deseas eliminar todos los tesoros? Esta acción no se puede deshacer.",
   "DELETE_TREASURE_TEXT": "¿Estás seguro de que deseas eliminar el tesoro \"${name}\"? Esta acción no se puede deshacer.",
   "SUCCESS_TREASAURE_CREATION_TITLE": "¡Éxito!",
-  "SUCCESS_TREASAURE_CREATION_TEXT": "Tesoro creado con éxito. Podrás encontrarlo en la sección de tesoros."
+  "SUCCESS_TREASAURE_CREATION_TEXT": "Tesoro creado con éxito. Podrás encontrarlo en la sección de tesoros.",
+  "ERROR": "Error",
+  "ERROR_CONVERTING_ANY_IMAGE": "No se pudo convertir ninguna imagen.",
+  "ERROR_UNEXTECTED_IMAGES": "Hubo un error inesperado al procesar las imágenes.",
+  "ERROR_CANT_CONVERT_IMAGE": "No se pudo convertir la imagen ${imageName} a WebP.",
+  "WARNING": "Advertencia",
+  "MAX_IMAGES_LIMIT": "Solo puedes subir un máximo de ${limit} imágenes.",
+  "SIGN_OUT": "Cerrar sesión",
+  "SIGN_OUT_CONFIRMATION": "¿Estás seguro de que deseas cerrar sesión?"
 }
