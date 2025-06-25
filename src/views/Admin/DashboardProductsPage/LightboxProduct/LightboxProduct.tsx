@@ -18,6 +18,7 @@ import { translate } from '@/locales/translate';
 import ButtonPrimary from '@/components/ButtonPrimary';
 import ButtonSecondary from '@/components/ButtonSecondary';
 import Lightbox from '@/components/Lightbox/Lightbox';
+import { IoMdShare } from 'react-icons/io';
 
 interface Props {
   isLightboxOpen: boolean;
@@ -43,6 +44,8 @@ const LightboxProduct = ({
 }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteMsg, setIsDeleteMsg] = useState(false);
+
+  const [copiado, setCopiado] = useState(false);
 
   const handleDelete = async () => {
     onClose();
@@ -77,10 +80,32 @@ const LightboxProduct = ({
     onDelete();
   };
 
+  const handleShare = () => {
+    const url = `https://tesorosencasa.vercel.app/tesoro/${tesoro.id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 4000);
+    });
+  };
+
   return (
     <>
       <Lightbox isOpen={isLightboxOpen}>
-        <h1 className="text-2xl font-bold">{tesoro.name}</h1>
+        {copiado && (
+          <div className="w-full text-center">
+            <span className="text-sm text-secondary ">
+              {translate('LINK_COPIED')}
+            </span>
+          </div>
+        )}
+        <div className="flex">
+          <h1 className="flex-[8] text-2xl font-bold">{tesoro.name}</h1>
+          <div className="flex-[2] flex justify-end self-start mt-1.5">
+            <button onClick={handleShare}>
+              <IoMdShare className="text-xl text-secondary hover:text-secondary-hover" />
+            </button>
+          </div>
+        </div>
         <div className="flex flex-col gap-3 h-[400px] overflow-y-auto mt-3">
           <div className="flex flex-col gap-2">
             <div className="flex flex-col">
