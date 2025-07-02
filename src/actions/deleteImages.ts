@@ -1,55 +1,23 @@
 'use server';
 
-import crypto from 'crypto';
-
-const generateSHA1 = (data: string) => {
-  return crypto.createHash('sha1').update(data).digest('hex');
-};
-
-const generateSignature = (timestamp: number, apiSecret: string) => {
-  // Firma solo con timestamp: "timestamp=...{api_secret}"
-  return generateSHA1(`timestamp=${timestamp}${apiSecret}`);
-};
+import cloudinary from '@/lib/cloudinary';
 
 export async function deleteImages() {
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!;
-  const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!;
-  const apiSecret = process.env.CLOUDINARY_API_SECRET!;
-
-  const timestamp = Math.floor(Date.now() / 1000);
-  const signature = generateSignature(timestamp, apiSecret);
-
-  const formData = new URLSearchParams();
-  formData.append('timestamp', timestamp.toString());
-  formData.append('api_key', apiKey);
-  formData.append('signature', signature);
-
   try {
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${cloudName}/resources/image`,
+    // Borra todas las imágenes (puedes especificar tipo 'image')
+    const result = await cloudinary.api.delete_resources_by_prefix(
+      'tesorosencasa/',
       {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData.toString(),
+        resource_type: 'image',
       }
     );
 
-    const result = await res.json();
+    // `result` contiene info sobre las imágenes eliminadas
+    console.log('Imágenes eliminadas:', result.deleted);
 
-    if (!res.ok || result.result !== 'ok') {
-      console.error('❌ Error al eliminar todas las imágenes:', result);
-      return {
-        success: false,
-        message: result.error?.message || 'Error desconocido',
-      };
-    }
-
-    console.log('✅ Todas las imágenes fueron eliminadas de Cloudinary.');
-    return { success: true };
+    return { error: false, deleted: result.deleted };
   } catch (err) {
-    console.error('❌ Error al eliminar imágenes:', err);
-    return { success: false, message: (err as Error).message };
+    console.error('Error al eliminar imágenes:', err);
+    return { error: true, message: (err as Error).message };
   }
 }

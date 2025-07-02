@@ -51,8 +51,10 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
   const handleDeleteAll = async () => {
     setIsDeleteAllOpen(false);
     setIsLoading(true);
-    await deleteProducts();
-    await deleteImages();
+    const res = await deleteProducts();
+    if (!res.error) {
+      await deleteImages();
+    }
     setIsLoading(false);
     setTesoros([]);
   };

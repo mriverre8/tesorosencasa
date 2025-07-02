@@ -63,7 +63,7 @@ const LightboxProduct = ({
     setIsDeleteMsg(false);
     setIsLoading(true);
     const response = await deleteProductById(tesoro.id);
-    if (response.success) {
+    if (!response.error) {
       setIsFinalMsgTitle('¡Tesoro eliminado!');
       setIsFinalMsgText(
         `El tesoro "${tesoro.name}" ha sido eliminado correctamente.`
