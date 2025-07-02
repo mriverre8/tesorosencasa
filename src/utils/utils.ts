@@ -1,5 +1,5 @@
 // Method to convert an image file to WebP format
-export const convertToWebP = async (file: File): Promise<File> => {
+/* export const convertToWebP = async (file: File): Promise<File> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -43,7 +43,7 @@ export const convertToWebP = async (file: File): Promise<File> => {
           0.8
         );
       };
-      img.onerror = (/* e */) => reject(new Error('Image load error'));
+      img.onerror = (e) => reject(new Error('Image load error'));
       if (typeof event.target?.result === 'string') {
         img.src = event.target.result;
       }
@@ -53,3 +53,4 @@ export const convertToWebP = async (file: File): Promise<File> => {
     reader.readAsDataURL(file);
   });
 };
+ */
