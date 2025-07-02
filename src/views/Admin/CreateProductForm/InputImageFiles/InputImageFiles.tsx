@@ -9,7 +9,7 @@ import { IoIosImages } from 'react-icons/io';
 import LightboxImages from '@/views/Admin/CreateProductForm/LightboxImages/LightboxImages';
 
 // Utils
-import { convertToWebP } from '@/utils/utils';
+/* import { convertToWebP } from '@/utils/utils'; */
 
 // Translation
 import { translate } from '@/locales/translate';
