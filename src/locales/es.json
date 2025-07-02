@@ -91,5 +91,6 @@
   "MAX_IMAGES_LIMIT": "Solo puedes subir un máximo de ${limit} imágenes.",
   "SIGN_OUT": "Cerrar sesión",
   "SIGN_OUT_CONFIRMATION": "¿Estás seguro de que deseas cerrar sesión?",
-  "LINK_COPIED": "Enlace copiado al portapapeles"
+  "LINK_COPIED": "Enlace copiado al portapapeles",
+  "ERROR_IMAGE_UPLOAD": "Error al subir las imagenes."
 }

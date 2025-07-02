@@ -21,7 +21,6 @@ import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/Input
 
 //Translation
 import { translate } from '@/locales/translate';
-import { trackEvent } from '@/actions/trackEvent';
 import { uploadImage } from '@/actions/uploadImage';
 import InputMaterial from './InputMaterial/InputMaterial';
 
@@ -67,7 +66,6 @@ export default function CreateProductForm() {
   //Función para enviar el formulario
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await trackEvent('submit_treasaure', 'Click on create treasaure');
 
     validateAll(); // Validar todos los campos del formulario
 
@@ -79,21 +77,25 @@ export default function CreateProductForm() {
 
       const uploadedImages: string[] = [];
 
-      try {
-        images.map(async (image) => {
-          const imagePublicUrl = await uploadImage(image);
-          uploadedImages.push(imagePublicUrl);
-        });
-      } catch (error) {
-        setIsFinalMsgTitle(translate('ERROR'));
-        setIsFinalMsgText(
-          (error as Error).message || 'Error al crear el tesoro'
-        );
+      for (const image of images) {
+        const res = await uploadImage(image);
+
+        if (res.error) return;
+
+        uploadedImages.push(res.url);
+      }
+
+      if (uploadedImages.length !== images.length) {
         setIsLoading(false);
+        setIsFinalMsgTitle(translate('ERROR'));
+        setIsFinalMsgText(translate('ERROR_IMAGE_UPLOAD'));
+        setOnCloseCallback(() => () => setIsFinalMsg(false));
+        setIsFinalMsg(true); // Mostrar el mensaje de error
         return;
       }
 
       const response = await newProduct(formData, materials, uploadedImages);
+
       if (response.success) {
         setIsFinalMsgTitle(translate('SUCCESS_TREASAURE_CREATION_TITLE'));
         setIsFinalMsgText(translate('SUCCESS_TREASAURE_CREATION_TEXT'));

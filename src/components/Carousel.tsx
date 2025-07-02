@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 
 // Types
 import { tesoros } from '@prisma/client';
 
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
+import { CldImage } from 'next-cloudinary';
 
 interface Props {
   tesoro: tesoros;
@@ -118,12 +118,12 @@ const Carousel = ({ tesoro }: Props) => {
             key={index}
             className="aspect-[3/4] w-full shrink-0 rounded-sm overflow-hidden flex items-center justify-center bg-black"
           >
-            <Image
+            <CldImage
+              width="600"
+              height="600"
               src={image}
+              sizes="100vw"
               alt={tesoro.name}
-              width={600}
-              height={600}
-              quality={100}
             />
           </div>
         ))}

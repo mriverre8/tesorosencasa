@@ -1,27 +1,30 @@
 'use server';
-import { createClient } from '@/supabase/server';
-import { randomUUID } from 'crypto';
 
 export async function uploadImage(image: File) {
-  const supabase = await createClient();
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!;
 
-  const path = `tesoros/${randomUUID()}`;
+  const formData = new FormData();
+  formData.append('file', image);
+  formData.append('upload_preset', 'tesorosencasa-uploads');
 
-  const { error } = await supabase.storage
-    .from('tesoros-bucket')
-    .upload(path, image);
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: 'POST',
+      body: formData,
+    }
+  );
 
-  if (error) throw new Error('Error al subir imagen: ' + error.message);
-
-  const { data: urlData } = supabase.storage
-    .from('tesoros-bucket')
-    .getPublicUrl(path);
-
-  console.log('[UPLOAD IMAGE] Upload image completed:', {
-    path: path,
-    publicUrl: urlData.publicUrl,
-    timestamp: new Date().toISOString(),
-  });
-
-  return urlData.publicUrl;
+  if (!res.ok) {
+    /* const errorText = await res.text(); */
+    return {
+      error: true,
+      /* errorText: errorText, */
+    };
+  }
+  const data = await res.json();
+  return {
+    error: false,
+    url: data.secure_url,
+  };
 }

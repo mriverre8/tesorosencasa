@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 
 // Components
 import LightboxLoader from '../../../../components/Lightbox/LightboxLoader';
@@ -229,12 +229,12 @@ const LightboxProduct = ({
                   key={index}
                   className="inline-block w-24 h-24 relative overflow-hidden rounded-lg bg-gray-200 shrink-0"
                 >
-                  <Image
+                  <CldImage
+                    width="960"
+                    height="600"
                     src={image}
-                    alt={`Preview ${index}`}
-                    width={96}
-                    height={96}
-                    className="object-cover w-full h-full"
+                    sizes="100vw"
+                    alt="Description of my image"
                   />
                 </div>
               ))}

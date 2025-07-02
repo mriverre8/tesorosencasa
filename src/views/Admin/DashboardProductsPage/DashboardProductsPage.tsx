@@ -23,6 +23,7 @@ import { tesoros } from '@prisma/client';
 // Translation
 import { translate } from '@/locales/translate';
 import Link from 'next/link';
+import { deleteImages } from '@/actions/deleteImages';
 
 interface Props {
   tesorosData: tesoros[];
@@ -51,6 +52,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
     setIsDeleteAllOpen(false);
     setIsLoading(true);
     await deleteProducts();
+    await deleteImages();
     setIsLoading(false);
     setTesoros([]);
   };

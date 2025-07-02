@@ -1,14 +1,32 @@
 'use server';
 
 import { createClient } from '@/supabase/server';
+import crypto from 'crypto';
+
+const generateSHA1 = (data: string) => {
+  return crypto.createHash('sha1').update(data).digest('hex');
+};
+
+const generateSignature = (
+  publicId: string,
+  timestamp: number,
+  apiSecret: string
+) => {
+  return generateSHA1(
+    `public_id=${publicId}&timestamp=${timestamp}${apiSecret}`
+  );
+};
 
 export async function deleteProductById(productId: string) {
   const supabase = await createClient();
-  const imageDataList: { path: string; file: Blob }[] = [];
-  const imagePaths: string[] = [];
+  const timestamp = Math.floor(Date.now() / 1000); // En segundos (recomendado por Cloudinary)
+
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME!;
+  const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY!;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET!;
 
   try {
-    // 1. Obtener el producto
+    // Obtener imágenes del producto
     const { data: product, error: fetchError } = await supabase
       .from('tesoros')
       .select('images')
@@ -16,82 +34,61 @@ export async function deleteProductById(productId: string) {
       .single();
 
     if (fetchError || !product) {
-      throw new Error('Error al obtener el producto');
+      throw new Error('No se encontró el producto.');
     }
 
-    const fullImageUrls: string[] = product.images || [];
+    const images: string[] = product.images || [];
+    const regex = /\/v\d+\/([^/]+)\.\w{3,4}$/;
 
-    // 2. Descargar imágenes y preparar paths
-    for (const url of fullImageUrls) {
-      const relativePath = url.split('/tesoros-bucket/').pop();
+    for (const imageUrl of images) {
+      const match = imageUrl.match(regex);
+      const publicId = match?.[1];
 
-      if (!relativePath) {
-        throw new Error(`URL inválida al eliminar imagen: ${url}`);
-      }
-
-      const response = await fetch(url);
-      if (!response.ok) {
-        console.warn('[DELETE PRODUCT WARN] Imagen no descargada:', url);
+      if (!publicId) {
+        console.warn('No se pudo extraer el public_id de la URL:', imageUrl);
         continue;
       }
-      const blob = await response.blob();
-      imageDataList.push({ path: relativePath, file: blob });
-      imagePaths.push(relativePath);
-    }
 
-    console.log('[DELETE PRODUCT] Imágenes a eliminar:', {
-      count: imagePaths.length,
-      paths: imagePaths,
-    });
+      const signature = generateSignature(publicId, timestamp, apiSecret);
 
-    // 3. Eliminar imágenes del bucket
-    if (imagePaths.length > 0) {
-      const { error: storageError } = await supabase.storage
-        .from('tesoros-bucket')
-        .remove(imagePaths);
+      const formData = new URLSearchParams();
+      formData.append('public_id', publicId);
+      formData.append('timestamp', timestamp.toString());
+      formData.append('api_key', apiKey);
+      formData.append('signature', signature);
 
-      if (storageError) {
-        throw new Error('Error al eliminar imágenes del bucket');
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString(),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.result !== 'ok') {
+        console.error(`Error al eliminar imagen ${publicId}:`, result);
       }
     }
 
-    // 4. Eliminar el producto
+    // Eliminar producto de la base de datos
     const { error: deleteError } = await supabase
       .from('tesoros')
       .delete()
       .eq('id', productId);
 
     if (deleteError) {
-      throw new Error('Error al eliminar el producto');
+      throw new Error('Error al eliminar el producto.');
     }
-
-    console.log('[DELETE PRODUCT] Producto eliminado correctamente', {
-      productId,
-      timestamp: new Date().toISOString(),
-    });
 
     return { success: true };
   } catch (err) {
-    console.error('[DELETE PRODUCT ERROR]', {
+    console.error('[ERROR AL ELIMINAR PRODUCTO]', {
       message: (err as Error).message,
-      timestamp: new Date().toISOString(),
+      time: new Date().toISOString(),
     });
-
-    // 5. Restaurar imágenes si algo falla
-    for (const { path, file } of imageDataList) {
-      const { error: reuploadError } = await supabase.storage
-        .from('tesoros-bucket')
-        .upload(path, file, { upsert: true });
-
-      if (reuploadError) {
-        console.error('[DELETE PRODUCT ERROR] Error al restaurar imagen:', {
-          path,
-          message: reuploadError.message,
-        });
-      } else {
-        console.log('[DELETE PRODUCT] Imagen restaurada:', path);
-      }
-    }
 
     return { success: false, message: (err as Error).message };
   }
