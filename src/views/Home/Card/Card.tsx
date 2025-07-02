@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 
 // Translation
@@ -7,6 +6,7 @@ import { translate } from '@/locales/translate';
 
 // Types
 import { tesoros } from '@prisma/client';
+import { CldImage } from 'next-cloudinary';
 
 interface Props {
   tesoro: tesoros;
@@ -17,12 +17,12 @@ const Card = ({ tesoro }: Props) => {
     <div className="flex flex-col justify-between bg-white rounded-md">
       <div>
         <div className="relative aspect-[3/4] w-full shrink-0 rounded-t-md overflow-hidden flex items-center justify-center bg-black">
-          <Image
+          <CldImage
+            width="600"
+            height="600"
             src={tesoro.images[0]}
+            sizes="100vw"
             alt={tesoro.name}
-            width={600}
-            height={600}
-            quality={100}
           />
         </div>
         <div className="flex flex-col gap-1 mx-3 my-1">
