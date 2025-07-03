@@ -64,7 +64,7 @@ export async function newProduct(
       timestamp: new Date().toISOString(),
     });
 
-    return { success: true };
+    return { error: false };
   } catch (err) {
     console.error('[NEW PRODUCT ERROR]', {
       message: (err as Error).message,
@@ -72,6 +72,6 @@ export async function newProduct(
       timestamp: new Date().toISOString(),
     });
 
-    return { success: false, message: (err as Error).message };
+    return { error: true };
   }
 }

@@ -23,13 +23,13 @@ export async function deleteProducts() {
       }
     );
 
-    return { success: true };
+    return { error: false };
   } catch (err) {
     console.error('[DELETE ALL PRODUCTS & STORAGE ERROR]', {
       message: (err as Error).message,
       timestamp: new Date().toISOString(),
     });
 
-    return { success: false, message: (err as Error).message };
+    return { error: true, message: (err as Error).message };
   }
 }

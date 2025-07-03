@@ -79,13 +79,13 @@ export default function CreateProductForm() {
 
       for (const image of images) {
         const res = await uploadImage(image);
-
-        if (res.error) return;
-
-        uploadedImages.push(res.url);
+        console.log('Image upload response:', res);
+        if (res.url) {
+          uploadedImages.push(res.url);
+        }
       }
 
-      if (uploadedImages.length !== images.length) {
+      if (uploadedImages.length === 0) {
         setIsLoading(false);
         setIsFinalMsgTitle(translate('ERROR'));
         setIsFinalMsgText(translate('ERROR_IMAGE_UPLOAD'));
@@ -96,7 +96,7 @@ export default function CreateProductForm() {
 
       const response = await newProduct(formData, materials, uploadedImages);
 
-      if (response.success) {
+      if (!response.error) {
         setIsFinalMsgTitle(translate('SUCCESS_TREASAURE_CREATION_TITLE'));
         setIsFinalMsgText(translate('SUCCESS_TREASAURE_CREATION_TEXT'));
         clearForm(); // Limpiar el formulario después de enviar
@@ -108,7 +108,7 @@ export default function CreateProductForm() {
         return;
       } else {
         setIsFinalMsgTitle(translate('ERROR'));
-        setIsFinalMsgText(response.message || 'Error al crear el tesoro');
+        setIsFinalMsgText(translate('ERROR_TREASAURE_CREATION'));
         setOnCloseCallback(() => () => setIsFinalMsg(false));
         setIsLoading(false);
         setIsFinalMsg(true); // Mostrar el mensaje de error
