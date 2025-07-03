@@ -62,7 +62,7 @@ const ProductPage = ({ productData }: Props) => {
           <h2 className="font-semibold">
             {translate('TREASAURE_FABRICATION')}
           </h2>
-          <div className="flex gap-5 flex-col">
+          <div className="flex gap-5 mobile:justify-center">
             <div className="flex flex-col">
               <p className="text-xs text-gray-400">
                 {translate('TREASAURE_MATERIAL')}

@@ -9,7 +9,7 @@ import { IoIosImages } from 'react-icons/io';
 import LightboxImages from '@/views/Admin/CreateProductForm/LightboxImages/LightboxImages';
 
 // Utils
-import { convertToWebP } from '@/utils/utils';
+/* import { convertToWebP } from '@/utils/utils'; */
 
 // Translation
 import { translate } from '@/locales/translate';
@@ -41,7 +41,7 @@ const InputImageFiles = ({ images, setImages }: Props) => {
 
     const newFiles = Array.from(e.target.files);
 
-    // Filtrar duplicados antes de conversión
+    // Filtrar duplicados
     const uniqueFiles = newFiles.filter(
       (newFile) =>
         !images.some(
@@ -56,7 +56,8 @@ const InputImageFiles = ({ images, setImages }: Props) => {
       return;
     }
 
-    try {
+    setImages((prevImages) => [...prevImages, ...uniqueFiles]);
+    /* try {
       // Convertir a WebP con manejo de errores
       const webpFiles = await Promise.all(
         uniqueFiles.map((file) =>
@@ -90,7 +91,7 @@ const InputImageFiles = ({ images, setImages }: Props) => {
       setIsFinalMsgTitle(translate('ERROR'));
       setIsFinalMsgText(translate('ERROR_UNEXTECTED_IMAGES'));
       setIsLightboxMsgOpen(true);
-    }
+    } */
   };
 
   // Función que abre el lightbox con la imagen seleccionada
