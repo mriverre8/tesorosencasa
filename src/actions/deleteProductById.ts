@@ -19,10 +19,8 @@ export async function deleteProductById(productId: string) {
 
     const images: string[] = product.images || [];
 
-    const regex = /\/v\d+\/([^/]+)\.\w{3,4}$/;
-
     for (const imageUrl of images) {
-      const match = imageUrl.match(regex);
+      const match = imageUrl.match(/upload\/.+?\/([^.]+)/);
       const publicId = match?.[1];
 
       if (!publicId) {
