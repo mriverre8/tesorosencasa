@@ -2,36 +2,24 @@ import React from 'react';
 import ButtonSecondary from '../ButtonSecondary';
 import ButtonPrimary from '../ButtonPrimary';
 import Lightbox from './Lightbox';
+import useLightboxOptions from '@/hooks/useLightboxOptions';
 
-interface Props {
-  isLightboxOpen: boolean;
-  onClose: () => void;
-  onAccept: () => void;
-  title: string;
-  text: string;
-  buttonText: string;
-  buttonText2: string;
-}
-const LightboxOptions = ({
-  isLightboxOpen,
-  onClose,
-  onAccept,
-  title,
-  text,
-  buttonText,
-  buttonText2,
-}: Props) => {
+const LightboxOptions = () => {
+  const lightboxOptions = useLightboxOptions();
   return (
-    <Lightbox isOpen={isLightboxOpen}>
+    <Lightbox isOpen={lightboxOptions.isOpen}>
       <div className="flex flex-col items-center justify-center text-center">
-        <h1 className="text-lg font-bold">{title}</h1>
-        <p className="text-sm">{text}</p>
+        <h1 className="text-lg font-bold">{lightboxOptions.title}</h1>
+        <p className="text-sm">{lightboxOptions.text}</p>
         <div className="flex flex-row gap-2 text-sm mt-5">
-          <ButtonSecondary buttonText={buttonText} buttonAction={onClose} />
+          <ButtonSecondary
+            buttonText={lightboxOptions.buttonText1}
+            buttonAction={lightboxOptions.onClose}
+          />
           <ButtonPrimary
             alternative={true}
-            buttonText={buttonText2}
-            buttonAction={onAccept}
+            buttonText={lightboxOptions.buttonText2}
+            buttonAction={lightboxOptions.onAccept}
           />
         </div>
       </div>

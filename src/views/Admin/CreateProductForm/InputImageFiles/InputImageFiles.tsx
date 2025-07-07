@@ -8,12 +8,11 @@ import { IoIosImages } from 'react-icons/io';
 // Components
 import LightboxImages from '@/views/Admin/CreateProductForm/LightboxImages/LightboxImages';
 
-// Utils
-/* import { convertToWebP } from '@/utils/utils'; */
-
 // Translation
 import { translate } from '@/locales/translate';
-import LightboxMessage from '@/components/Lightbox/LightboxMessage';
+
+// Hooks
+import useLightboxMessage from '@/hooks/useLightboxMessage';
 
 interface Props {
   images: File[];
@@ -29,9 +28,7 @@ const InputImageFiles = ({ images, setImages }: Props) => {
 
   // Estado que controla si el lightbox está abierto o cerrado
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [isLightboxMsgOpen, setIsLightboxMsgOpen] = useState(false);
-  const [isFinalMsgTitle, setIsFinalMsgTitle] = useState('');
-  const [isFinalMsgText, setIsFinalMsgText] = useState('');
+  const lightboxMessage = useLightboxMessage();
 
   // Función que se ejecuta cuando se añade un file al input
   // Se añade al array de imágenes si no está repetida
@@ -50,48 +47,16 @@ const InputImageFiles = ({ images, setImages }: Props) => {
     );
 
     if (images.length + uniqueFiles.length > 6) {
-      setIsFinalMsgTitle(translate('WARNING'));
-      setIsFinalMsgText(translate('MAX_IMAGES_LIMIT', { limit: 6 }));
-      setIsLightboxMsgOpen(true);
+      lightboxMessage.setContent(
+        translate('WARNING'),
+        translate('MAX_IMAGES_LIMIT', { limit: 6 }),
+        translate('GO_BACK')
+      );
+      lightboxMessage.onOpen();
       return;
     }
 
     setImages((prevImages) => [...prevImages, ...uniqueFiles]);
-    /* try {
-      // Convertir a WebP con manejo de errores
-      const webpFiles = await Promise.all(
-        uniqueFiles.map((file) =>
-          convertToWebP(file).catch((err) => {
-            console.error('Error al convertir imagen:', file.name, err);
-            setIsFinalMsgTitle(translate('ERROR'));
-            setIsFinalMsgText(
-              translate('ERROR_CANT_CONVERT_IMAGE', { fileName: file.name })
-            );
-            setIsLightboxMsgOpen(true);
-            return null; // Devuelve null si falla
-          })
-        )
-      );
-
-      // Filtrar archivos fallidos
-      const validWebpFiles = webpFiles.filter(
-        (file): file is File => file !== null
-      );
-
-      if (validWebpFiles.length === 0) {
-        setIsFinalMsgTitle(translate('ERROR'));
-        setIsFinalMsgText(translate('ERROR_CONVERTING_ANY_IMAGE'));
-        setIsLightboxMsgOpen(true);
-        return;
-      }
-
-      setImages((prevImages) => [...prevImages, ...validWebpFiles]);
-    } catch (error) {
-      console.error('Error al manejar los archivos de imagen:', error);
-      setIsFinalMsgTitle(translate('ERROR'));
-      setIsFinalMsgText(translate('ERROR_UNEXTECTED_IMAGES'));
-      setIsLightboxMsgOpen(true);
-    } */
   };
 
   // Función que abre el lightbox con la imagen seleccionada
@@ -165,17 +130,6 @@ const InputImageFiles = ({ images, setImages }: Props) => {
         data={selectedImage}
         closeLightbox={() => setIsLightboxOpen(false)}
         setImages={setImages}
-      />
-      <LightboxMessage
-        isLightboxOpen={isLightboxMsgOpen}
-        onClose={() => {
-          setIsLightboxMsgOpen(false);
-          setIsFinalMsgText('');
-          setIsFinalMsgTitle('');
-        }}
-        title={isFinalMsgTitle}
-        text={isFinalMsgText}
-        buttonText={translate('GO_BACK')}
       />
     </>
   );

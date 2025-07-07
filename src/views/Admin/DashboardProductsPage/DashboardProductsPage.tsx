@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
@@ -9,58 +10,66 @@ import { IoAdd } from 'react-icons/io5';
 
 // Actions
 import { deleteProducts } from '@/actions/deleteProducts';
+import { deleteImages } from '@/actions/deleteImages';
 
 // Components
 import ProductCard from './ProductCard/ProductCard';
 import LightboxProduct from '@/views/Admin/DashboardProductsPage/LightboxProduct/LightboxProduct';
-import LightboxMessage from '@/components/Lightbox/LightboxMessage';
-import LightboxOptions from '@/components/Lightbox/LightboxOptions';
-import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 
 // Types
 import { tesoros } from '@prisma/client';
 
+//Hooks
+import useLightboxOptions from '@/hooks/useLightboxOptions';
+import useLoader from '@/hooks/useLoader';
+import useLightboxProduct from '@/hooks/useLightboxProduct';
+
 // Translation
 import { translate } from '@/locales/translate';
-import Link from 'next/link';
-import { deleteImages } from '@/actions/deleteImages';
 
 interface Props {
   tesorosData: tesoros[];
 }
 
 export default function DashboardProductsPage({ tesorosData }: Props) {
+  const lightboxLoader = useLoader();
+  const lightboxOptions = useLightboxOptions();
+  const lightboxProduct = useLightboxProduct();
+
   const [tesoros, setTesoros] = useState<tesoros[]>(tesorosData);
-  const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<tesoros | null>(null);
-  const [isProductLightboxOpen, setIsProductLightboxOpen] = useState(false);
-  const [isFinalMsg, setIsFinalMsg] = useState(false);
-  const [isFinalMsgTitle, setIsFinalMsgTitle] = useState('');
-  const [isFinalMsgText, setIsFinalMsgText] = useState('');
-  const [isDeleteAllOpen, setIsDeleteAllOpen] = useState(false);
 
   const filteredTesoros = tesoros.filter((tesoro) =>
     tesoro.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handlePreview = (tesoro: tesoros) => {
-    setSelectedProduct(tesoro);
-    setIsProductLightboxOpen(true);
-  };
   const handleDeleteAll = async () => {
-    setIsDeleteAllOpen(false);
-    setIsLoading(true);
+    lightboxOptions.onClose();
+    lightboxLoader.onOpen();
     const res = await deleteProducts();
     if (!res.error) {
       await deleteImages();
     }
-    setIsLoading(false);
     setTesoros([]);
+    lightboxLoader.onClose();
   };
 
-  const reopenProductLightbox = () => {
-    setIsProductLightboxOpen(true);
+  const handleDeleteAllLightbox = () => {
+    lightboxOptions.setContent(
+      translate('DELETE_ALL_TREASURES_TITLE'),
+      translate('DELETE_ALL_TREASURES_TEXT'),
+      translate('GO_BACK'),
+      translate('DELETE'),
+      handleDeleteAll
+    );
+    lightboxOptions.onOpen();
+  };
+
+  const handlePreview = (tesoro: tesoros) => {
+    setSelectedProduct(tesoro);
+    lightboxProduct.setContent(tesoro, () => {});
+    lightboxProduct.onOpen();
   };
 
   return (
@@ -81,7 +90,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
           <div hidden={tesoros.length === 0}>
             <RiDeleteBin5Line
               className="text-red-500 text-2xl ml-2"
-              onClick={() => setIsDeleteAllOpen(true)}
+              onClick={() => handleDeleteAllLightbox()}
             />
           </div>
         </div>
@@ -104,37 +113,8 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
         </div>
       </div>
       {selectedProduct && (
-        <LightboxProduct
-          isLightboxOpen={isProductLightboxOpen}
-          onClose={() => setIsProductLightboxOpen(false)}
-          setIsFinalMsgTitle={setIsFinalMsgTitle}
-          setIsFinalMsgText={setIsFinalMsgText}
-          tesoro={selectedProduct}
-          onDelete={() => {
-            setIsFinalMsg(true);
-          }}
-          reopen={reopenProductLightbox}
-          setTesoros={setTesoros}
-          tesoros={tesoros}
-        />
+        <LightboxProduct tesoros={tesoros} setTesoros={setTesoros} />
       )}
-      <LightboxMessage
-        isLightboxOpen={isFinalMsg}
-        onClose={() => setIsFinalMsg(false)}
-        title={isFinalMsgTitle}
-        text={isFinalMsgText}
-        buttonText={translate('GO_BACK')}
-      />
-      <LightboxOptions
-        isLightboxOpen={isDeleteAllOpen}
-        onClose={() => setIsDeleteAllOpen(false)}
-        onAccept={() => handleDeleteAll()}
-        title={translate('DELETE_ALL_TREASURES_TITLE')}
-        text={translate('DELETE_ALL_TREASURES_TEXT')}
-        buttonText={translate('GO_BACK')}
-        buttonText2={translate('DELETE')}
-      />
-      <LightboxLoader isLightboxOpen={isLoading} />
     </>
   );
 }

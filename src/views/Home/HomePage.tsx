@@ -3,12 +3,14 @@
 import React, { /* useEffect, */ useState } from 'react';
 
 // Components
-import LightboxLoader from '@/components/Lightbox/LightboxLoader';
 import ActiveFiltersContainer from '@/views/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
 import SearchBar from './SearchBar/SearchBar';
 import LightboxFilters from '@/views/Home/LightboxFilters/LightboxFilters';
 import CardMobile from './CardMobile/CardMobile';
 import Card from './Card/Card';
+
+// Hooks
+import useLoader from '@/hooks/useLoader';
 
 // Types
 import { tesoros } from '@prisma/client';
@@ -25,7 +27,7 @@ interface Props {
 }
 
 const HomePage = ({ filtersData, tesorosData }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const loader = useLoader();
   const [isLightboxFiltersOpen, setIsLightboxFiltersOpen] = useState(false);
 
   const [tesoros, setTesoros] = useState(tesorosData);
@@ -45,7 +47,7 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
     const effectivePageSize = optionalPageSize ?? pageSize;
     const effectiveSearchTerm = optionalSearchTerm ?? searchTerm;
 
-    setIsLoading(true);
+    loader.onOpen();
     setFilters(effectiveFilters);
     setSearchTerm(effectiveSearchTerm);
     setPageSize(effectivePageSize);
@@ -56,12 +58,12 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
       effectiveSearchTerm
     );
     setTesoros(filteredTesoros);
-    setIsLoading(false);
+    loader.onClose();
   };
 
   const handleLoadMore = async () => {
     const newPageSize = pageSize + 15;
-    setIsLoading(true);
+    loader.onOpen();
 
     const newTesoros = await getProductsByFilters(
       newPageSize,
@@ -76,7 +78,7 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
       setPageSize(newPageSize);
     }
 
-    setIsLoading(false);
+    loader.onClose();
   };
 
   return (
@@ -127,7 +129,6 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
         )}
       </div>
       {/* Lightboxes */}
-      <LightboxLoader isLightboxOpen={isLoading} />
       <LightboxFilters
         isLightboxOpen={isLightboxFiltersOpen}
         closeLightbox={() => setIsLightboxFiltersOpen(false)}
