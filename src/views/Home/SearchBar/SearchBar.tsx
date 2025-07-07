@@ -45,7 +45,7 @@ const SearchBar = ({
   return (
     <div className="flex justify-center items-center gap-2 pr-1 relative mt-2.5">
       <button
-        className={`${disabled ? '' : 'bg-white'} p-2.5 rounded-full border relative hover:outline-none hover:ring-primary ${isLightboxFiltersOpen ? 'ring-1 ring-primary' : ''}`}
+        className={`${disabled ? 'bg-gray-200/10' : 'bg-white'} p-2.5 rounded-full border relative hover:outline-none hover:ring-primary ${isLightboxFiltersOpen ? 'ring-1 ring-primary' : ''}`}
         onClick={() => {
           setIsLightboxFiltersOpen(!isLightboxFiltersOpen);
         }}

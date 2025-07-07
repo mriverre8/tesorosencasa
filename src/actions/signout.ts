@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import { createClient } from '@/supabase/server';
@@ -25,6 +24,5 @@ export async function signout() {
     timestamp: new Date().toISOString(),
   });
 
-  revalidatePath('/', 'layout');
-  redirect('/');
+  return { error: false, message: 'User signed out successfully' };
 }

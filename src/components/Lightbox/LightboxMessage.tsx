@@ -1,28 +1,20 @@
 import React from 'react';
 import ButtonPrimary from '../ButtonPrimary';
 import Lightbox from './Lightbox';
+import useLightboxMessage from '@/hooks/useLightboxMessage';
 
-interface Props {
-  isLightboxOpen: boolean;
-  onClose: () => void;
-  title: string;
-  text: string;
-  buttonText: string;
-}
-const LightboxMessage = ({
-  isLightboxOpen,
-  onClose,
-  title,
-  text,
-  buttonText,
-}: Props) => {
+const LightboxMessage = () => {
+  const lightboxMessage = useLightboxMessage();
   return (
-    <Lightbox isOpen={isLightboxOpen}>
+    <Lightbox isOpen={lightboxMessage.isOpen}>
       <div className="flex flex-col items-center justify-center text-center">
-        <h1 className="text-lg font-bold">{title}</h1>
-        <p className="text-sm mb-5">{text}</p>
+        <h1 className="text-lg font-bold">{lightboxMessage.title}</h1>
+        <p className="text-sm mb-5">{lightboxMessage.text}</p>
         <div className="text-sm">
-          <ButtonPrimary buttonText={buttonText} buttonAction={onClose} />
+          <ButtonPrimary
+            buttonText={lightboxMessage.buttonText}
+            buttonAction={lightboxMessage.onClose}
+          />
         </div>
       </div>
     </Lightbox>

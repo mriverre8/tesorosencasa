@@ -1,6 +1,7 @@
 import React from 'react';
 import './globals.css';
 import { Parkinsans } from 'next/font/google';
+import ModalContainer from '@/components/ModalContainer';
 
 const font = Parkinsans({ subsets: ['latin'] });
 
@@ -28,7 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={font.className}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ModalContainer />
+      </body>
     </html>
   );
 }
