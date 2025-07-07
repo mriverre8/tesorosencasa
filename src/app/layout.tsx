@@ -12,10 +12,7 @@ export const metadata = {
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '48x48' },
-      /* { url: '/favicon.svg', type: 'image/svg+xml' }, */
-      { url: '/favicon-16.png', type: 'image/png', sizes: '16x16' },
-      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
-      { url: '/favicon-96.png', type: 'image/png', sizes: '96x96' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
     shortcut: '/favicon.ico',
     apple: '/apple-icon.png',
@@ -29,6 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={font.className}>
+      <head>
+        <meta name="apple-mobile-web-app-title" content="Tesoros en Casa" />
+      </head>
       <body>
         {children}
         <ModalContainer />
