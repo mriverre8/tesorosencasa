@@ -17,9 +17,11 @@ import { signup } from '@/actions/signup';
 import useLoader from '@/hooks/useLoader';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 const Register = () => {
+  const translate = useTranslations();
+
   const loader = useLoader();
 
   const initialForm = {

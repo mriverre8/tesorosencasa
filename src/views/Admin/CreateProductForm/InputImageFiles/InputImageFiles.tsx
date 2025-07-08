@@ -9,7 +9,7 @@ import { IoIosImages } from 'react-icons/io';
 import LightboxImages from '@/views/Admin/CreateProductForm/LightboxImages/LightboxImages';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Hooks
 import useLightboxMessage from '@/hooks/useLightboxMessage';
@@ -20,6 +20,8 @@ interface Props {
 }
 
 const InputImageFiles = ({ images, setImages }: Props) => {
+  const translate = useTranslations();
+
   // Contiene un objeto (index, f) que representa la imagen seleccionada para mostrar en el lightbox
   const [selectedImage, setSelectedImage] = useState<{
     index: number;

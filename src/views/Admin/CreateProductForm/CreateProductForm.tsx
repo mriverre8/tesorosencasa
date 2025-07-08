@@ -21,10 +21,12 @@ import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/Input
 import InputMaterial from './InputMaterial/InputMaterial';
 
 //Translation
-import { translate } from '@/locales/translate';
 import { uploadImage } from '@/actions/uploadImage';
+import { useTranslations } from 'next-intl';
 
 export default function CreateProductForm() {
+  const translate = useTranslations();
+
   const lightboxLoader = useLoader();
   const lightboxMessage = useLightboxMessage();
 

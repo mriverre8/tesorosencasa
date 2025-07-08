@@ -4,7 +4,7 @@ import React from 'react';
 import Carousel from '../../../components/Carousel';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Types
 import { tesoros } from '@prisma/client';
@@ -14,6 +14,8 @@ interface Props {
 }
 
 const CardMobile = ({ tesoro }: Props) => {
+  const translate = useTranslations();
+
   return (
     <div className="flex flex-col mb-2">
       <Carousel tesoro={tesoro} />

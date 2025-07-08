@@ -5,12 +5,14 @@ import Layout from '@/components/Layout';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { translate } from '@/locales/translate';
 import useLoader from '@/hooks/useLoader';
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 import { redirect } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 const TopbarAdmin = () => {
+  const translate = useTranslations();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const lightboxLoader = useLoader();
   const lightboxOptions = useLightboxOptions();

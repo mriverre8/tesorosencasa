@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Icons
 import { FaSpinner } from 'react-icons/fa';
@@ -11,6 +11,8 @@ import Lightbox from './Lightbox';
 import useLoader from '@/hooks/useLoader';
 
 const LightboxLoader = () => {
+  const translate = useTranslations();
+
   const lightboxLoader = useLoader();
   return (
     <Lightbox isOpen={lightboxLoader.isOpen} onClose={lightboxLoader.onClose}>

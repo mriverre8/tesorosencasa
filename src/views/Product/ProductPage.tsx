@@ -2,8 +2,8 @@
 
 import Carousel from '@/components/Carousel';
 import CarouselHorizontal from '@/components/CarouselHorizontal';
-import { translate } from '@/locales/translate';
 import { tesoros } from '@prisma/client';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import React from 'react';
 
@@ -12,6 +12,8 @@ interface Props {
 }
 
 const ProductPage = ({ productData }: Props) => {
+  const translate = useTranslations();
+
   return (
     <div className="flex flex-col gap-5 justify-center items-center mobile:text-center">
       <div className="flex justify-center items-center">

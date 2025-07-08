@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Types
 import { tesoros } from '@prisma/client';
@@ -13,6 +13,8 @@ interface Props {
 }
 
 const Card = ({ tesoro }: Props) => {
+  const translate = useTranslations();
+
   return (
     <div className="flex flex-col justify-between bg-white rounded-md">
       <div>

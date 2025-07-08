@@ -19,7 +19,7 @@ import { tesoros } from '@prisma/client';
 import { getProductsByFilters } from '@/actions/getProductsByFilters';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   filtersData: Record<string, (string | number)[]>;
@@ -27,6 +27,8 @@ interface Props {
 }
 
 const HomePage = ({ filtersData, tesorosData }: Props) => {
+  const translate = useTranslations();
+
   const loader = useLoader();
   const [isLightboxFiltersOpen, setIsLightboxFiltersOpen] = useState(false);
 
