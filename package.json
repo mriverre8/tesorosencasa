@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write ."
+    "lint": "next lint --max-warnings 0",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'",
+    "check-format": "prettier --check 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@prisma/client": "^6.3.1",
