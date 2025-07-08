@@ -25,13 +25,15 @@ import useLoader from '@/hooks/useLoader';
 import useLightboxProduct from '@/hooks/useLightboxProduct';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   tesorosData: tesoros[];
 }
 
 export default function DashboardProductsPage({ tesorosData }: Props) {
+  const translate = useTranslations();
+
   const lightboxLoader = useLoader();
   const lightboxOptions = useLightboxOptions();
   const lightboxProduct = useLightboxProduct();

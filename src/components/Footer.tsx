@@ -1,9 +1,11 @@
 import React from 'react';
 import Layout from './Layout';
 import { FaInstagram } from 'react-icons/fa';
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 const Footer = () => {
+  const translate = useTranslations();
+
   return (
     <div className="border-t">
       <Layout>

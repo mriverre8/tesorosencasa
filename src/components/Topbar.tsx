@@ -3,14 +3,16 @@
 import React /* , { useState } */ from 'react';
 import Link from 'next/link';
 import Layout from './Layout';
-import { translate } from '@/locales/translate';
 import { MdAdminPanelSettings } from 'react-icons/md';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   isAdminLogged: boolean;
 }
 
 const Topbar = ({ isAdminLogged }: Props) => {
+  const translate = useTranslations();
+
   return (
     <nav className="bg-white bg-opacity-80 backdrop-blur-md fixed top-0 w-full border-b z-50">
       <Layout>

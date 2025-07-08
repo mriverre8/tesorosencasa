@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
@@ -26,6 +26,8 @@ const SearchBar = ({
   onChangeFilters,
   disabled,
 }: Props) => {
+  const translate = useTranslations();
+
   const [searchTerm, setSearchTerm] = useState('');
   const lastSearchTerm = useRef('');
 

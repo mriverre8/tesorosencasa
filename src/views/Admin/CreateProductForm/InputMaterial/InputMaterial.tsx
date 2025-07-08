@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   materials: string[];
@@ -9,6 +9,8 @@ interface Props {
 }
 
 const InputMaterial = ({ materials, setMaterials }: Props) => {
+  const translate = useTranslations();
+
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState('');
 

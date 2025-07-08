@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "format": "prettier --write ."
+    "lint": "next lint --max-warnings 0",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'",
+    "check-format": "prettier --check 'src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@prisma/client": "^6.3.1",
@@ -16,6 +17,7 @@
     "cloudinary": "^2.7.0",
     "next": "^15.3.2",
     "next-cloudinary": "^6.16.0",
+    "next-intl": "^4.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",

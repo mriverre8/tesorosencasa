@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Icons
 import { IoIosArrowForward } from 'react-icons/io';
@@ -31,6 +31,8 @@ const LightboxFilters = ({
   onChangeFilters,
   closeLightbox,
 }: Props) => {
+  const translate = useTranslations();
+
   const [openDropdown, setOpenDropdown] = useState<Record<string, boolean>>({});
   const [selectedFilters, setSelectedFilters] = useState<
     Record<string, (string | number)[]>
