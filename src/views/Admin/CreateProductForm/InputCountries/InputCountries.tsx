@@ -8,7 +8,7 @@ import { findCountryByName } from '@/utils/utilsForm';
 import countriesMock from '@/mocks/countries.json';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   value: string;
@@ -16,6 +16,8 @@ interface Props {
 }
 
 const InputCountries = ({ value, updateForm }: Props) => {
+  const translate = useTranslations();
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Contiene los países que se obtienen de la API

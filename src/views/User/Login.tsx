@@ -14,7 +14,7 @@ import { MdLock } from 'react-icons/md';
 import { login } from '@/actions/login';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Hooks
 import useLightboxMessage from '@/hooks/useLightboxMessage';
@@ -26,6 +26,8 @@ const initialForm = {
 };
 
 const Login = () => {
+  const translate = useTranslations();
+
   const loader = useLoader();
   const lightboxMessage = useLightboxMessage();
 

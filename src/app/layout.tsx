@@ -2,6 +2,8 @@ import React from 'react';
 import './globals.css';
 import { Parkinsans } from 'next/font/google';
 import ModalContainer from '@/components/ModalContainer';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale } from 'next-intl/server';
 
 const font = Parkinsans({ subsets: ['latin'] });
 
@@ -19,19 +21,22 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
-    <html lang="en" className={font.className}>
+    <html lang={locale} className={font.className}>
       <head>
         <meta name="apple-mobile-web-app-title" content="Tesoros en Casa" />
       </head>
       <body>
-        {children}
-        <ModalContainer />
+        <NextIntlClientProvider>
+          {children}
+          <ModalContainer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

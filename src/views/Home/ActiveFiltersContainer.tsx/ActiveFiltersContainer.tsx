@@ -3,7 +3,7 @@
 import React from 'react';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Icons
 import { IoClose } from 'react-icons/io5';
@@ -18,6 +18,8 @@ interface Props {
 }
 
 const ActiveFiltersContainer = ({ filters, onChangeFilters }: Props) => {
+  const translate = useTranslations();
+
   const handleRemoveFilter = (category: string, value: string | number) => {
     const newFilters = { ...filters };
 

@@ -21,7 +21,7 @@ import useLoader from '@/hooks/useLoader';
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 // Icons
 import { IoMdShare } from 'react-icons/io';
@@ -31,6 +31,8 @@ interface Props {
   setTesoros: (value: tesoros[]) => void;
 }
 const LightboxProduct = ({ tesoros, setTesoros }: Props) => {
+  const translate = useTranslations();
+
   const lightboxProduct = useLightboxProduct();
   const lightboxOptions = useLightboxOptions();
   const lightboxLoader = useLoader();

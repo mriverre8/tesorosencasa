@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 const CONDITIONS = [
   'CONDITION_1',
@@ -17,6 +17,8 @@ interface Props {
 }
 
 const InputCondition = ({ value, updateForm }: Props) => {
+  const translate = useTranslations();
+
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 

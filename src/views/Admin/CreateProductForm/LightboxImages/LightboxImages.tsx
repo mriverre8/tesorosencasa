@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 
 // Translation
-import { translate } from '@/locales/translate';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   isLightboxOpen: boolean;
@@ -19,6 +19,8 @@ const LightboxImages = ({
   data,
   setImages,
 }: Props) => {
+  const translate = useTranslations();
+
   // Función que elimina la imagen seleccionada del array de imágenes y cierra el lightbox
   const removeImage = (index: number) => {
     setImages((prevImages) => prevImages.filter((_, i) => i !== index));
