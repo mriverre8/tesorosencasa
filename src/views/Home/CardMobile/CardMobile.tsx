@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 
 // Components
 import Carousel from '../../../components/Carousel';
@@ -8,6 +10,7 @@ import { useTranslations } from 'next-intl';
 
 // Types
 import { tesoros } from '@prisma/client';
+import { IoMdShare } from 'react-icons/io';
 
 interface Props {
   tesoro: tesoros;
@@ -16,15 +19,43 @@ interface Props {
 const CardMobile = ({ tesoro }: Props) => {
   const translate = useTranslations();
 
+  const [copiado, setCopiado] = useState(false);
+
+  const handleShare = () => {
+    const url = `https://tesorosencasa.vercel.app/tesoro/${tesoro.id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 10000);
+    });
+  };
+
   return (
     <div className="flex flex-col mb-2">
       <Carousel tesoro={tesoro} />
-      <div className="flex flex-col text-sm  mx-1 leading-tight mt-1 mb-1">
-        <h3 className="font-semibold  line-clamp-2  text-xl ">{tesoro.name}</h3>
-        {tesoro.brand && (
-          <p className="font-light line-clamp-2 ">{tesoro.brand}</p>
-        )}
+
+      <div className="flex justify-between gap-5">
+        <div className="flex flex-col text-sm  mx-1 leading-tight mt-1 mb-1">
+          <h3 className="font-semibold  line-clamp-2  text-xl ">
+            {tesoro.name}
+          </h3>
+          {tesoro.brand && (
+            <p className="font-light line-clamp-2 ">{tesoro.brand}</p>
+          )}
+        </div>
+        <button
+          onClick={handleShare}
+          className="flex justify-start items-start pt-1.5"
+        >
+          <IoMdShare className="text-xl text-secondary hover:text-secondary-hover" />
+        </button>
       </div>
+      {copiado && (
+        <div className="w-full mx-1">
+          <span className=" text-xs text-secondary ">
+            {translate('LINK_COPIED')}
+          </span>
+        </div>
+      )}
       <div className="flex px-1 mt-1 text-sm">
         <div className="flex flex-col">
           <p className="text-xs text-gray-400 whitespace-nowrap">
