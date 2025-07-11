@@ -78,6 +78,7 @@
   "INPUT_PRODUCT_IMAGES_EMPTY": "Por favor, añade al menos una imagen del tesoro.",
   "ACCEPT": "Aceptar",
   "CANCEL": "Cancelar",
+  "CONTINUE": "Continuar",
   "DELETE_TREASURE_TITLE": "Eliminar tesoro",
   "DELETE_ALL_TREASURES_TITLE": "Eliminar todos los tesoros",
   "DELETE_ALL_TREASURES_TEXT": "¿Estás seguro de que deseas eliminar todos los tesoros? Esta acción no se puede deshacer.",
@@ -98,5 +99,11 @@
   "SIGN_OUT_CONFIRMATION": "¿Estás seguro de que deseas cerrar sesión?",
   "LINK_COPIED": "Enlace copiado al portapapeles",
   "ERROR_IMAGE_UPLOAD": "Error al subir las imagenes.",
-  "ERROR_TREASAURE_CREATION": "Error al crear el tesoro. Por favor, revisa los datos e inténtalo de nuevo."
+  "ERROR_TREASAURE_CREATION": "Error al crear el tesoro. Por favor, revisa los datos e inténtalo de nuevo.",
+  "EXIT_CREATING_WARNING_TITLE": "¿Quieres abandonar la creación del tesoro?",
+  "EXIT_CREATING_WARNING_TEXT": "Si sales ahora, perderás todos los cambios realizados.",
+  "YES_EXIT": "Sí, salir",
+  "EXIT": "Salir",
+  "NEXT": "Siguiente",
+  "CREATE_TREASAURE": "Crear tesoro"
 }

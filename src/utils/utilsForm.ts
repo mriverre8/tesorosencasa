@@ -9,8 +9,7 @@ export const findCountryByName = (
 
 export const acceptOnlyNumbers = (
   e: React.ChangeEvent<HTMLInputElement>,
-  formValue: string,
-  updateForm: (field: string, value: string) => void,
+  setValue: (value: string) => void,
   blockComma = false
 ) => {
   const value = e.target.value;
@@ -19,6 +18,6 @@ export const acceptOnlyNumbers = (
   const regex = blockComma ? /^\d*$/ : /^\d*(,\d{0,2})?$/;
 
   if (regex.test(value)) {
-    updateForm(formValue, value);
+    setValue(value);
   }
 };

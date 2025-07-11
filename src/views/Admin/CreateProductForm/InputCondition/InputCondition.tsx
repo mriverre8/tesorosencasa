@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-
-// Translation
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { HiOutlineSelector } from 'react-icons/hi';
 
 const CONDITIONS = [
   'CONDITION_1',
@@ -12,85 +11,106 @@ const CONDITIONS = [
 ] as const;
 
 interface Props {
-  value: string;
-  updateForm: (key: string, value: string) => void;
+  condition: string[];
+  setCondition: (condition: string[]) => void;
 }
 
-const InputCondition = ({ value, updateForm }: Props) => {
+const InputCondition = ({ condition, setCondition }: Props) => {
   const translate = useTranslations();
 
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Cerrar dropdown si se hace clic fuera
+  const handleAddOption = (selection: string) => {
+    if (selection && !condition.includes(selection)) {
+      setCondition([...condition, selection]);
+      setIsDropdownOpen(false);
+    }
+  };
+
+  const handleRemoveOption = (optionToRemove: string) => {
+    setCondition(condition.filter((opt) => opt !== optionToRemove));
+  };
+
+  const toggleDropdown = () => {
+    if (condition.length < CONDITIONS.length) {
+      setIsDropdownOpen((prev) => !prev);
+    }
+  };
+
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        setShowDropdown(false);
+        setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSelect = (condition: string) => {
-    updateForm('condition', condition);
-    setShowDropdown(false);
-  };
-
-  const clearSelection = (e: React.MouseEvent) => {
-    e.preventDefault();
-    updateForm('condition', translate('CONDITION_6'));
-    setShowDropdown(false);
-  };
-
   return (
-    <div className="relative w-full" ref={dropdownRef}>
-      <label htmlFor="condition" className="px-0.5 text-sm block mb-1">
-        {translate('TREASSAURE_CONDITION')}
-      </label>
-      <input type="hidden" name="condition" value={value} />
-      <div className="relative">
-        <button
-          type="button"
-          className={`w-full border rounded-full py-2 px-4 text-left bg-white focus:ring-2 focus:ring-primary outline-none ${
-            value !== translate('CONDITION_6') ? 'text-black' : 'text-gray-400'
-          }`}
-          onClick={() => setShowDropdown((prev) => !prev)}
-        >
-          {value}
-        </button>
+    <>
+      <div className="flex flex-col gap-1 mb-2 relative" ref={dropdownRef}>
+        <label htmlFor="dropdown-button" className="px-0.5 text-sm">
+          {translate('TREASSAURE_CONDITION')}
+        </label>
 
-        {value !== translate('CONDITION_6') && (
+        <div className="flex relative justify-end items-center">
           <button
-            onClick={clearSelection}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            id="dropdown-button"
+            type="button"
+            onClick={toggleDropdown}
+            className="border rounded-lg focus:ring-2 outline-none focus:ring-primary w-full px-2.5 py-2 text-left bg-white"
+            disabled={condition.length === CONDITIONS.length}
           >
-            ✕
+            {condition.length > 0
+              ? 'Selecciona una opción'
+              : translate('CONDITION_6')}
           </button>
+          <HiOutlineSelector className="absolute mr-2 pointer-events-none" />
+        </div>
+        {isDropdownOpen && (
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow z-10">
+            {CONDITIONS.filter((opt) => !condition.includes(opt)).map((opt) => (
+              <button
+                key={opt}
+                type="button"
+                onClick={() => handleAddOption(opt)}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+              >
+                {translate(opt)}
+              </button>
+            ))}
+          </div>
         )}
       </div>
 
-      {showDropdown && (
-        <ul className="absolute left-0 w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 max-h-48 overflow-y-auto z-10">
-          {CONDITIONS.map((condition, index) => (
-            <li
-              key={index}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm"
-              onMouseDown={() => handleSelect(translate(condition))}
+      <div className="flex flex-col">
+        {condition.map((option, index) => (
+          <div
+            key={option}
+            className="flex items-center justify-between px-4 py-2 text-sm"
+          >
+            <div className="flex text-sm gap-2">
+              <p className="font-semibold">{index + 1}.</p>{' '}
+              <p>{translate(option)}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => handleRemoveOption(option)}
+              className="text-red-600 hover:underline"
             >
-              {translate(condition)}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+              {translate('DELETE')}
+            </button>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 

@@ -2,50 +2,47 @@
 
 import React from 'react';
 import Image from 'next/image';
-
-// Translation
 import { useTranslations } from 'next-intl';
+import useCreateProductForm from '@/hooks/useCreateProductForm';
 
 interface Props {
   isLightboxOpen: boolean;
   closeLightbox: () => void;
-  data: { index: number; imageFile: File };
-  setImages: (updateFn: (prevImages: File[]) => File[]) => void;
+  index: number;
 }
 
-const LightboxImages = ({
-  isLightboxOpen,
-  closeLightbox,
-  data,
-  setImages,
-}: Props) => {
+const LightboxImages = ({ isLightboxOpen, closeLightbox, index }: Props) => {
   const translate = useTranslations();
+  const { productImages, setProductImages } = useCreateProductForm();
 
-  // Función que elimina la imagen seleccionada del array de imágenes y cierra el lightbox
-  const removeImage = (index: number) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  const file = productImages[index];
+
+  const removeImage = () => {
+    const newImages = productImages.filter((_, i) => i !== index);
+    setProductImages(newImages);
     closeLightbox();
   };
 
-  if (!isLightboxOpen || !data) return null;
+  if (!isLightboxOpen || !file) return null;
 
   return (
     <div className="bg-black/70 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5">
       <div className="flex items-start justify-center h-full w-full pt-20">
-        <div className="">
+        <div>
           <div className="relative aspect-[3/4] w-full overflow-hidden flex items-center justify-center bg-black rounded-sm">
             <Image
-              src={URL.createObjectURL(data.imageFile)}
-              alt={`Preview ${data.index}`}
+              src={URL.createObjectURL(file)}
+              alt={`Preview ${index}`}
               width={600}
               height={600}
               quality={100}
               className="rounded-sm"
             />
           </div>
-          <div className="text-center">
-            <p className="text-white">
-              {(data.imageFile.size / (1024 * 1024)).toFixed(2)} MB
+
+          <div className="text-center mt-2">
+            <p className="text-white text-sm">
+              {(file.size / (1024 * 1024)).toFixed(2)} MB
             </p>
           </div>
 
@@ -58,7 +55,7 @@ const LightboxImages = ({
             </button>
             <button
               className="bg-red-600 rounded-full py-0.5 px-4 text-white w-full text-sm"
-              onClick={() => removeImage(data.index)}
+              onClick={removeImage}
             >
               {translate('DELETE')}
             </button>

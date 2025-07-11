@@ -11,11 +11,11 @@ import countriesMock from '@/mocks/countries.json';
 import { useTranslations } from 'next-intl';
 
 interface Props {
-  value: string;
-  updateForm: (key: string, value: string) => void;
+  country: string;
+  setCountry: (countrie: string) => void;
 }
 
-const InputCountries = ({ value, updateForm }: Props) => {
+const InputCountries = ({ country, setCountry }: Props) => {
   const translate = useTranslations();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,10 +39,10 @@ const InputCountries = ({ value, updateForm }: Props) => {
     const matchedCountry = findCountryByName(countries, inputValue);
 
     if (matchedCountry) {
-      updateForm('origin', matchedCountry.name);
+      setCountry(matchedCountry.name);
       setSelectedCountry(matchedCountry.flag);
     } else {
-      updateForm('origin', inputValue);
+      setCountry(inputValue);
       setSelectedCountry('');
     }
   };
@@ -52,7 +52,7 @@ const InputCountries = ({ value, updateForm }: Props) => {
   // Si no, lo deja como texto plano y cierra el dropdown
   const handlleOriginBlur = () => {
     if (selectedCountry === '') {
-      updateForm('origin', '');
+      setCountry('');
     }
     setShowDropdown(false);
   };
@@ -60,7 +60,7 @@ const InputCountries = ({ value, updateForm }: Props) => {
   // Limpia el input de origen (resetea los valores)
   const clearInput = (e: React.MouseEvent) => {
     e.preventDefault();
-    updateForm('origin', '');
+    setCountry('');
     setSelectedCountry('');
     setFilteredCountries(countries);
     inputRef.current?.focus();
@@ -74,20 +74,20 @@ const InputCountries = ({ value, updateForm }: Props) => {
   // Filtra los países que coincidan con el valor introducido en el input
   // Si no hay valor, muestra todos los países
   useEffect(() => {
-    if (value && countries.length > 0) {
+    if (country && countries.length > 0) {
       setFilteredCountries(
-        countries.filter((country) =>
-          country.name.toLowerCase().includes(value.toLowerCase())
+        countries.filter((c) =>
+          c.name.toLowerCase().includes(country.toLowerCase())
         )
       );
     } else {
       setSelectedCountry('');
       setFilteredCountries(countries);
     }
-  }, [value, countries]);
+  }, [country, countries]);
 
   return (
-    <div className="relative">
+    <div className="relative mb-4">
       <label htmlFor="origin" className="px-0.5 text-sm">
         {translate('TREASAURE_ORIGIN')}
       </label>
@@ -112,14 +112,15 @@ const InputCountries = ({ value, updateForm }: Props) => {
           name="origin"
           type="text"
           placeholder={translate('UNKNOWN')}
-          value={value}
+          value={country}
           onChange={handleOriginChange}
           onFocus={() => setShowDropdown(true)}
           onBlur={handlleOriginBlur}
-          className="border  rounded-full py-2 pr-8 pl-[51px] w-full focus:ring-2 focus:ring-primary outline-none"
+          className="border rounded-lg py-2 pr-8 pl-[51px] w-full focus:ring-2 focus:ring-primary outline-none"
+          autoComplete="off"
         />
 
-        {value && (
+        {country && (
           <button
             onClick={clearInput}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 "
@@ -132,23 +133,23 @@ const InputCountries = ({ value, updateForm }: Props) => {
       {showDropdown && (
         <ul className="absolute left-0 w-full bg-white border border-gray-300 rounded-lg shadow-md mt-1 max-h-48 overflow-y-auto z-10">
           {filteredCountries.length > 0 ? (
-            filteredCountries.map((country, index) => (
+            filteredCountries.map((c, index) => (
               <li
                 key={index}
                 onMouseDown={() => {
-                  updateForm('origin', country.name);
-                  setSelectedCountry(country.flag);
+                  setCountry(c.name);
+                  setSelectedCountry(c.flag);
                 }}
                 className="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center gap-2 border-b text-sm"
               >
                 <Image
-                  src={country.flag}
-                  alt={country.name}
+                  src={c.flag}
+                  alt={c.name}
                   width={28}
                   height={20}
                   className="h-5 w-7 rounded-md"
                 />
-                {country.name}
+                {c.name}
               </li>
             ))
           ) : (
