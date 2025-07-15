@@ -3,7 +3,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import useCreateProductForm from '@/hooks/useCreateProductForm';
-import { acceptOnlyNumbers } from '@/utils/utilsForm';
+import { acceptOnlyNumbers } from '@/utils/utils';
 import { redirect } from 'next/navigation';
 import ButtonSecondary from '@/components/ButtonSecondary';
 import ButtonPrimary from '@/components/ButtonPrimary';
@@ -43,7 +43,11 @@ export default function Manufacturing() {
                 name="large"
                 value={formValues.productLarge}
                 onChange={(e) =>
-                  acceptOnlyNumbers(e, formValues.setProductLarge, true)
+                  acceptOnlyNumbers(
+                    e.target.value,
+                    formValues.setProductLarge,
+                    true
+                  )
                 }
                 inputMode="numeric"
                 maxLength={3}
@@ -66,7 +70,11 @@ export default function Manufacturing() {
                 name="width"
                 value={formValues.productWidth}
                 onChange={(e) =>
-                  acceptOnlyNumbers(e, formValues.setProductWidth, true)
+                  acceptOnlyNumbers(
+                    e.target.value,
+                    formValues.setProductWidth,
+                    true
+                  )
                 }
                 inputMode="numeric"
                 maxLength={3}
@@ -89,7 +97,11 @@ export default function Manufacturing() {
                 name="height"
                 value={formValues.productHeight}
                 onChange={(e) =>
-                  acceptOnlyNumbers(e, formValues.setProductHeight, true)
+                  acceptOnlyNumbers(
+                    e.target.value,
+                    formValues.setProductHeight,
+                    true
+                  )
                 }
                 inputMode="numeric"
                 maxLength={3}
@@ -112,7 +124,11 @@ export default function Manufacturing() {
                 name="diameter"
                 value={formValues.productDiameter}
                 onChange={(e) =>
-                  acceptOnlyNumbers(e, formValues.setProductDiameter, true)
+                  acceptOnlyNumbers(
+                    e.target.value,
+                    formValues.setProductDiameter,
+                    true
+                  )
                 }
                 inputMode="numeric"
                 maxLength={3}

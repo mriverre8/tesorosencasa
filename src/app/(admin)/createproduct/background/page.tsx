@@ -7,11 +7,14 @@ import InputCountries from '@/views/Admin/CreateProductForm/InputCountries/Input
 import { redirect } from 'next/navigation';
 import ButtonSecondary from '@/components/ButtonSecondary';
 import ButtonPrimary from '@/components/ButtonPrimary';
+import { isFormProductBrandOk } from '@/validators/validators';
 
 export default function Background() {
   const translate = useTranslations();
 
   const formValues = useCreateProductForm();
+
+  const isFormOk = isFormProductBrandOk(formValues.productBrand);
 
   const handleBackBtn = () => {
     redirect('/createproduct');
@@ -48,9 +51,14 @@ export default function Background() {
             onChange={(e) => formValues.setProductBrand(e.target.value)}
             type="text"
             placeholder={translate('UNKNOWN')}
-            className="border rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+            className={`border rounded-full px-4 py-2 w-full focus:ring-2 ${!isFormProductBrandOk(formValues.productBrand) ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'} outline-none`}
             autoComplete="off"
           />
+          {!isFormProductBrandOk(formValues.productBrand) && (
+            <p className="text-xs pt-1 text-red-600 px-0.5">
+              {translate('INPUT_PRODUCT_BRAND_INVALID')}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex justify-center gap-10 mb-6">
@@ -61,6 +69,7 @@ export default function Background() {
         <ButtonPrimary
           buttonText={translate('NEXT')}
           buttonAction={handleNextBtn}
+          disabled={!isFormOk}
         />
       </div>
     </div>

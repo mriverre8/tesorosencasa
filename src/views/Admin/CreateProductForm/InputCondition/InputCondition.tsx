@@ -19,12 +19,12 @@ const InputCondition = ({ condition, setCondition }: Props) => {
   const translate = useTranslations();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleAddOption = (selection: string) => {
-    if (selection && !condition.includes(selection)) {
-      setCondition([...condition, selection]);
+    const option = translate(selection);
+    if (option && !condition.includes(option)) {
+      setCondition([...condition, option]);
       setIsDropdownOpen(false);
     }
   };
@@ -34,12 +34,13 @@ const InputCondition = ({ condition, setCondition }: Props) => {
   };
 
   const toggleDropdown = () => {
-    if (condition.length < CONDITIONS.length) {
-      setIsDropdownOpen((prev) => !prev);
-    }
+    setIsDropdownOpen((prev) => !prev);
   };
 
-  // Close dropdown when clicking outside
+  const isCondition1Translated = translate('CONDITION_1');
+  const isCondition1Selected = condition.includes(isCondition1Translated);
+
+  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -53,6 +54,15 @@ const InputCondition = ({ condition, setCondition }: Props) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Determine available options
+  const availableOptions = CONDITIONS.filter((opt) => {
+    if (opt === 'CONDITION_1' && condition.length > 0) return false;
+    return !condition.includes(translate(opt));
+  });
+
+  const shouldDisableDropdown =
+    condition.length === CONDITIONS.length - 1 || isCondition1Selected;
+
   return (
     <>
       <div className="flex flex-col gap-1 mb-2 relative" ref={dropdownRef}>
@@ -65,18 +75,23 @@ const InputCondition = ({ condition, setCondition }: Props) => {
             id="dropdown-button"
             type="button"
             onClick={toggleDropdown}
-            className="border rounded-lg focus:ring-2 outline-none focus:ring-primary w-full px-2.5 py-2 text-left bg-white"
-            disabled={condition.length === CONDITIONS.length}
+            className={`border rounded-lg focus:ring-2 outline-none w-full px-2.5 py-2 text-left bg-white ${
+              shouldDisableDropdown
+                ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                : 'focus:ring-primary'
+            }`}
+            disabled={shouldDisableDropdown}
           >
             {condition.length > 0
-              ? 'Selecciona una opción'
+              ? translate('SELECT_ANOTHER_OPTION')
               : translate('CONDITION_6')}
           </button>
           <HiOutlineSelector className="absolute mr-2 pointer-events-none" />
         </div>
+
         {isDropdownOpen && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow z-10">
-            {CONDITIONS.filter((opt) => !condition.includes(opt)).map((opt) => (
+            {availableOptions.map((opt) => (
               <button
                 key={opt}
                 type="button"
@@ -97,8 +112,7 @@ const InputCondition = ({ condition, setCondition }: Props) => {
             className="flex items-center justify-between px-4 py-2 text-sm"
           >
             <div className="flex text-sm gap-2">
-              <p className="font-semibold">{index + 1}.</p>{' '}
-              <p>{translate(option)}</p>
+              <p className="font-semibold">{index + 1}.</p> <p>{option}</p>
             </div>
             <button
               type="button"

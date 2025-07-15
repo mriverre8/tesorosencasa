@@ -6,13 +6,14 @@ import { FaCameraRetro } from 'react-icons/fa';
 import { IoIosImages } from 'react-icons/io';
 
 import { useTranslations } from 'next-intl';
-import useLightboxMessage from '@/hooks/useLightboxMessage';
+/* import useLightboxMessage from '@/hooks/useLightboxMessage'; */
 import LightboxImages from '../LightboxImages/LightboxImages';
 import useCreateProductForm from '@/hooks/useCreateProductForm';
 
+const MAX_IMAGES_LIMIT = 6;
+
 const InputImageFiles = () => {
   const translate = useTranslations();
-  const lightboxMessage = useLightboxMessage();
 
   const { productImages, setProductImages } = useCreateProductForm();
 
@@ -31,17 +32,11 @@ const InputImageFiles = () => {
         )
     );
 
-    if (productImages.length + uniqueFiles.length > 6) {
-      lightboxMessage.setContent(
-        translate('WARNING'),
-        translate('MAX_IMAGES_LIMIT', { limit: 6 }),
-        translate('GO_BACK')
-      );
-      lightboxMessage.onOpen();
-      return;
-    }
-
     setProductImages([...productImages, ...uniqueFiles]);
+  };
+
+  const showMaxImagesError = () => {
+    return productImages.length > 6;
   };
 
   const openLightbox = (index: number) => {
@@ -54,7 +49,9 @@ const InputImageFiles = () => {
       <div className="flex flex-col gap-2">
         <label className="px-0.5 text-sm">
           {translate('TREASAURE_MULTIMEDIA_1')}*
-          {translate('TREASAURE_MULTIMEDIA_2')}
+          {translate('TREASAURE_MULTIMEDIA_2', {
+            maxImages: MAX_IMAGES_LIMIT,
+          })}
         </label>
 
         <div className="flex gap-2">
@@ -83,7 +80,7 @@ const InputImageFiles = () => {
         </div>
 
         {productImages.length > 0 ? (
-          <div className="flex flex-wrap gap-2 mt-2 justify-center">
+          <div className="flex flex-wrap gap-2 mt-2 justify-center overflow-y-auto max-h-64">
             {productImages.map((file, index) => (
               <div
                 key={index}
@@ -108,6 +105,13 @@ const InputImageFiles = () => {
           </div>
         )}
       </div>
+      {showMaxImagesError() && (
+        <div className="mt-4 text-center">
+          <p className="text-xs pt-1 text-red-600">
+            {translate('MAX_IMAGES_LIMIT', { limit: MAX_IMAGES_LIMIT })}
+          </p>
+        </div>
+      )}
 
       {selectedIndex !== null && (
         <LightboxImages

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 // Utils
-import { findCountryByName } from '@/utils/utilsForm';
+import { findCountryByName } from '@/utils/utils';
 
 // Countries data
 import countriesMock from '@/mocks/countries.json';

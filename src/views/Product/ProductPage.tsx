@@ -59,7 +59,17 @@ const ProductPage = ({ productData }: Props) => {
                 <p className="text-xs text-gray-400">
                   {translate('TREASSAURE_CONDITION')}
                 </p>
-                <p className="text-sm">{productData.condition}</p>
+                <div className="text-sm">
+                  {productData.condition?.length ? (
+                    <ul className="list-disc ml-5 pt-0.5">
+                      {Object.values(productData.condition).map((cond, idx) => (
+                        <li key={idx}>{cond}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    translate('CONDITION_6')
+                  )}
+                </div>
               </div>
             </div>
             <h2 className="font-semibold">
@@ -73,8 +83,7 @@ const ProductPage = ({ productData }: Props) => {
                 <p className="text-sm">
                   {productData.origin
                     ? productData.origin
-                    : translate('UNKNOWN') +
-                      'fsd fsdfsdafsda fnbhjsdbf jshdfhsd fsd'}
+                    : translate('UNKNOWN')}
                 </p>
               </div>
               <div className="flex flex-col w-full">
@@ -95,8 +104,12 @@ const ProductPage = ({ productData }: Props) => {
                   {translate('TREASAURE_MATERIAL')}
                 </p>
                 <div className="text-sm">
-                  {productData.material ? (
-                    <p>{Object.values(productData.material).join(' - ')}</p>
+                  {productData.material?.length ? (
+                    <ul className="list-disc ml-5 pt-0.5">
+                      {Object.values(productData.material).map((mat, idx) => (
+                        <li key={idx}>{mat}</li>
+                      ))}
+                    </ul>
                   ) : (
                     translate('UNKNOWN')
                   )}

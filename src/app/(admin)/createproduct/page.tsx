@@ -8,12 +8,15 @@ import useLightboxOptions from '@/hooks/useLightboxOptions';
 import { redirect } from 'next/navigation';
 import ButtonSecondary from '@/components/ButtonSecondary';
 import ButtonPrimary from '@/components/ButtonPrimary';
+import { isFormProductNameOk } from '@/validators/validators';
 
 export default function CreateProduct() {
   const translate = useTranslations();
 
   const formValues = useCreateProductForm();
   const lightboxOptions = useLightboxOptions();
+
+  const isFormOk = isFormProductNameOk(formValues.productName);
 
   const handleExit = () => {
     formValues.reset();
@@ -53,9 +56,14 @@ export default function CreateProduct() {
             value={formValues.productName}
             maxLength={30}
             onChange={(e) => formValues.setProductName(e.target.value)}
-            className="border rounded-full px-4 py-2 w-full focus:ring-2 focus:ring-primary outline-none"
+            className={`border rounded-full px-4 py-2 w-full focus:ring-2 ${!isFormProductNameOk(formValues.productName) ? 'border-red-400 focus:ring-red-500' : 'focus:ring-primary'} outline-none`}
             autoComplete="off"
           />
+          {!isFormProductNameOk(formValues.productName) && (
+            <p className="text-xs pt-1 text-red-600 px-0.5">
+              {translate('INPUT_PRODUCT_NAME_INVALID')}
+            </p>
+          )}
         </div>
         <InputCondition
           condition={formValues.productCondition}
@@ -70,6 +78,7 @@ export default function CreateProduct() {
         <ButtonPrimary
           buttonText={translate('NEXT')}
           buttonAction={handleNextBtn}
+          disabled={!isFormOk}
         />
       </div>
     </div>
