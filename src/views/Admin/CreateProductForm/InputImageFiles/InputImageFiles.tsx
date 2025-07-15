@@ -1,83 +1,62 @@
+'use client';
+
 import React, { useState } from 'react';
 import NextImage from 'next/image';
-
-// Icons
 import { FaCameraRetro } from 'react-icons/fa';
 import { IoIosImages } from 'react-icons/io';
 
-// Components
-import LightboxImages from '@/views/Admin/CreateProductForm/LightboxImages/LightboxImages';
-
-// Translation
 import { useTranslations } from 'next-intl';
+/* import useLightboxMessage from '@/hooks/useLightboxMessage'; */
+import LightboxImages from '../LightboxImages/LightboxImages';
+import useCreateProductForm from '@/hooks/useCreateProductForm';
 
-// Hooks
-import useLightboxMessage from '@/hooks/useLightboxMessage';
+const MAX_IMAGES_LIMIT = 6;
 
-interface Props {
-  images: File[];
-  setImages: React.Dispatch<React.SetStateAction<File[]>>;
-}
-
-const InputImageFiles = ({ images, setImages }: Props) => {
+const InputImageFiles = () => {
   const translate = useTranslations();
 
-  // Contiene un objeto (index, f) que representa la imagen seleccionada para mostrar en el lightbox
-  const [selectedImage, setSelectedImage] = useState<{
-    index: number;
-    imageFile: File;
-  }>({ index: -1, imageFile: new File([], '') });
+  const { productImages, setProductImages } = useCreateProductForm();
 
-  // Estado que controla si el lightbox está abierto o cerrado
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const lightboxMessage = useLightboxMessage();
 
-  // Función que se ejecuta cuando se añade un file al input
-  // Se añade al array de imágenes si no está repetida
-  // Si se supera el límite de 6 imágenes, se muestra un aviso
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
     const newFiles = Array.from(e.target.files);
 
-    // Filtrar duplicados
     const uniqueFiles = newFiles.filter(
-      (newFile) =>
-        !images.some(
-          (image) => image.name === newFile.name && image.size === newFile.size
+      (file) =>
+        !productImages.some(
+          (img) => img.name === file.name && img.size === file.size
         )
     );
 
-    if (images.length + uniqueFiles.length > 6) {
-      lightboxMessage.setContent(
-        translate('WARNING'),
-        translate('MAX_IMAGES_LIMIT', { limit: 6 }),
-        translate('GO_BACK')
-      );
-      lightboxMessage.onOpen();
-      return;
-    }
-
-    setImages((prevImages) => [...prevImages, ...uniqueFiles]);
+    setProductImages([...productImages, ...uniqueFiles]);
   };
 
-  // Función que abre el lightbox con la imagen seleccionada
-  const openLightbox = (data: { index: number; imageFile: File }) => {
-    setSelectedImage(data);
+  const showMaxImagesError = () => {
+    return productImages.length > 6;
+  };
+
+  const openLightbox = (index: number) => {
+    setSelectedIndex(index);
     setIsLightboxOpen(true);
   };
 
   return (
     <>
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2">
         <label className="px-0.5 text-sm">
           {translate('TREASAURE_MULTIMEDIA_1')}*
-          {translate('TREASAURE_MULTIMEDIA_2')}
+          {translate('TREASAURE_MULTIMEDIA_2', {
+            maxImages: MAX_IMAGES_LIMIT,
+          })}
         </label>
 
         <div className="flex gap-2">
-          <label className="flex cursor-pointer bg-primary text-white  rounded-full items-center justify-center">
-            <FaCameraRetro className="font-semibold m-3 text-lg" />
+          <label className="flex cursor-pointer bg-primary text-white rounded-full items-center justify-center">
+            <FaCameraRetro className="m-3 text-lg" />
             <input
               type="file"
               accept="image/*"
@@ -87,8 +66,8 @@ const InputImageFiles = ({ images, setImages }: Props) => {
             />
           </label>
 
-          <label className="flex gap-2 cursor-pointer w-full border border-primary bg-white text-sm py-2 px-4 rounded-full justify-center items-center text-center ">
-            <IoIosImages className="font-semibold text-xl" />
+          <label className="flex gap-2 cursor-pointer w-full border border-primary bg-white text-sm py-2 px-4 rounded-full justify-center items-center text-center">
+            <IoIosImages className="text-xl" />
             {translate('SELECT_FROM_GALLERY')}
             <input
               type="file"
@@ -100,20 +79,20 @@ const InputImageFiles = ({ images, setImages }: Props) => {
           </label>
         </div>
 
-        {images.length > 0 ? (
-          <div className="flex flex-wrap gap-2 mt-2 justify-center">
-            {images.map((file, index) => (
+        {productImages.length > 0 ? (
+          <div className="flex flex-wrap gap-2 mt-2 justify-center overflow-y-auto max-h-64">
+            {productImages.map((file, index) => (
               <div
                 key={index}
-                className="w-24 h-24 relative overflow-hidden rounded-lg bg-gray-200"
+                className="w-24 h-24 relative overflow-hidden rounded-lg bg-gray-200 cursor-pointer"
+                onClick={() => openLightbox(index)}
               >
                 <NextImage
                   src={URL.createObjectURL(file)}
                   alt={`Preview ${index}`}
-                  width={96} // 24 Tailwind * 4px = 96px
+                  width={96}
                   height={96}
                   className="object-cover w-full h-full"
-                  onClick={() => openLightbox({ index, imageFile: file })}
                 />
               </div>
             ))}
@@ -126,13 +105,21 @@ const InputImageFiles = ({ images, setImages }: Props) => {
           </div>
         )}
       </div>
+      {showMaxImagesError() && (
+        <div className="mt-4 text-center">
+          <p className="text-xs pt-1 text-red-600">
+            {translate('MAX_IMAGES_LIMIT', { limit: MAX_IMAGES_LIMIT })}
+          </p>
+        </div>
+      )}
 
-      <LightboxImages
-        isLightboxOpen={isLightboxOpen}
-        data={selectedImage}
-        closeLightbox={() => setIsLightboxOpen(false)}
-        setImages={setImages}
-      />
+      {selectedIndex !== null && (
+        <LightboxImages
+          isLightboxOpen={isLightboxOpen}
+          closeLightbox={() => setIsLightboxOpen(false)}
+          index={selectedIndex}
+        />
+      )}
     </>
   );
 };

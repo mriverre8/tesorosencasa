@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
@@ -23,6 +23,7 @@ import { tesoros } from '@prisma/client';
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 import useLoader from '@/hooks/useLoader';
 import useLightboxProduct from '@/hooks/useLightboxProduct';
+import useCreateProductForm from '@/hooks/useCreateProductForm';
 
 // Translation
 import { useTranslations } from 'next-intl';
@@ -37,6 +38,8 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
   const lightboxLoader = useLoader();
   const lightboxOptions = useLightboxOptions();
   const lightboxProduct = useLightboxProduct();
+
+  const formValues = useCreateProductForm();
 
   const [tesoros, setTesoros] = useState<tesoros[]>(tesorosData);
   const [searchTerm, setSearchTerm] = useState('');
@@ -74,6 +77,11 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
     lightboxProduct.onOpen();
   };
 
+  const handleCreateProduct = () => {
+    formValues.reset();
+    redirect('/createproduct');
+  };
+
   return (
     <>
       <div className="flex flex-col min-h-screen p-5">
@@ -106,12 +114,12 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
             ))}
           </div>
 
-          <Link
-            href={'/createproduct'}
+          <button
+            onClick={() => handleCreateProduct()}
             className={`flex bg-white rounded-lg py-4 px-3 w-full ${filteredTesoros.length > 0 ? 'mt-4' : ''} items-center justify-center text-secondary`}
           >
             <IoAdd className="text-xl" />
-          </Link>
+          </button>
         </div>
       </div>
       {selectedProduct && (

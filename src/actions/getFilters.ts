@@ -56,7 +56,9 @@ export async function getFilters() {
         data.forEach((item) => {
           const value = item[field as keyof typeof item];
 
-          if (field === 'material' && Array.isArray(value)) {
+          if (field === 'condition' && Array.isArray(value)) {
+            value.forEach((con) => uniqueValues.add(String(con)));
+          } else if (field === 'material' && Array.isArray(value)) {
             value.forEach((mat) => uniqueValues.add(String(mat)));
           } else {
             uniqueValues.add(String(value));

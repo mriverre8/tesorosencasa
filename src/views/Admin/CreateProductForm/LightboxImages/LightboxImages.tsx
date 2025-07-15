@@ -1,51 +1,71 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-
-// Translation
 import { useTranslations } from 'next-intl';
+import useCreateProductForm from '@/hooks/useCreateProductForm';
 
 interface Props {
   isLightboxOpen: boolean;
   closeLightbox: () => void;
-  data: { index: number; imageFile: File };
-  setImages: (updateFn: (prevImages: File[]) => File[]) => void;
+  index: number;
 }
 
-const LightboxImages = ({
-  isLightboxOpen,
-  closeLightbox,
-  data,
-  setImages,
-}: Props) => {
+const LightboxImages = ({ isLightboxOpen, closeLightbox, index }: Props) => {
   const translate = useTranslations();
+  const { productImages, setProductImages } = useCreateProductForm();
 
-  // Función que elimina la imagen seleccionada del array de imágenes y cierra el lightbox
-  const removeImage = (index: number) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  const file = productImages[index];
+
+  const removeImage = () => {
+    const newImages = productImages.filter((_, i) => i !== index);
+    setProductImages(newImages);
     closeLightbox();
   };
 
-  if (!isLightboxOpen || !data) return null;
+  useEffect(() => {
+    if (isLightboxOpen) {
+      setShouldRender(true);
+      setTimeout(() => setIsVisible(true), 10);
+    } else {
+      setIsVisible(false);
+      setTimeout(() => setShouldRender(false), 300);
+    }
+  }, [isLightboxOpen]);
+
+  if (!shouldRender || !file) return null;
 
   return (
-    <div className="bg-black/70 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5">
+    <div
+      className={`fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5 bg-black/70 transition-opacity duration-300 ease-out ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       <div className="flex items-start justify-center h-full w-full pt-20">
-        <div className="">
+        <div
+          className={`transition-all duration-300 ease-out transform ${
+            isVisible
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-4 scale-95'
+          }`}
+        >
           <div className="relative aspect-[3/4] w-full overflow-hidden flex items-center justify-center bg-black rounded-sm">
             <Image
-              src={URL.createObjectURL(data.imageFile)}
-              alt={`Preview ${data.index}`}
+              src={URL.createObjectURL(file)}
+              alt={`Preview ${index}`}
               width={600}
               height={600}
               quality={100}
               className="rounded-sm"
             />
           </div>
-          <div className="text-center">
-            <p className="text-white">
-              {(data.imageFile.size / (1024 * 1024)).toFixed(2)} MB
+
+          <div className="text-center mt-2">
+            <p className="text-white text-sm">
+              {(file.size / (1024 * 1024)).toFixed(2)} MB
             </p>
           </div>
 
@@ -58,7 +78,7 @@ const LightboxImages = ({
             </button>
             <button
               className="bg-red-600 rounded-full py-0.5 px-4 text-white w-full text-sm"
-              onClick={() => removeImage(data.index)}
+              onClick={removeImage}
             >
               {translate('DELETE')}
             </button>

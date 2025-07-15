@@ -72,8 +72,12 @@ const CardMobile = ({ tesoro }: Props) => {
             {translate('TREASAURE_MATERIAL')}
           </p>
           <div className="text-sm">
-            {tesoro.material ? (
-              <p>{Object.values(tesoro.material).join(' - ')}</p>
+            {tesoro.material?.length ? (
+              <ul className="list-disc ml-5 pt-0.5">
+                {Object.values(tesoro.material).map((mat, idx) => (
+                  <li key={idx}>{mat}</li>
+                ))}
+              </ul>
             ) : (
               translate('UNKNOWN')
             )}
@@ -113,7 +117,17 @@ const CardMobile = ({ tesoro }: Props) => {
           <p className="text-xs text-gray-400 whitespace-nowrap">
             {translate('TREASSAURE_CONDITION')}
           </p>
-          <p className="text-sm">{tesoro.condition}</p>
+          <div className="text-sm">
+            {tesoro.condition?.length ? (
+              <ul className="list-disc ml-5 pt-0.5">
+                {Object.values(tesoro.condition).map((cond, idx) => (
+                  <li key={idx}>{cond}</li>
+                ))}
+              </ul>
+            ) : (
+              translate('CONDITION_6')
+            )}
+          </div>
         </div>
       </div>
       <div className="flex flex-wrap justify-between px-1 my-1 text-sm gap-2">

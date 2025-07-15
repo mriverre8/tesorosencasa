@@ -114,7 +114,19 @@ const LightboxProduct = ({ tesoros, setTesoros }: Props) => {
               <p className="text-xs text-gray-400">
                 {translate('TREASSAURE_CONDITION')}
               </p>
-              <p className="text-sm">{lightboxProduct.product.condition}</p>
+              <div className="text-sm">
+                {lightboxProduct.product.condition?.length ? (
+                  <ul className="list-disc ml-5 pt-0.5">
+                    {Object.values(lightboxProduct.product.condition).map(
+                      (cond, idx) => (
+                        <li key={idx}>{cond}</li>
+                      )
+                    )}
+                  </ul>
+                ) : (
+                  translate('CONDITION_6')
+                )}
+              </div>
             </div>
           </div>
           <h2 className="font-semibold">{translate('TREASAURE_BACKGROUND')}</h2>
@@ -149,12 +161,14 @@ const LightboxProduct = ({ tesoros, setTesoros }: Props) => {
                 {translate('TREASAURE_MATERIAL')}
               </p>
               <div className="text-sm">
-                {lightboxProduct.product.material ? (
-                  <p>
-                    {Object.values(lightboxProduct.product.material).join(
-                      ' - '
+                {lightboxProduct.product.material?.length ? (
+                  <ul className="list-disc ml-5 pt-0.5">
+                    {Object.values(lightboxProduct.product.material).map(
+                      (mat, idx) => (
+                        <li key={idx}>{mat}</li>
+                      )
                     )}
-                  </p>
+                  </ul>
                 ) : (
                   translate('UNKNOWN')
                 )}

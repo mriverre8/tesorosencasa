@@ -22,7 +22,7 @@ export async function getProductsByFilters(
 
   // Aplicar filtros dinámicamente
   if (filters.condition?.length) {
-    query = query.in('condition', filters.condition);
+    query = query.overlaps('condition', filters.condition);
   }
 
   if (filters.origin?.length) {
