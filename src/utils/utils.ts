@@ -1,3 +1,4 @@
+// Given a country name and a list of countries, returns the country object of the list
 export const findCountryByName = (
   countries: { name: string; flag: string }[],
   countryName: string
@@ -7,18 +8,16 @@ export const findCountryByName = (
   );
 };
 
+// Given a value (number as string) and a setValue function, sets the value only if it matches the regex.
 export const acceptOnlyNumbers = (
-  e: React.ChangeEvent<HTMLInputElement>,
-  formValue: string,
-  updateForm: (field: string, value: string) => void,
+  value: string,
+  setValue: (value: string) => void,
   blockComma = false
 ) => {
-  const value = e.target.value;
-
   // Expresión regular para permitir solo números y, opcionalmente, una coma con hasta dos decimales
   const regex = blockComma ? /^\d*$/ : /^\d*(,\d{0,2})?$/;
 
   if (regex.test(value)) {
-    updateForm(formValue, value);
+    setValue(value);
   }
 };

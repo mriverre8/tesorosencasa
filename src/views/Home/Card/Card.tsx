@@ -27,22 +27,9 @@ const Card = ({ tesoro }: Props) => {
             alt={tesoro.name}
           />
         </div>
-        <div className="flex flex-col gap-1 mx-3 my-1">
-          <div className="flex flex-col">
-            <div className="flex flex-col text-sm  mx-1 leading-tight mt-1 gap-1">
-              <h3 className="font-semibold  line-clamp-1">{tesoro.name}</h3>
-
-              <div className="flex flex-col">
-                <p className="text-xs text-gray-400 whitespace-nowrap">
-                  {translate('TREASSAURE_CONDITION')}
-                </p>
-                <p className="text-sm font-light line-clamp-1">
-                  {tesoro.condition}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h3 className="font-semibold line-clamp-1 mx-4 my-1 mt-2 text-sm leading-tight">
+          {tesoro.name}
+        </h3>
       </div>
 
       <div className="flex flex-col text-sm mx-4 mt-1 mb-2">

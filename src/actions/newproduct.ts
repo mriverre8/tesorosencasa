@@ -4,7 +4,7 @@ import { createClient } from '@/supabase/server';
 
 interface ProductData {
   name: string;
-  condition: string;
+  condition: string[];
   units: number;
   price: number;
   images: string[];
@@ -27,27 +27,25 @@ const parseNumber = (val: FormDataEntryValue | null): number | undefined => {
   return num && !isNaN(Number(num)) ? Number(num) : undefined;
 };
 
-export async function newProduct(
-  formData: FormData,
-  materials: string[],
-  images: string[]
-) {
+export async function newProduct(formData: FormData) {
   const supabase = await createClient();
 
   const product: ProductData = {
-    name: formData.get('name') as string,
-    condition: formData.get('condition') as string,
-    units: parseNumber(formData.get('units'))!,
-    price: parseNumber(formData.get('price'))!,
-    origin: parseString(formData.get('origin')),
-    brand: parseString(formData.get('brand')),
-    material: materials.length > 0 ? materials : undefined,
-    category: parseString(formData.get('category')),
-    large: parseNumber(formData.get('large')),
-    width: parseNumber(formData.get('width')),
-    height: parseNumber(formData.get('height')),
-    diameter: parseNumber(formData.get('diameter')),
-    images: images,
+    name: formData.get('productName') as string,
+    condition: JSON.parse(
+      formData.get('productCondition') as string
+    ) as string[],
+    origin: parseString(formData.get('productOrigin')),
+    brand: parseString(formData.get('productBrand')),
+    material: JSON.parse(formData.get('productMaterial') as string) as string[],
+    category: parseString(formData.get('productCategory')),
+    large: parseNumber(formData.get('productLarge')),
+    width: parseNumber(formData.get('productWidth')),
+    height: parseNumber(formData.get('productHeight')),
+    diameter: parseNumber(formData.get('productDiameter')),
+    units: parseNumber(formData.get('productUnits'))!,
+    price: parseNumber(formData.get('productPrice'))!,
+    images: JSON.parse(formData.get('productImages') as string) as string[],
   };
 
   try {
@@ -60,7 +58,6 @@ export async function newProduct(
 
     console.log('[NEW PRODUCT] Inserted into database:', {
       name: product.name,
-      images: images,
       timestamp: new Date().toISOString(),
     });
 

@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 // Hooks
-import { useForm } from '@/hooks/useForm';
 import { useRouter } from 'next/navigation';
 
 // Icons
@@ -19,11 +18,7 @@ import { useTranslations } from 'next-intl';
 // Hooks
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 import useLoader from '@/hooks/useLoader';
-
-const initialForm = {
-  email: { value: '', error: '', required: true },
-  password: { value: '', error: '', required: true },
-};
+import { isUserEmailOk } from '@/validators/validators';
 
 const Login = () => {
   const translate = useTranslations();
@@ -33,33 +28,38 @@ const Login = () => {
 
   const router = useRouter();
 
-  const { formValues, formIsValid, updateForm, clearForm, validateAll } =
-    useForm(initialForm);
+  const [validationActive, setValidationActive] = useState(false);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const formIsOk = isUserEmailOk(email);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    validateAll();
-
-    if (formIsValid) {
-      loader.onOpen();
-      try {
-        const formData = new FormData(event.target as HTMLFormElement);
-        await login(formData);
-        clearForm();
-        loader.onClose();
-        router.push('/products');
-      } catch (error) {
-        lightboxMessage.setContent(
-          translate('LOGIN_FAILED'),
-          translate((error as Error).message),
-          translate('ACCEPT')
-        );
-        loader.onClose();
-        lightboxMessage.onOpen();
-      }
-      loader.onClose();
+    if (!formIsOk && !validationActive) {
+      setValidationActive(true);
+      return;
     }
+
+    loader.onOpen();
+    try {
+      const formData = new FormData(event.target as HTMLFormElement);
+      await login(formData);
+
+      loader.onClose();
+      router.push('/products');
+    } catch (error) {
+      lightboxMessage.setContent(
+        translate('LOGIN_FAILED'),
+        translate((error as Error).message),
+        translate('ACCEPT')
+      );
+      loader.onClose();
+      lightboxMessage.onOpen();
+    }
+    loader.onClose();
   };
 
   return (
@@ -70,20 +70,28 @@ const Login = () => {
         </h2>
       </div>
       <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="flex relative">
-          <MdEmail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-base sm:text-xl opacity-50 pointer-events-none" />
+        <div>
+          <div className="flex relative">
+            <MdEmail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-base sm:text-xl opacity-50 pointer-events-none" />
 
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder={translate('EMAIL')}
-            value={formValues.email.value}
-            onChange={(e) => updateForm('email', e.target.value)}
-            required
-            className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base "
-          />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder={translate('EMAIL')}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base "
+            />
+          </div>
+          {!isUserEmailOk(email) && validationActive && (
+            <p className="text-xs pt-1 text-red-600 px-0.5">
+              {translate('INPUT_USER_EMAIL_INVALID')}
+            </p>
+          )}
         </div>
+
         <div className="flex relative">
           <MdLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-base sm:text-xl opacity-50 pointer-events-none" />
           <input
@@ -91,8 +99,8 @@ const Login = () => {
             name="password"
             type="password"
             placeholder={translate('PASSWORD')}
-            value={formValues.password.value}
-            onChange={(e) => updateForm('password', e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
             className="w-full pl-11 pr-5 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm sm:text-base"
           />
