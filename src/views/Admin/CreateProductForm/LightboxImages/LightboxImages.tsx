@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import useCreateProductForm from '@/hooks/useCreateProductForm';
@@ -15,6 +15,9 @@ const LightboxImages = ({ isLightboxOpen, closeLightbox, index }: Props) => {
   const translate = useTranslations();
   const { productImages, setProductImages } = useCreateProductForm();
 
+  const [isVisible, setIsVisible] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
+
   const file = productImages[index];
 
   const removeImage = () => {
@@ -23,12 +26,32 @@ const LightboxImages = ({ isLightboxOpen, closeLightbox, index }: Props) => {
     closeLightbox();
   };
 
-  if (!isLightboxOpen || !file) return null;
+  useEffect(() => {
+    if (isLightboxOpen) {
+      setShouldRender(true);
+      setTimeout(() => setIsVisible(true), 10);
+    } else {
+      setIsVisible(false);
+      setTimeout(() => setShouldRender(false), 300);
+    }
+  }, [isLightboxOpen]);
+
+  if (!shouldRender || !file) return null;
 
   return (
-    <div className="bg-black/70 fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5">
+    <div
+      className={`fixed inset-0 z-50 h-screen w-screen overflow-hidden px-5 bg-black/70 transition-opacity duration-300 ease-out ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       <div className="flex items-start justify-center h-full w-full pt-20">
-        <div>
+        <div
+          className={`transition-all duration-300 ease-out transform ${
+            isVisible
+              ? 'opacity-100 translate-y-0 scale-100'
+              : 'opacity-0 translate-y-4 scale-95'
+          }`}
+        >
           <div className="relative aspect-[3/4] w-full overflow-hidden flex items-center justify-center bg-black rounded-sm">
             <Image
               src={URL.createObjectURL(file)}

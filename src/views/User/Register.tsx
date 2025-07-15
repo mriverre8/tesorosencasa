@@ -1,4 +1,4 @@
-'use client';
+/* 'use client';
 
 import React from 'react';
 
@@ -52,8 +52,8 @@ const Register = () => {
         loader.onClose();
       } catch {
         // TODO: handle errors
-        /* setFinalErrorMsg(translate((error as Error).message));
-              setIsErrorMsg(true); */
+        // setFinalErrorMsg(translate((error as Error).message));
+        // setIsErrorMsg(true); 
       }
       loader.onClose();
     }
@@ -115,3 +115,4 @@ const Register = () => {
 };
 
 export default Register;
+ */

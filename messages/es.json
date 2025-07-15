@@ -12,7 +12,7 @@
   "ENTER": "Entrar",
   "CREATE_ACCOUNT": "Crear cuenta",
   "LOGIN_FAILED": "Inicio de sesión fallido",
-  "LOGIN_GENERIC_ERROR": "Por favor, verifica tu correo electrónico y contraseña.",
+  "LOGIN_GENERIC_ERROR": "Por favor, verifica tu correo electrónico y contraseña o inténtalo de nuevo más tarde.",
   "FILTER_RESULTS": "Filtrar resultados",
   "condition": "Condición",
   "origin": "Origen",
@@ -106,5 +106,6 @@
   "EXIT": "Salir",
   "NEXT": "Siguiente",
   "CREATE_TREASAURE": "Crear tesoro",
-  "SELECT_ANOTHER_OPTION": "Selecciona otra opción"
+  "SELECT_ANOTHER_OPTION": "Selecciona otra opción",
+  "INPUT_USER_EMAIL_INVALID": "La dirección de correo electrónico no es válida."
 }
