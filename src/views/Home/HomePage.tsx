@@ -106,6 +106,9 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
                 <div key={index}>
                   <div className="block mobile:hidden">
                     <CardMobile tesoro={tesoro} />
+                    {index !== tesoros.length - 1 && (
+                      <div className="w-full border-b border-gray-300 my-4" />
+                    )}
                   </div>
                   <div className="hidden mobile:block">
                     <Card tesoro={tesoro} />
