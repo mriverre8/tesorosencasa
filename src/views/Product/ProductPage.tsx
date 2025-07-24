@@ -67,7 +67,7 @@ const ProductPage = ({ productData }: Props) => {
                       ))}
                     </ul>
                   ) : (
-                    translate('CONDITION_6')
+                    translate('CONDITION_7')
                   )}
                 </div>
               </div>

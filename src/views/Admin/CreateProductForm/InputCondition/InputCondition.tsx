@@ -8,6 +8,7 @@ const CONDITIONS = [
   'CONDITION_3',
   'CONDITION_4',
   'CONDITION_5',
+  'CONDITION_6',
 ] as const;
 
 interface Props {
@@ -84,7 +85,7 @@ const InputCondition = ({ condition, setCondition }: Props) => {
           >
             {condition.length > 0
               ? translate('SELECT_ANOTHER_OPTION')
-              : translate('CONDITION_6')}
+              : translate('CONDITION_7')}
           </button>
           <HiOutlineSelector className="absolute mr-2 pointer-events-none" />
         </div>
