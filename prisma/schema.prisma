@@ -12,7 +12,7 @@ datasource db {
 model tesoros {
   id        String   @id(map: "Tesoro_pkey") @default(dbgenerated("uuid_generate_v4()"))
   name      String
-  condition String
+  condition String[]
   origin    String?
   brand     String?
   material  String[]

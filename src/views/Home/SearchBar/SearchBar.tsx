@@ -58,7 +58,7 @@ const SearchBar = ({
         />
       </button>
       <div className="flex w-full relative">
-        <BiSearchAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+        <BiSearchAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl pointer-events-none" />
         <input
           className="w-full py-2 pl-10 pr-8 rounded-full border focus:outline-none focus:ring-1 focus:ring-primary"
           placeholder={translate('SEARCH_TREASURES')}

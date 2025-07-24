@@ -4,8 +4,7 @@ import { create } from 'zustand';
 interface LightboxProductStore {
   isOpen: boolean;
   product: tesoros;
-  onDelete: () => void;
-  setContent: (product: tesoros, onAccept: () => void) => void;
+  setContent: (product: tesoros) => void;
   onOpen: () => void;
   onClose: () => void;
 }
@@ -13,9 +12,7 @@ interface LightboxProductStore {
 const useLightboxProduct = create<LightboxProductStore>((set) => ({
   isOpen: false,
   product: {} as tesoros,
-  onDelete: () => {},
-  setContent: (product: tesoros, onDelete: () => void) =>
-    set({ product, onDelete }),
+  setContent: (product: tesoros) => set({ product }),
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));

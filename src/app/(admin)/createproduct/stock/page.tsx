@@ -18,6 +18,7 @@ import useLightboxMessage from '@/hooks/useLightboxMessage';
 import { newProduct } from '@/actions/newproduct';
 import { uploadImage } from '@/actions/uploadImage';
 import { generateNewProductPayload } from '@/utils/payloadUtils';
+import { editProduct } from '@/actions/editProduct';
 
 export default function Stock() {
   const translate = useTranslations();
@@ -30,7 +31,7 @@ export default function Stock() {
   const isFormOk =
     isFormProductUnitsOk(formValues.productUnits) &&
     isFormProductPriceOk(formValues.productPrice) &&
-    isFormProductImagesOk(formValues.productImages);
+    (formValues.isEditing || isFormProductImagesOk(formValues.productImages));
 
   const handleBackBtn = () => {
     redirect('/createproduct/dimensions');
@@ -83,12 +84,44 @@ export default function Stock() {
     lightboxLoader.onClose();
   };
 
+  const handleUpdateProduct = async () => {
+    lightboxLoader.onOpen();
+    const payload = generateNewProductPayload(formValues, []);
+    const response = await editProduct(formValues.productId, payload);
+    if (!response.error) {
+      formValues.reset();
+      formValues.setIsEditing(false);
+      formValues.setProductId('');
+      lightboxMessage.setContent(
+        translate('SUCCESS_TREASAURE_EDITION_TITLE'),
+        translate('SUCCESS_TREASAURE_EDITION_TEXT', {
+          name: formValues.productName,
+        }),
+        translate('ACCEPT')
+      );
+      lightboxLoader.onClose();
+      lightboxMessage.onOpen();
+      redirect('/products');
+    } else {
+      lightboxMessage.setContent(
+        translate('ERROR'),
+        translate('ERROR_TREASAURE_EDITION'),
+        translate('ACCEPT')
+      );
+      lightboxLoader.onClose();
+      lightboxMessage.onOpen();
+    }
+    lightboxLoader.onClose();
+  };
+
   return (
     <div className="flex flex-col bg-background p-4 min-h-[calc(100vh-69px)] justify-between">
       <div>
         <div className="flex flex-wrap items-end gap-x-2 mb-6">
           <h1 className="text-3xl font-semibold text-gray-700">
-            {translate('NEW_TREASAURE')}
+            {formValues.isEditing
+              ? translate('UPDATE_TREASAURE')
+              : translate('NEW_TREASAURE')}
           </h1>
           <h2 className="text-lg text-gray-700">
             {translate('TREASAURE_STOCK')}
@@ -160,8 +193,14 @@ export default function Stock() {
           buttonAction={handleBackBtn}
         />
         <ButtonPrimary
-          buttonText={translate('CREATE_TREASAURE')}
-          buttonAction={handleCreateProduct}
+          buttonText={
+            formValues.isEditing
+              ? translate('UPDATE_TREASAURE')
+              : translate('CREATE_TREASAURE')
+          }
+          buttonAction={
+            formValues.isEditing ? handleUpdateProduct : handleCreateProduct
+          }
           disabled={!isFormOk}
         />
       </div>
