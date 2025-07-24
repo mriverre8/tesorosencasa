@@ -4,21 +4,11 @@ import React, { useState } from 'react';
 import { CldImage } from 'next-cloudinary';
 
 // Components
-import ButtonPrimary from '@/components/ButtonPrimary';
 import ButtonSecondary from '@/components/ButtonSecondary';
 import Lightbox from '@/components/Lightbox/Lightbox';
 
-// Actions
-import { deleteProductById } from '@/actions/deleteProductById';
-
-// Types
-import { tesoros } from '@prisma/client';
-
 // Hooks
 import useLightboxProduct from '@/hooks/useLightboxProduct';
-import useLightboxOptions from '@/hooks/useLightboxOptions';
-import useLoader from '@/hooks/useLoader';
-import useLightboxMessage from '@/hooks/useLightboxMessage';
 
 // Translation
 import { useTranslations } from 'next-intl';
@@ -26,58 +16,12 @@ import { useTranslations } from 'next-intl';
 // Icons
 import { IoMdShare } from 'react-icons/io';
 
-interface Props {
-  tesoros: tesoros[];
-  setTesoros: (value: tesoros[]) => void;
-}
-const LightboxProduct = ({ tesoros, setTesoros }: Props) => {
+const LightboxProduct = () => {
   const translate = useTranslations();
 
   const lightboxProduct = useLightboxProduct();
-  const lightboxOptions = useLightboxOptions();
-  const lightboxLoader = useLoader();
-  const lightboxMessage = useLightboxMessage();
 
   const [copiado, setCopiado] = useState(false);
-
-  const handleDelete = async () => {
-    lightboxOptions.onClose();
-    lightboxLoader.onOpen();
-    const response = await deleteProductById(lightboxProduct.product.id);
-    if (!response.error) {
-      lightboxMessage.setContent(
-        translate('DELETE_TREASAURE_OK_TITLE'),
-        translate('DELETE_TREASAURE_OK_TEXT', {
-          name: lightboxProduct.product.name,
-        }),
-        translate('ACCEPT')
-      );
-      setTesoros(tesoros.filter((t) => t.id !== lightboxProduct.product.id));
-      lightboxLoader.onClose();
-      lightboxMessage.onOpen();
-    } else {
-      lightboxMessage.setContent(
-        translate('DELETE_TREASAURE_KO_TITLE'),
-        translate('DELETE_TREASAURE_KO_TEXT'),
-        translate('ACCEPT')
-      );
-      lightboxLoader.onClose();
-      lightboxMessage.onOpen();
-    }
-    lightboxLoader.onClose();
-  };
-
-  const handleDeleteLightbox = () => {
-    lightboxOptions.setContent(
-      translate('DELETE_TREASURE_TITLE'),
-      translate('DELETE_TREASURE_TEXT', { name: lightboxProduct.product.name }),
-      translate('CANCEL'),
-      translate('DELETE'),
-      handleDelete
-    );
-    lightboxProduct.onClose();
-    lightboxOptions.onOpen();
-  };
 
   const handleShare = () => {
     const url = `https://tesorosencasa.vercel.app/tesoro/${lightboxProduct.product.id}`;
@@ -88,7 +32,7 @@ const LightboxProduct = ({ tesoros, setTesoros }: Props) => {
   };
 
   return (
-    <Lightbox isOpen={lightboxProduct.isOpen}>
+    <Lightbox isOpen={lightboxProduct.isOpen} onClose={lightboxProduct.onClose}>
       <div className="flex">
         <h1 className="flex-[8] text-2xl font-bold">
           {lightboxProduct.product.name}
@@ -258,33 +202,29 @@ const LightboxProduct = ({ tesoros, setTesoros }: Props) => {
           </h2>
           <div className="pb-2">
             <div className="flex gap-2 w-full overflow-x-auto">
-              {lightboxProduct.product.images.map((image, index) => (
-                <div
-                  key={index}
-                  className="inline-block w-24 h-24 relative overflow-hidden rounded-lg bg-gray-200 shrink-0"
-                >
-                  <CldImage
-                    width="960"
-                    height="600"
-                    src={image}
-                    sizes="100vw"
-                    alt="Description of my image"
-                  />
-                </div>
-              ))}
+              {Array.isArray(lightboxProduct.product.images) &&
+                lightboxProduct.product.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className="inline-block w-24 h-24 relative overflow-hidden rounded-lg bg-gray-200 shrink-0"
+                  >
+                    <CldImage
+                      width="960"
+                      height="600"
+                      src={image}
+                      sizes="100vw"
+                      alt="Description of my image"
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         </div>
       </div>
-      <div className="flex gap-3 justify-center items-center text-sm mt-3">
+      <div className="flex justify-center items-center text-sm mt-3">
         <ButtonSecondary
           buttonAction={lightboxProduct.onClose}
           buttonText={translate('GO_BACK')}
-        />
-        <ButtonPrimary
-          alternative={true}
-          buttonAction={handleDeleteLightbox}
-          buttonText={translate('DELETE')}
         />
       </div>
     </Lightbox>

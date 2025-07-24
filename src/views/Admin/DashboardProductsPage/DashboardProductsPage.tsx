@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation';
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
 import { RiDeleteBin5Line } from 'react-icons/ri';
-import { IoAdd } from 'react-icons/io5';
+import { MdAdd } from 'react-icons/md';
 
 // Actions
 import { deleteProducts } from '@/actions/deleteProducts';
@@ -14,7 +14,6 @@ import { deleteImages } from '@/actions/deleteImages';
 
 // Components
 import ProductCard from './ProductCard/ProductCard';
-import LightboxProduct from '@/views/Admin/DashboardProductsPage/LightboxProduct/LightboxProduct';
 
 // Types
 import { tesoros } from '@prisma/client';
@@ -22,7 +21,6 @@ import { tesoros } from '@prisma/client';
 //Hooks
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 import useLoader from '@/hooks/useLoader';
-import useLightboxProduct from '@/hooks/useLightboxProduct';
 import useCreateProductForm from '@/hooks/useCreateProductForm';
 
 // Translation
@@ -37,13 +35,11 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
 
   const lightboxLoader = useLoader();
   const lightboxOptions = useLightboxOptions();
-  const lightboxProduct = useLightboxProduct();
 
   const formValues = useCreateProductForm();
 
   const [tesoros, setTesoros] = useState<tesoros[]>(tesorosData);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState<tesoros | null>(null);
 
   const filteredTesoros = tesoros.filter((tesoro) =>
     tesoro.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -71,24 +67,25 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
     lightboxOptions.onOpen();
   };
 
-  const handlePreview = (tesoro: tesoros) => {
-    setSelectedProduct(tesoro);
-    lightboxProduct.setContent(tesoro, () => {});
-    lightboxProduct.onOpen();
-  };
-
   const handleCreateProduct = () => {
     formValues.reset();
+    formValues.setIsEditing(false);
     redirect('/createproduct');
   };
 
   return (
     <>
-      <div className="flex flex-col min-h-screen p-5">
+      <div className="flex flex-col h-[calc(100vh-69px)] p-5">
         <div className="flex justify-center items-center mb-5">
+          <button
+            onClick={() => handleCreateProduct()}
+            className="flex bg-white rounded-lg py-2 px-2 mr-2 items-center justify-center text-secondary border border-gray-300"
+          >
+            <MdAdd className="text-xl" />
+          </button>
           <div className="w-full relative ">
             {/* Icono dentro del input */}
-            <BiSearchAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+            <BiSearchAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl pointer-events-none" />
             <input
               className="w-full py-2 pl-10 pr-5 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder={translate('SEARCH_TREASURES')}
@@ -105,26 +102,23 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
           </div>
         </div>
         {/* Contenedor de los tesoros filtrados que ocupa el espacio restante */}
-        <div className="flex-grow ">
+        <div className="flex-grow overflow-y-auto">
           <div className="flex flex-col gap-4">
             {filteredTesoros.map((tesoro, index) => (
-              <div key={index} onClick={() => handlePreview(tesoro)}>
-                <ProductCard {...tesoro} />
+              <div key={index}>
+                <ProductCard
+                  tesoro={tesoro}
+                  tesoros={tesoros}
+                  setTesoros={setTesoros}
+                />
+                {index !== tesoros.length - 1 && (
+                  <div className="w-full border-b border-gray-300" />
+                )}
               </div>
             ))}
           </div>
-
-          <button
-            onClick={() => handleCreateProduct()}
-            className={`flex bg-white rounded-lg py-4 px-3 w-full ${filteredTesoros.length > 0 ? 'mt-4' : ''} items-center justify-center text-secondary`}
-          >
-            <IoAdd className="text-xl" />
-          </button>
         </div>
       </div>
-      {selectedProduct && (
-        <LightboxProduct tesoros={tesoros} setTesoros={setTesoros} />
-      )}
     </>
   );
 }

@@ -88,7 +88,9 @@
   "DELETE_TREASAURE_KO_TITLE": "Error al eliminar el tesoro",
   "DELETE_TREASAURE_KO_TEXT": "No se pudo eliminar el tesoro. Por favor, inténtalo de nuevo más tarde.",
   "SUCCESS_TREASAURE_CREATION_TITLE": "¡Éxito!",
+  "SUCCESS_TREASAURE_EDITION_TITLE": "¡Tesoro actualizado!",
   "SUCCESS_TREASAURE_CREATION_TEXT": "Tesoro creado con éxito. Podrás encontrarlo en la sección de tesoros.",
+  "SUCCESS_TREASAURE_EDITION_TEXT": "El tesoro {name} ha sido actualizado correctamente.",
   "ERROR": "Error",
   "ERROR_CONVERTING_ANY_IMAGE": "No se pudo convertir ninguna imagen.",
   "ERROR_UNEXTECTED_IMAGES": "Hubo un error inesperado al procesar las imágenes.",
@@ -100,12 +102,17 @@
   "LINK_COPIED": "Enlace copiado al portapapeles",
   "ERROR_IMAGE_UPLOAD": "Se ha producido un error durante la carga de las imágenes. Por favor, inténtelo más tarde.",
   "ERROR_TREASAURE_CREATION": "Error al crear el tesoro. Por favor, revisa los datos e inténtalo de nuevo.",
+  "ERROR_TREASAURE_EDITION": "Error al actualizar el tesoro. Por favor, revisa los datos e inténtalo de nuevo.",
   "EXIT_CREATING_WARNING_TITLE": "¿Quieres abandonar la creación del tesoro?",
+  "EXIT_EDITING_WARNING_TITLE": "¿Quieres abandonar la edición del tesoro?",
   "EXIT_CREATING_WARNING_TEXT": "Si sales ahora, perderás todos los cambios realizados.",
+  "EXIT_EDITING_WARNING_TEXT": "Si sales ahora, no se actualizará el tesoro con los cambios realizados.",
   "YES_EXIT": "Sí, salir",
   "EXIT": "Salir",
   "NEXT": "Siguiente",
   "CREATE_TREASAURE": "Crear tesoro",
+  "UPDATE_TREASAURE": "Actualizar tesoro",
   "SELECT_ANOTHER_OPTION": "Selecciona otra opción",
-  "INPUT_USER_EMAIL_INVALID": "La dirección de correo electrónico no es válida."
+  "INPUT_USER_EMAIL_INVALID": "La dirección de correo electrónico no es válida.",
+  "EDIT": "Editar"
 }

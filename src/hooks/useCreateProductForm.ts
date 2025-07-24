@@ -30,6 +30,27 @@ interface CreateProductFormStore {
   setProductImages: (images: File[]) => void;
 
   reset: () => void;
+
+  isEditing: boolean;
+  setIsEditing: (isEditing: boolean) => void;
+
+  setEditingValues: (
+    productName: string,
+    productCondition: string[],
+    productOrigin: string,
+    productBrand: string,
+    productMaterial: string[],
+    productCategory: string,
+    productLarge: string,
+    productWidth: string,
+    productHeight: string,
+    productDiameter: string,
+    productUnits: string,
+    productPrice: string
+  ) => void;
+
+  productId: string;
+  setProductId: (id: string) => void;
 }
 
 const useCreateProductForm = create<CreateProductFormStore>((set) => ({
@@ -77,6 +98,41 @@ const useCreateProductForm = create<CreateProductFormStore>((set) => ({
       productPrice: '',
       productImages: [],
     }),
+
+  isEditing: false,
+  setIsEditing: (isEditing) => set({ isEditing }),
+
+  setEditingValues: (
+    productName,
+    productCondition,
+    productOrigin,
+    productBrand,
+    productMaterial,
+    productCategory,
+    productLarge,
+    productWidth,
+    productHeight,
+    productDiameter,
+    productUnits,
+    productPrice
+  ) =>
+    set({
+      productName,
+      productCondition,
+      productOrigin,
+      productBrand,
+      productMaterial,
+      productCategory,
+      productLarge,
+      productWidth,
+      productHeight,
+      productDiameter,
+      productUnits,
+      productPrice,
+    }),
+
+  productId: '',
+  setProductId: (id) => set({ productId: id }),
 }));
 
 export default useCreateProductForm;

@@ -5,6 +5,7 @@ import React from 'react';
 import LightboxLoader from './Lightbox/LightboxLoader';
 import LightboxMessage from './Lightbox/LightboxMessage';
 import LightboxOptions from './Lightbox/LightboxOptions';
+import LightboxProduct from './Lightbox/LightboxProduct';
 
 const ModalContainer = () => {
   return (
@@ -12,6 +13,7 @@ const ModalContainer = () => {
       <LightboxLoader />
       <LightboxMessage />
       <LightboxOptions />
+      <LightboxProduct />
     </>
   );
 };
