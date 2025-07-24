@@ -20,18 +20,29 @@ export default function CreateProduct() {
 
   const handleExit = () => {
     formValues.reset();
+    formValues.setIsEditing(false);
     lightboxOptions.onClose();
     redirect('/products');
   };
 
   const handleCancelBtn = () => {
-    lightboxOptions.setContent(
-      translate('EXIT_CREATING_WARNING_TITLE'),
-      translate('EXIT_CREATING_WARNING_TEXT'),
-      translate('CANCEL'),
-      translate('YES_EXIT'),
-      handleExit
-    );
+    if (formValues.isEditing) {
+      lightboxOptions.setContent(
+        translate('EXIT_EDITING_WARNING_TITLE'),
+        translate('EXIT_EDITING_WARNING_TEXT'),
+        translate('CANCEL'),
+        translate('YES_EXIT'),
+        handleExit
+      );
+    } else {
+      lightboxOptions.setContent(
+        translate('EXIT_CREATING_WARNING_TITLE'),
+        translate('EXIT_CREATING_WARNING_TEXT'),
+        translate('CANCEL'),
+        translate('YES_EXIT'),
+        handleExit
+      );
+    }
     lightboxOptions.onOpen();
   };
 
@@ -43,7 +54,9 @@ export default function CreateProduct() {
     <div className="flex flex-col bg-background p-4 min-h-[calc(100vh-69px)] justify-between">
       <div>
         <h1 className="text-3xl font-semibold mb-6 text-gray-700">
-          {translate('NEW_TREASAURE')}
+          {formValues.isEditing
+            ? translate('UPDATE_TREASAURE')
+            : translate('NEW_TREASAURE')}
         </h1>
         <div className="flex flex-col gap-1 mb-4">
           <label htmlFor="name" className="px-0.5 text-sm">

@@ -26,7 +26,9 @@ export default function Manufacturing() {
       <div>
         <div className="flex flex-wrap items-end gap-x-2 mb-6">
           <h1 className="text-3xl font-semibold text-gray-700">
-            {translate('NEW_TREASAURE')}
+            {formValues.isEditing
+              ? translate('UPDATE_TREASAURE')
+              : translate('NEW_TREASAURE')}
           </h1>
           <h2 className="text-lg text-gray-700">
             {translate('TREASAURE_DIMENSIONS')}
