@@ -33,7 +33,7 @@ const Footer = () => {
               </a>
             </div>
             <span className="bg-white rounded-full px-3 py-0.5 text-xs whitespace-nowrap font-light">
-              {translate('VERSION', { version: '0.0.0' })}
+              {translate('VERSION', { version: '0.0.1' })}
             </span>
           </div>
         </footer>
