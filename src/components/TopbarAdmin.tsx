@@ -33,6 +33,7 @@ const TopbarAdmin = () => {
       translate('SIGN_OUT_CONFIRMATION'),
       translate('GO_BACK'),
       translate('SIGN_OUT'),
+      true,
       handleSignOut
     );
     lightboxOptions.onOpen();
@@ -79,6 +80,13 @@ const TopbarAdmin = () => {
               onClick={() => setMenuOpen(false)}
             >
               Ver todos los Tesoros
+            </Link>
+            <Link
+              href={'/stream'}
+              className="py-2 hover:bg-slate-100"
+              onClick={() => setMenuOpen(false)}
+            >
+              Proximo directo
             </Link>
             <button className="py-2 text-red-500" onClick={openSignOutModal}>
               Cerrar sesión

@@ -65,6 +65,7 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
       translate('DELETE_TREASURE_TEXT', { name: tesoro.name }),
       translate('CANCEL'),
       translate('DELETE'),
+      true,
       handleDelete
     );
     lightboxProduct.onClose();

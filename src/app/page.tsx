@@ -34,7 +34,7 @@ export default async function Home() {
       <Topbar isAdminLogged={userData?.role === 'ADMIN'} />
       <main>
         <Layout>
-          <div className="flex flex-col mt-[90px] ">
+          <div className="flex flex-col mt-[69px] ">
             {alert?.visible && <Alert type={alert.type} text={alert.text} />}
             <HomePage filtersData={filtersData} tesorosData={tesorosData} />
           </div>
