@@ -32,6 +32,7 @@ export default function CreateProduct() {
         translate('EXIT_EDITING_WARNING_TEXT'),
         translate('CANCEL'),
         translate('YES_EXIT'),
+        true,
         handleExit
       );
     } else {
@@ -40,6 +41,7 @@ export default function CreateProduct() {
         translate('EXIT_CREATING_WARNING_TEXT'),
         translate('CANCEL'),
         translate('YES_EXIT'),
+        true,
         handleExit
       );
     }

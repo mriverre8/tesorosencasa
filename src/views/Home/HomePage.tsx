@@ -1,6 +1,6 @@
 'use client';
 
-import React, { /* useEffect, */ useState } from 'react';
+import React, { /* useEffect, */ useEffect, useState } from 'react';
 
 // Components
 import ActiveFiltersContainer from '@/views/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
@@ -20,6 +20,9 @@ import { getProductsByFilters } from '@/actions/getProductsByFilters';
 
 // Translation
 import { useTranslations } from 'next-intl';
+import StreamCard from '@/components/StreamCard';
+import { getStream } from '@/actions/getStream';
+import StreamCardSkeleton from '@/components/StreamCardSkeleton';
 
 interface Props {
   filtersData: Record<string, (string | number)[]>;
@@ -39,6 +42,9 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
 
   const [pageSize, setPageSize] = useState(15);
   const [hasMore, setHasMore] = useState(true);
+
+  const [loading, setLoading] = useState(true);
+  const [streamData, setStreamData] = useState(null);
 
   const onChangeFilters = async (
     optionalPageSize?: number,
@@ -83,9 +89,34 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
     loader.onClose();
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const stream = await getStream();
+      setLoading(false);
+      setStreamData(stream);
+    };
+    fetchData();
+  }, []);
+
   return (
     <>
       <div className="my-2.5">
+        <>
+          {streamData && (
+            <p className="text-sm font-medium mb-2">
+              {translate('NEXT_STREAM')}
+            </p>
+          )}
+          <div
+            className={`flex flex-col gap-2 sticky top-20 z-50 ${streamData || loading ? 'mb-6' : ''}`}
+          >
+            {loading ? (
+              <StreamCardSkeleton />
+            ) : (
+              <>{streamData && <StreamCard data={streamData} />}</>
+            )}
+          </div>
+        </>
         {/* Contenedor con los filtros aplicados */}
         <ActiveFiltersContainer
           filters={filters}

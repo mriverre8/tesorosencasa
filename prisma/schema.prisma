@@ -41,6 +41,14 @@ model alerts {
   visible Boolean @default(false)
 }
 
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model stream {
+  id       BigInt   @id(map: "streams_pkey") @unique @default(autoincrement())
+  time     DateTime @db.Time(6)
+  duration Int      @db.SmallInt
+  date     DateTime @db.Date
+}
+
 enum Role {
   ADMIN
   USER

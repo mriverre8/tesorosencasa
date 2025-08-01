@@ -62,6 +62,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
       translate('DELETE_ALL_TREASURES_TEXT'),
       translate('GO_BACK'),
       translate('DELETE'),
+      true,
       handleDeleteAll
     );
     lightboxOptions.onOpen();

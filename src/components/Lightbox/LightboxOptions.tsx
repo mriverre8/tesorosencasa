@@ -17,7 +17,7 @@ const LightboxOptions = () => {
             buttonAction={lightboxOptions.onClose}
           />
           <ButtonPrimary
-            alternative={true}
+            alternative={lightboxOptions.isAlternative}
             buttonText={lightboxOptions.buttonText2}
             buttonAction={lightboxOptions.onAccept}
           />
