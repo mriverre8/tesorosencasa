@@ -25,6 +25,4 @@ export async function login(formData: FormData) {
     email: data.email,
     timestamp: new Date().toISOString(),
   });
-
-  return { success: true };
 }
