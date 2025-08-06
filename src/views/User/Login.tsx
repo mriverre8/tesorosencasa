@@ -48,8 +48,8 @@ const Login = () => {
       const formData = new FormData(event.target as HTMLFormElement);
       await login(formData);
 
-      loader.onClose();
       router.push('/products');
+      loader.onClose();
     } catch (error) {
       lightboxMessage.setContent(
         translate('LOGIN_FAILED'),
@@ -59,7 +59,6 @@ const Login = () => {
       loader.onClose();
       lightboxMessage.onOpen();
     }
-    loader.onClose();
   };
 
   return (
