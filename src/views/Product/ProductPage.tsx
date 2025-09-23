@@ -14,12 +14,13 @@ import { getProductById } from '@/actions/getProductById';
 import useAppContext from '@/hooks/useAppContext';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import useToast from '@/hooks/useToast';
 
 // Types
 import { tesoros } from '@prisma/client';
 
 // Icons
-import { IoMdShare } from 'react-icons/io';
+import { TbCopyPlus } from 'react-icons/tb';
 
 interface Props {
   id: string;
@@ -30,16 +31,15 @@ const ProductPage = ({ id }: Props) => {
   const router = useRouter();
 
   const context = useAppContext();
+  const toast = useToast();
 
   const [tesoro, setTesoro] = useState<tesoros>();
-
-  const [copiado, setCopiado] = useState(false);
 
   const handleShare = (id: string) => {
     const url = `https://tesorosencasa.vercel.app/tesoro/${id}`;
     navigator.clipboard.writeText(url).then(() => {
-      setCopiado(true);
-      setTimeout(() => setCopiado(false), 10000);
+      toast.setText(translate('LINK_COPIED'));
+      toast.onOpen();
     });
   };
 
@@ -79,16 +79,9 @@ const ProductPage = ({ id }: Props) => {
               onClick={() => handleShare(tesoro.id)}
               className="flex justify-start items-start pt-1.5"
             >
-              <IoMdShare className="text-xl text-secondary hover:text-secondary-hover" />
+              <TbCopyPlus className="text-xl text-secondary hover:text-secondary-hover" />
             </button>
           </div>
-          {copiado && (
-            <div className="w-full relative">
-              <span className="absolute text-xs text-secondary ">
-                {translate('LINK_COPIED')}
-              </span>
-            </div>
-          )}
           <div className="flex flex-col gap-3 mt-7">
             <div className="flex flex-col gap-2">
               <div className="flex flex-col">

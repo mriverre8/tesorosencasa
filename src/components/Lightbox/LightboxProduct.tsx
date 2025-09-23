@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { CldImage } from 'next-cloudinary';
 
 // Components
@@ -9,25 +9,26 @@ import Lightbox from '@/components/Lightbox/Lightbox';
 
 // Hooks
 import useLightboxProduct from '@/hooks/useLightboxProduct';
+import useToast from '@/hooks/useToast';
 
 // Translation
 import { useTranslations } from 'next-intl';
 
 // Icons
-import { IoMdShare } from 'react-icons/io';
+import { TbCopyPlus } from 'react-icons/tb';
 
 const LightboxProduct = () => {
   const translate = useTranslations();
 
   const lightboxProduct = useLightboxProduct();
 
-  const [copiado, setCopiado] = useState(false);
+  const toast = useToast();
 
   const handleShare = () => {
     const url = `https://tesorosencasa.vercel.app/tesoro/${lightboxProduct.product.id}`;
     navigator.clipboard.writeText(url).then(() => {
-      setCopiado(true);
-      setTimeout(() => setCopiado(false), 10000);
+      toast.setText(translate('LINK_COPIED'));
+      toast.onOpen();
     });
   };
 
@@ -39,19 +40,12 @@ const LightboxProduct = () => {
         </h1>
         <div className="flex-[2] flex justify-end self-start mt-1.5">
           <button onClick={handleShare}>
-            <IoMdShare className="text-xl text-secondary hover:text-secondary-hover" />
+            <TbCopyPlus className="text-xl text-secondary hover:text-secondary-hover" />
           </button>
         </div>
       </div>
 
       <div className=" h-[400px] overflow-y-auto ">
-        {copiado && (
-          <div className="w-full">
-            <span className="text-xs text-secondary ">
-              {translate('LINK_COPIED')}
-            </span>
-          </div>
-        )}
         <div className="mt-3 flex flex-col gap-3">
           <div className="flex flex-col gap-2">
             <div className="flex flex-col">
