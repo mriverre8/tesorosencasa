@@ -1,17 +1,25 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useTranslations } from 'next-intl';
+
+// Components
 import ButtonPrimary from '@/components/ButtonPrimary';
-import { getStream } from '@/actions/getStream';
-import useLightboxOptions from '@/hooks/useLightboxOptions';
-import { acceptOnlyNumbers, minutesToHours } from '@/utils/utils';
-import useLoader from '@/hooks/useLoader';
-import { newStream } from '@/actions/newStream';
-import useLightboxMessage from '@/hooks/useLightboxMessage';
 import StreamCard from '@/components/StreamCard';
 import StreamCardSkeleton from '@/components/StreamCardSkeleton';
+
+// Hooks
+import { useTranslations } from 'next-intl';
+import useLightboxOptions from '@/hooks/useLightboxOptions';
+import useLoader from '@/hooks/useLoader';
+import useLightboxMessage from '@/hooks/useLightboxMessage';
+
+// Actions
+import { getStream } from '@/actions/getStream';
+import { newStream } from '@/actions/newStream';
 import { deleteStream } from '@/actions/deleteStream';
+
+// Utils
+import { acceptOnlyNumbers, minutesToHours } from '@/utils/utils';
 
 export default function Stream() {
   const translate = useTranslations();
@@ -127,13 +135,13 @@ export default function Stream() {
       <div>
         <div className="flex flex-col gap-2 mb-6">
           <div className="flex justify-between items-center">
-            <p className="text-sm font-medium">Directo actual</p>
+            <p className="text-sm font-medium">{translate('ACTUAL_STREAM')}</p>
             {streamData && (
               <button
                 className="text-xs font-medium text-red-600 hover:underline"
                 onClick={() => handleDeleteStream()}
               >
-                Despublicar
+                {translate('UNPUBLISH')}
               </button>
             )}
           </div>
@@ -145,7 +153,7 @@ export default function Stream() {
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <label htmlFor="date" className="text-sm font-medium px-0.5">
-              Selecciona una fecha
+              {translate('SELECT_DATE')}
             </label>
             <input
               type="date"
@@ -159,7 +167,7 @@ export default function Stream() {
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="time" className="text-sm font-medium px-0.5">
-              Selecciona una hora
+              {translate('SELECT_TIME')}
             </label>
             <input
               type="time"
@@ -172,7 +180,9 @@ export default function Stream() {
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="duration" className="text-sm font-medium px-0.5">
-              Duración - {minutesToHours(duration)}
+              {translate('STREAM_DURATION', {
+                duration: minutesToHours(duration),
+              })}
             </label>
             <div className="relative">
               <input

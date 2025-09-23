@@ -1,17 +1,24 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
-import useCreateProductForm from '@/hooks/useCreateProductForm';
-import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/InputCondition';
-import useLightboxOptions from '@/hooks/useLightboxOptions';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
+// Components
 import ButtonSecondary from '@/components/ButtonSecondary';
 import ButtonPrimary from '@/components/ButtonPrimary';
+import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/InputCondition';
+
+// Hooks
+import { useTranslations } from 'next-intl';
+import useCreateProductForm from '@/hooks/useCreateProductForm';
+import useLightboxOptions from '@/hooks/useLightboxOptions';
+
+// Utils
 import { isFormProductNameOk } from '@/validators/validators';
 
 export default function CreateProduct() {
   const translate = useTranslations();
+  const router = useRouter();
 
   const formValues = useCreateProductForm();
   const lightboxOptions = useLightboxOptions();
@@ -22,7 +29,7 @@ export default function CreateProduct() {
     formValues.reset();
     formValues.setIsEditing(false);
     lightboxOptions.onClose();
-    redirect('/products');
+    router.push('/products');
   };
 
   const handleCancelBtn = () => {
@@ -49,7 +56,7 @@ export default function CreateProduct() {
   };
 
   const handleNextBtn = () => {
-    redirect('/createproduct/background');
+    router.push('/createproduct/background');
   };
 
   return (

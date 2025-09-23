@@ -1,24 +1,31 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
-import useCreateProductForm from '@/hooks/useCreateProductForm';
-import { acceptOnlyNumbers } from '@/utils/utils';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
+// Components
 import ButtonSecondary from '@/components/ButtonSecondary';
 import ButtonPrimary from '@/components/ButtonPrimary';
 
+// Hooks
+import { useTranslations } from 'next-intl';
+import useCreateProductForm from '@/hooks/useCreateProductForm';
+
+// Utils
+import { acceptOnlyNumbers } from '@/utils/utils';
+
 export default function Manufacturing() {
   const translate = useTranslations();
+  const router = useRouter();
 
   const formValues = useCreateProductForm();
 
   const handleBackBtn = () => {
-    redirect('/createproduct/manufacturing');
+    router.push('/createproduct/manufacturing');
   };
 
   const handleNextBtn = () => {
-    redirect('/createproduct/stock');
+    router.push('/createproduct/stock');
   };
 
   return (

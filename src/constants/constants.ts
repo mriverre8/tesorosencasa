@@ -22,3 +22,7 @@ export const DAY = [
   'FRIDAY',
   'SATURDAY',
 ];
+
+export const PAGE_SIZE = 10;
+
+export const MAX_IMAGES_LIMIT = 6;

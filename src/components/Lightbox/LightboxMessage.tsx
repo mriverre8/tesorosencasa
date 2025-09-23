@@ -1,6 +1,10 @@
 import React from 'react';
+
+// Components
 import ButtonPrimary from '../ButtonPrimary';
 import Lightbox from './Lightbox';
+
+// Hooks
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 
 const LightboxMessage = () => {

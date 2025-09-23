@@ -2,15 +2,22 @@
 
 import React, { useState } from 'react';
 import NextImage from 'next/image';
+
+// Icons
 import { FaCameraRetro } from 'react-icons/fa';
 import { IoIosImages } from 'react-icons/io';
 
+// Translation
 import { useTranslations } from 'next-intl';
-/* import useLightboxMessage from '@/hooks/useLightboxMessage'; */
+
+// Components
 import LightboxImages from '../LightboxImages/LightboxImages';
+
+// Hooks
 import useCreateProductForm from '@/hooks/useCreateProductForm';
 
-const MAX_IMAGES_LIMIT = 6;
+// Constants
+import { MAX_IMAGES_LIMIT } from '@/constants/constants';
 
 const InputImageFiles = () => {
   const translate = useTranslations();
@@ -48,7 +55,7 @@ const InputImageFiles = () => {
     <>
       {isEditing && (
         <p className="text-sm text-gray-500">
-          Las imagenes todavía no se pueden editar
+          Las imágenes todavía no se pueden editar
         </p>
       )}
       {!isEditing && (

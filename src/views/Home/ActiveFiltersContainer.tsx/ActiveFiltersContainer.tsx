@@ -11,7 +11,6 @@ import { IoClose } from 'react-icons/io5';
 interface Props {
   filters: Record<string, (string | number)[]>;
   onChangeFilters: (
-    optionalPageSize?: number,
     optionalFilters?: Record<string, (string | number)[]>,
     optionalSearchTerm?: string
   ) => void;
@@ -29,7 +28,7 @@ const ActiveFiltersContainer = ({ filters, onChangeFilters }: Props) => {
       delete newFilters[category];
     }
 
-    onChangeFilters(undefined, newFilters, undefined);
+    onChangeFilters(newFilters, undefined);
   };
 
   return (

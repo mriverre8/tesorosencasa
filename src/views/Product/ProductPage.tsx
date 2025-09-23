@@ -1,46 +1,82 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
+
+// Components
 import Carousel from '@/components/Carousel';
-import { tesoros } from '@prisma/client';
+import ProductPageSkeleton from './ProductPageSkeleton';
+import ButtonSecondary from '@/components/ButtonSecondary';
+
+// Actions
+import { getProductById } from '@/actions/getProductById';
+
+// Hooks
+import useAppContext from '@/hooks/useAppContext';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
-import React, { useState } from 'react';
+
+// Types
+import { tesoros } from '@prisma/client';
+
+// Icons
 import { IoMdShare } from 'react-icons/io';
 
 interface Props {
-  productData: tesoros;
+  id: string;
 }
 
-const ProductPage = ({ productData }: Props) => {
+const ProductPage = ({ id }: Props) => {
   const translate = useTranslations();
+  const router = useRouter();
+
+  const context = useAppContext();
+
+  const [tesoro, setTesoro] = useState<tesoros>();
 
   const [copiado, setCopiado] = useState(false);
 
-  const handleShare = () => {
-    const url = `https://tesorosencasa.vercel.app/tesoro/${productData.id}`;
+  const handleShare = (id: string) => {
+    const url = `https://tesorosencasa.vercel.app/tesoro/${id}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopiado(true);
       setTimeout(() => setCopiado(false), 10000);
     });
   };
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const tesoroData = await getProductById(id);
+      setTesoro(tesoroData);
+    };
+    if (context.hasBeenInitialized) {
+      const foundTesoro = context.tesoros.find((t) => t.id === id);
+      setTesoro(foundTesoro);
+    } else {
+      fetchProduct();
+    }
+  }, []);
+
+  if (!tesoro) {
+    return <ProductPageSkeleton />;
+  }
+
   return (
     <div className="flex justify-center items-center">
       <div className="flex flex-col gap-2 max-w-lg">
-        <Link
-          href={'/'}
-          className="hover:text-primary transition duration-300 underline underline-offset-2 whitespace-nowrap"
-        >
-          {translate('GO_BACK')}
-        </Link>
+        <div>
+          <ButtonSecondary
+            buttonText={translate('GO_BACK')}
+            buttonAction={() => router.push('/')}
+          />
+        </div>
 
-        <Carousel tesoro={productData} />
+        <Carousel tesoro={tesoro} />
 
         <div className="flex flex-col gap-3 rounded-md mt-4 mb-10 ">
           <div className="flex justify-between gap-5">
-            <h1 className="text-2xl font-bold">{productData.name}</h1>
+            <h1 className="text-2xl font-bold">{tesoro.name}</h1>
             <button
-              onClick={handleShare}
+              onClick={() => handleShare(tesoro.id)}
               className="flex justify-start items-start pt-1.5"
             >
               <IoMdShare className="text-xl text-secondary hover:text-secondary-hover" />
@@ -60,9 +96,9 @@ const ProductPage = ({ productData }: Props) => {
                   {translate('TREASSAURE_CONDITION')}
                 </p>
                 <div className="text-sm">
-                  {productData.condition?.length ? (
+                  {tesoro.condition?.length ? (
                     <ul className="list-disc ml-5 pt-0.5">
-                      {Object.values(productData.condition).map((cond, idx) => (
+                      {Object.values(tesoro.condition).map((cond, idx) => (
                         <li key={idx}>{cond}</li>
                       ))}
                     </ul>
@@ -81,9 +117,7 @@ const ProductPage = ({ productData }: Props) => {
                   {translate('TREASAURE_ORIGIN')}
                 </p>
                 <p className="text-sm">
-                  {productData.origin
-                    ? productData.origin
-                    : translate('UNKNOWN')}
+                  {tesoro.origin ? tesoro.origin : translate('UNKNOWN')}
                 </p>
               </div>
               <div className="flex flex-col w-full">
@@ -91,7 +125,7 @@ const ProductPage = ({ productData }: Props) => {
                   {translate('TREASAURE_BRAND')}
                 </p>
                 <p className="text-sm ">
-                  {productData.brand ? productData.brand : translate('UNKNOWN')}
+                  {tesoro.brand ? tesoro.brand : translate('UNKNOWN')}
                 </p>
               </div>
             </div>
@@ -104,9 +138,9 @@ const ProductPage = ({ productData }: Props) => {
                   {translate('TREASAURE_MATERIAL')}
                 </p>
                 <div className="text-sm">
-                  {productData.material?.length ? (
+                  {tesoro.material?.length ? (
                     <ul className="list-disc ml-5 pt-0.5">
-                      {Object.values(productData.material).map((mat, idx) => (
+                      {Object.values(tesoro.material).map((mat, idx) => (
                         <li key={idx}>{mat}</li>
                       ))}
                     </ul>
@@ -120,51 +154,49 @@ const ProductPage = ({ productData }: Props) => {
                   {translate('TREASAURE_CATEGORY')}
                 </p>
                 <p className="text-sm">
-                  {productData.category
-                    ? productData.category
-                    : translate('UNKNOWN')}
+                  {tesoro.category ? tesoro.category : translate('UNKNOWN')}
                 </p>
               </div>
             </div>
-            {(productData.large ||
-              productData.width ||
-              productData.height ||
-              productData.diameter) && (
+            {(tesoro.large ||
+              tesoro.width ||
+              tesoro.height ||
+              tesoro.diameter) && (
               <>
                 <h2 className="font-semibold">
                   {translate('TREASAURE_DIMENSIONS')}
                 </h2>
                 <div className="flex flex-col mobile:flex-row gap-2 mobile:justify-between">
-                  {productData.large && (
+                  {tesoro.large && (
                     <div className="flex flex-col mobile:justify-center mobile:items-center mobile:text-center">
                       <p className="text-xs text-gray-400">
                         {translate('LARGE')}
                       </p>
-                      <p className="text-sm">{productData.large} cm</p>
+                      <p className="text-sm">{tesoro.large} cm</p>
                     </div>
                   )}
-                  {productData.width && (
+                  {tesoro.width && (
                     <div className="flex flex-col mobile:justify-center mobile:items-center mobile:text-center">
                       <p className="text-xs text-gray-400">
                         {translate('WIDTH')}
                       </p>
-                      <p className="text-sm">{productData.width} cm</p>
+                      <p className="text-sm">{tesoro.width} cm</p>
                     </div>
                   )}
-                  {productData.height && (
+                  {tesoro.height && (
                     <div className="flex flex-col mobile:justify-center mobile:items-center mobile:text-center">
                       <p className="text-xs text-gray-400">
                         {translate('HEIGHT')}
                       </p>
-                      <p className="text-sm">{productData.height} cm</p>
+                      <p className="text-sm">{tesoro.height} cm</p>
                     </div>
                   )}
-                  {productData.diameter && (
+                  {tesoro.diameter && (
                     <div className="flex flex-col mobile:justify-center mobile:items-center mobile:text-center">
                       <p className="text-xs text-gray-400">
                         {translate('DIAMETER')}
                       </p>
-                      <p className="text-sm">{productData.diameter} cm</p>
+                      <p className="text-sm">{tesoro.diameter} cm</p>
                     </div>
                   )}
                 </div>
@@ -176,14 +208,14 @@ const ProductPage = ({ productData }: Props) => {
                 <p className="text-xs text-gray-400">
                   {translate('TREASAURE_UNITS')}
                 </p>
-                <p className="text-sm">{productData.units}</p>
+                <p className="text-sm">{tesoro.units}</p>
               </div>
               <div className="flex flex-col   w-full">
                 <p className="text-xs text-gray-400">
                   {translate('TREASAURE_PRICE')}{' '}
                   {translate('TREASAURE_PRICE_X_UNITS')}
                 </p>
-                <p className="text-sm">{productData.price} €</p>
+                <p className="text-sm">{tesoro.price} €</p>
               </div>
             </div>
           </div>

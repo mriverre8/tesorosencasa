@@ -1,5 +1,6 @@
 'use server';
 
+import { PAGE_SIZE } from '@/constants/constants';
 import { createClient } from '@/supabase/server';
 
 type Filters = {
@@ -12,13 +13,13 @@ type Filters = {
 };
 
 export async function getProductsByFilters(
-  pageSize: number,
+  newPage: number,
   filters: Filters,
   searchTerm: string
 ) {
   const supabase = await createClient();
 
-  let query = supabase.from('tesoros').select('*');
+  let query = supabase.from('tesoros').select('*', { count: 'exact' });
 
   // Aplicar filtros dinámicamente
   if (filters.condition?.length) {
@@ -50,9 +51,9 @@ export async function getProductsByFilters(
   }
 
   // Paginación: siempre desde 0 hasta pageSize - 1
-  query = query.range(0, pageSize - 1);
+  query = query.range(newPage * PAGE_SIZE - PAGE_SIZE, newPage * PAGE_SIZE - 1);
 
-  const { data, error } = await query;
+  const { data, count, error } = await query;
 
   if (error) {
     console.error('[GET PRODUCTS BY FILTERS ERROR]', {
@@ -61,11 +62,14 @@ export async function getProductsByFilters(
       hint: error.hint,
       timestamp: new Date().toISOString(),
     });
-    return [];
+    return { data: [], total: 0 };
   }
+
   console.log('[GET PRODUCTS BY FILTERS] Query successful', {
     results: data.length,
+    total: count,
     timestamp: new Date().toISOString(),
   });
-  return data;
+
+  return { data, total: count ?? 0 };
 }

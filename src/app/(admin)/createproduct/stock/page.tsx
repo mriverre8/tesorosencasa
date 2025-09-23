@@ -1,27 +1,36 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
-import useCreateProductForm from '@/hooks/useCreateProductForm';
-import { acceptOnlyNumbers } from '@/utils/utils';
+import { useRouter } from 'next/navigation';
+
+// Components
 import InputImageFiles from '@/views/Admin/CreateProductForm/InputImageFiles/InputImageFiles';
 import ButtonSecondary from '@/components/ButtonSecondary';
 import ButtonPrimary from '@/components/ButtonPrimary';
-import { redirect } from 'next/navigation';
+
+// Hooks
+import { useTranslations } from 'next-intl';
+import useCreateProductForm from '@/hooks/useCreateProductForm';
+import useLoader from '@/hooks/useLoader';
+import useLightboxMessage from '@/hooks/useLightboxMessage';
+
+// Utils
+import { acceptOnlyNumbers } from '@/utils/utils';
 import {
   isFormProductImagesOk,
   isFormProductPriceOk,
   isFormProductUnitsOk,
 } from '@/validators/validators';
-import useLoader from '@/hooks/useLoader';
-import useLightboxMessage from '@/hooks/useLightboxMessage';
+import { generateNewProductPayload } from '@/utils/payloadUtils';
+
+// Actions
 import { newProduct } from '@/actions/newproduct';
 import { uploadImage } from '@/actions/uploadImage';
-import { generateNewProductPayload } from '@/utils/payloadUtils';
 import { editProduct } from '@/actions/editProduct';
 
 export default function Stock() {
   const translate = useTranslations();
+  const router = useRouter();
 
   const lightboxLoader = useLoader();
   const lightboxMessage = useLightboxMessage();
@@ -34,7 +43,7 @@ export default function Stock() {
     (formValues.isEditing || isFormProductImagesOk(formValues.productImages));
 
   const handleBackBtn = () => {
-    redirect('/createproduct/dimensions');
+    router.push('/createproduct/dimensions');
   };
 
   const handleCreateProduct = async () => {
@@ -71,7 +80,7 @@ export default function Stock() {
       );
       lightboxLoader.onClose();
       lightboxMessage.onOpen();
-      redirect('/products');
+      router.push('/products');
     } else {
       lightboxMessage.setContent(
         translate('ERROR'),
@@ -101,7 +110,7 @@ export default function Stock() {
       );
       lightboxLoader.onClose();
       lightboxMessage.onOpen();
-      redirect('/products');
+      router.push('/products');
     } else {
       lightboxMessage.setContent(
         translate('ERROR'),
