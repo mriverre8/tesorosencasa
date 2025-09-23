@@ -172,7 +172,7 @@ const HomePage = () => {
                 <IoIosArrowBack className="text-2xl text-white" />
               </button>
               <div>
-                <span>{context.page}</span> of <span>{context.maxPage}</span>
+                <span>{context.page}</span> de <span>{context.maxPage}</span>
               </div>
               <button
                 className={` ${context.page === context.maxPage ? 'bg-gray-400' : 'bg-secondary hover:bg-secondary-hover'} rounded-md p-0.5 flex items-center justify-center`}

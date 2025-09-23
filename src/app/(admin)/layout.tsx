@@ -1,5 +1,4 @@
 import React from 'react';
-import { getUserById } from '@/actions/getUserById';
 import TopbarAdmin from '@/components/TopbarAdmin';
 import { createClient } from '@/supabase/server';
 import { redirect } from 'next/navigation';
@@ -15,9 +14,7 @@ export default async function Layout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  const userData = user ? await getUserById(user.id) : null;
-
-  if (userData?.role !== 'ADMIN') {
+  if (user == null) {
     redirect('/login');
   }
 
