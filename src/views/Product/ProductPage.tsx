@@ -1,15 +1,25 @@
 'use client';
 
-import { getProductById } from '@/actions/getProductById';
-import Carousel from '@/components/Carousel';
-import useAppContext from '@/hooks/useAppContext';
-import { tesoros } from '@prisma/client';
-import { useTranslations } from 'next-intl';
 import React, { useEffect, useState } from 'react';
-import { IoMdShare } from 'react-icons/io';
+
+// Components
+import Carousel from '@/components/Carousel';
 import ProductPageSkeleton from './ProductPageSkeleton';
 import ButtonSecondary from '@/components/ButtonSecondary';
+
+// Actions
+import { getProductById } from '@/actions/getProductById';
+
+// Hooks
+import useAppContext from '@/hooks/useAppContext';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+
+// Types
+import { tesoros } from '@prisma/client';
+
+// Icons
+import { IoMdShare } from 'react-icons/io';
 
 interface Props {
   id: string;

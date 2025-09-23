@@ -1,9 +1,15 @@
 'use client';
 
+import React from 'react';
+
+// Components
 import ButtonSecondary from '@/components/ButtonSecondary';
+
+// Hooks
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+
+// Icons
 import { IoImage } from 'react-icons/io5';
 
 const ProductPageSkeleton = () => {

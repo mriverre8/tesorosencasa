@@ -1,7 +1,11 @@
 import React from 'react';
+
+// Components
 import ButtonSecondary from '../ButtonSecondary';
 import ButtonPrimary from '../ButtonPrimary';
 import Lightbox from './Lightbox';
+
+// Hooks
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 
 const LightboxOptions = () => {

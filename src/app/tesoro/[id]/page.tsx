@@ -1,8 +1,12 @@
 import React from 'react';
+
+// Components
 import Layout from '@/components/Layout';
 import ProductPage from '@/views/Product/ProductPage';
 import Topbar from '@/components/Topbar';
 import Footer from '@/components/Footer';
+
+// Supabase
 import { createClient } from '@/supabase/server';
 
 export default async function Product({

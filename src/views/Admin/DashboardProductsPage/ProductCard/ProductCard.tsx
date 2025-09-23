@@ -1,17 +1,24 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { tesoros } from '@prisma/client';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { CldImage } from 'next-cloudinary';
+import { useRouter } from 'next/navigation';
+
+//Hooks
 import useLightboxProduct from '@/hooks/useLightboxProduct';
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 import useLoader from '@/hooks/useLoader';
 import useLightboxMessage from '@/hooks/useLightboxMessage';
-import { useTranslations } from 'next-intl';
-import { deleteProductById } from '@/actions/deleteProductById';
 import useCreateProductForm from '@/hooks/useCreateProductForm';
-import { redirect } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+
+// Types
+import { tesoros } from '@prisma/client';
+// Icons
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { CldImage } from 'next-cloudinary';
+
+// Actions
+import { deleteProductById } from '@/actions/deleteProductById';
 
 interface Props {
   tesoro: tesoros;
@@ -21,6 +28,7 @@ interface Props {
 
 const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
   const translate = useTranslations();
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -94,10 +102,10 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
       tesoro.units.toString(),
       tesoro.price.toString()
     );
-    redirect('/createproduct');
+    router.push('/createproduct');
   };
 
-  // Cerrar el dropdown si se hace clic fuera
+  // TODO: Utilizar hook genérico para detectar clicks fuera del dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -117,7 +125,6 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
         className="flex items-center flex-1"
         onClick={() => handlePreview(tesoro)}
       >
-        {/* Imagen */}
         <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 mr-3 relative">
           <CldImage
             src={tesoro.images[0]}
@@ -130,14 +137,12 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
           />
         </div>
 
-        {/* Información */}
         <div className="flex-1">
           <h3 className="text-sm font-semibold line-clamp-1">{tesoro.name}</h3>
           <p className="text-xs text-gray-500 line-clamp-1">{tesoro.brand}</p>
         </div>
       </div>
 
-      {/* Botón de menú */}
       <div ref={dropdownRef} className="relative">
         <button
           onClick={() => setOpen(!open)}
@@ -146,7 +151,6 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
           <GiHamburgerMenu className="text-lg" />
         </button>
 
-        {/* Dropdown */}
         {open && (
           <div className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2 w-32 bg-white border border-gray-200 rounded-lg shadow-sm z-50">
             <button

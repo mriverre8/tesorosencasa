@@ -10,6 +10,8 @@ import { useTranslations } from 'next-intl';
 
 // Types
 import { tesoros } from '@prisma/client';
+
+// Icons
 import { IoMdShare } from 'react-icons/io';
 
 interface Props {

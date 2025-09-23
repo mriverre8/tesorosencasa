@@ -2,7 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+
+// Translation
 import { useTranslations } from 'next-intl';
+
+// Hooks
 import useCreateProductForm from '@/hooks/useCreateProductForm';
 
 interface Props {

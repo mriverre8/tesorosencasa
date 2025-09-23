@@ -1,27 +1,34 @@
 'use client';
 
 import React from 'react';
-import { useTranslations } from 'next-intl';
-import useCreateProductForm from '@/hooks/useCreateProductForm';
-import InputCountries from '@/views/Admin/CreateProductForm/InputCountries/InputCountries';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
+// Components
 import ButtonSecondary from '@/components/ButtonSecondary';
 import ButtonPrimary from '@/components/ButtonPrimary';
+import InputCountries from '@/views/Admin/CreateProductForm/InputCountries/InputCountries';
+
+// Hooks
+import { useTranslations } from 'next-intl';
+import useCreateProductForm from '@/hooks/useCreateProductForm';
+
+// Utils
 import { isFormProductBrandOk } from '@/validators/validators';
 
 export default function Background() {
   const translate = useTranslations();
+  const router = useRouter();
 
   const formValues = useCreateProductForm();
 
   const isFormOk = isFormProductBrandOk(formValues.productBrand);
 
   const handleBackBtn = () => {
-    redirect('/createproduct');
+    router.push('/createproduct');
   };
 
   const handleNextBtn = () => {
-    redirect('/createproduct/manufacturing');
+    router.push('/createproduct/manufacturing');
   };
 
   return (

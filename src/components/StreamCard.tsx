@@ -1,8 +1,18 @@
-import { DAY, MONTH } from '@/constants/constants';
-import { minutesToHours } from '@/utils/utils';
-import { stream } from '@prisma/client';
-import { useTranslations } from 'next-intl';
 import React from 'react';
+
+// Constants
+import { DAY, MONTH } from '@/constants/constants';
+
+// Utils
+import { minutesToHours } from '@/utils/utils';
+
+// Types
+import { stream } from '@prisma/client';
+
+// Hooks
+import { useTranslations } from 'next-intl';
+
+// Icons
 import { TbPointFilled } from 'react-icons/tb';
 
 interface Props {
@@ -62,7 +72,9 @@ const StreamCard = ({ data }: Props) => {
             {translate(monthLabel)}
           </p>
           <p className="text-xs text-gray-500">
-            Duración: {minutesToHours(data.duration.toString())}
+            {translate('STREAM_DURATION', {
+              duration: minutesToHours(data.duration.toString()),
+            })}
           </p>
         </div>
       </div>
@@ -70,14 +82,18 @@ const StreamCard = ({ data }: Props) => {
       {isToday && isInTimeRange && (
         <div className="flex items-center">
           <TbPointFilled className="text-red-600 text-xl" />
-          <p className="text-xs text-red-500 whitespace-nowrap">En directo</p>
+          <p className="text-xs text-red-500 whitespace-nowrap">
+            {translate('STREAM_LIVE')}
+          </p>
         </div>
       )}
 
       {isToday && hasEnded && (
         <div className="flex items-center">
           <TbPointFilled className="text-gray-500 text-xl" />
-          <p className="text-xs text-gray-500 whitespace-nowrap">Finalizado</p>
+          <p className="text-xs text-gray-500 whitespace-nowrap">
+            {translate('STREAM_ENDED')}
+          </p>
         </div>
       )}
     </div>

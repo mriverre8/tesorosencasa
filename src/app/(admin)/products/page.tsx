@@ -1,5 +1,9 @@
 import React from 'react';
+
+// Components
 import DashboardProductsPage from '@/views/Admin/DashboardProductsPage/DashboardProductsPage';
+
+// Actions
 import { getAllProducts } from '@/actions/getAllProducts';
 
 export default async function Products() {

@@ -24,3 +24,5 @@ export const DAY = [
 ];
 
 export const PAGE_SIZE = 10;
+
+export const MAX_IMAGES_LIMIT = 6;

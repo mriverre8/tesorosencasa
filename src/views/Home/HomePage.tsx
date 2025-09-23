@@ -10,6 +10,8 @@ import CardMobile from './CardMobile/CardMobile';
 import Card from './Card/Card';
 import StreamCard from '@/components/StreamCard';
 import StreamCardSkeleton from '@/components/StreamCardSkeleton';
+import CardMobileSkeleton from './CardMobile/CardMobileSkeleton';
+import CardSkeleton from './Card/CardSkeleton';
 
 // Hooks
 import useLoader from '@/hooks/useLoader';
@@ -23,11 +25,12 @@ import { getStream } from '@/actions/getStream';
 
 // Translation
 import { useTranslations } from 'next-intl';
-import CardMobileSkeleton from './CardMobile/CardMobileSkeleton';
 
+// Icons
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+
+// Constants
 import { PAGE_SIZE } from '@/constants/constants';
-import CardSkeleton from './Card/CardSkeleton';
 
 const HomePage = () => {
   const translate = useTranslations();

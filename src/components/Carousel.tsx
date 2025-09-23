@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import { CldImage } from 'next-cloudinary';
 
 // Types
 import { tesoros } from '@prisma/client';
 
+// Icons
 import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io';
-import { CldImage } from 'next-cloudinary';
 
 interface Props {
   tesoro: tesoros;
@@ -14,12 +15,6 @@ interface Props {
 
 const Carousel = ({ tesoro }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  // const [dragStartX, setDragStartX] = useState(0);
-  // const [dragStartY, setDragStartY] = useState(0);
-  // const [dragging, setDragging] = useState(false);
-  // const [offsetX, setOffsetX] = useState(0);
-  const [isTransitioning /* , setIsTransitioning */] = useState(true);
-  // const [isHorizontalScroll, setIsHorizontalScroll] = useState(false);
 
   const prevSlide = () => {
     if (currentIndex > 0) {
@@ -33,61 +28,8 @@ const Carousel = ({ tesoro }: Props) => {
     }
   };
 
-  /*
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setDragging(true);
-    setIsTransitioning(false);
-    setDragStartX(e.touches[0].clientX);
-    setDragStartY(e.touches[0].clientY);
-    setIsHorizontalScroll(false);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!dragging) return;
-
-    const deltaX = e.touches[0].clientX - dragStartX;
-    const deltaY = e.touches[0].clientY - dragStartY;
-
-    if (!isHorizontalScroll) {
-      // Determinar si el movimiento es más horizontal que vertical
-      if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        setIsHorizontalScroll(true);
-        document.body.style.overflow = 'hidden'; 
-      } else {
-        return;
-      }
-    }
-
-    if (
-      (currentIndex === 0 && deltaX > 0) ||
-      (currentIndex === tesoro.images.length - 1 && deltaX < 0)
-    ) {
-      setOffsetX(0);
-    } else {
-      setOffsetX(deltaX);
-    }
-  };
-
-  const handleTouchEnd = () => {
-    setDragging(false);
-    setIsTransitioning(true);
-
-    if (isHorizontalScroll) {
-      if (offsetX < -50 && currentIndex < tesoro.images.length - 1) {
-        nextSlide();
-      } else if (offsetX > 50 && currentIndex > 0) {
-        prevSlide();
-      }
-    }
-
-    setOffsetX(0);
-    document.body.style.overflow = '';
-  };
-  */
-
   return (
     <div className="w-full max-w-lg mx-auto relative overflow-hidden">
-      {/* Controles de flechas */}
       {currentIndex > 0 && (
         <button
           onClick={prevSlide}
@@ -105,13 +47,10 @@ const Carousel = ({ tesoro }: Props) => {
         </button>
       )}
       <div
-        className={`flex ${isTransitioning ? 'transition-transform ease-in-out duration-300' : ''}`}
+        className="flex transition-transform ease-in-out duration-300"
         style={{
           transform: `translateX(-${currentIndex * 100}%)`,
         }}
-        // onTouchStart={handleTouchStart}
-        // onTouchMove={handleTouchMove}
-        // onTouchEnd={handleTouchEnd}
       >
         {tesoro.images.map((image, index) => (
           <div

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 // Hooks
 import { useRouter } from 'next/navigation';
@@ -18,8 +19,9 @@ import { useTranslations } from 'next-intl';
 // Hooks
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 import useLoader from '@/hooks/useLoader';
+
+// Utils
 import { isUserEmailOk } from '@/validators/validators';
-import Image from 'next/image';
 
 const Login = () => {
   const translate = useTranslations();

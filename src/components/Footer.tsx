@@ -1,6 +1,12 @@
 import React from 'react';
+
+// Components
 import Layout from './Layout';
+
+// Icons
 import { FaInstagram } from 'react-icons/fa';
+
+// Hooks
 import { useTranslations } from 'next-intl';
 
 const Footer = () => {

@@ -154,5 +154,15 @@
   "NEXT_STREAM_DELETED_TITLE": "¡Directo despublicado!",
   "NEXT_STREAM_DELETED_TEXT": "El próximo directo ha sido despublicado correctamente.",
   "NEXT_STREAM_DELETE_ERROR_TITLE": "Error al despublicar el directo",
-  "NEXT_STREAM_DELETE_ERROR_TEXT": "No se pudo despublicar el próximo directo. Por favor, inténtalo de nuevo más tarde."
+  "NEXT_STREAM_DELETE_ERROR_TEXT": "No se pudo despublicar el próximo directo. Por favor, inténtalo de nuevo más tarde.",
+  "HOME": "Inicio",
+  "ADMIN_TREASAURES": "Ver todos los Tesoros",
+  "ADMIN_NEXT_STREAM": "Próximo directo",
+  "STREAM_LIVE": "En directo",
+  "STREAM_ENDED": "Finalizado",
+  "STREAM_DURATION": "Duración: {duration}",
+  "ACTUAL_STREAM": "Directo actual",
+  "UNPUBLISH": "Despublicar",
+  "SELECT_DATE": "Selecciona una fecha",
+  "SELECT_TIME": "Selecciona una hora"
 }

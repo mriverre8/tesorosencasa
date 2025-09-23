@@ -1,8 +1,14 @@
 'use client';
 
 import React from 'react';
+
+// Components
 import Layout from './Layout';
+
+// Icons
 import { MdAdminPanelSettings } from 'react-icons/md';
+
+// Hooks
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 

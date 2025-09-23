@@ -8,6 +8,8 @@ import { useTranslations } from 'next-intl';
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
 import { FaFilter } from 'react-icons/fa';
+
+// Hooks
 import useAppContext from '@/hooks/useAppContext';
 
 interface Props {

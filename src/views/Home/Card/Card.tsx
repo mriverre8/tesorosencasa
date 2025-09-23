@@ -1,13 +1,16 @@
 import React from 'react';
+import { CldImage } from 'next-cloudinary';
 
 // Translation
 import { useTranslations } from 'next-intl';
 
 // Types
 import { tesoros } from '@prisma/client';
-import { CldImage } from 'next-cloudinary';
 
+// Components
 import ButtonSecondary from '@/components/ButtonSecondary';
+
+// Hooks
 import { useRouter } from 'next/navigation';
 
 interface Props {

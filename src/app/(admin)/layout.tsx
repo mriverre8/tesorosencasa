@@ -1,7 +1,11 @@
 import React from 'react';
-import TopbarAdmin from '@/components/TopbarAdmin';
-import { createClient } from '@/supabase/server';
 import { redirect } from 'next/navigation';
+
+// Components
+import TopbarAdmin from '@/components/TopbarAdmin';
+
+// Supabase
+import { createClient } from '@/supabase/server';
 
 export default async function Layout({
   children,
