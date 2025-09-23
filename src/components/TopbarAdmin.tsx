@@ -45,7 +45,7 @@ const TopbarAdmin = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50">
+    <div className="fixed top-0 left-0 w-full z-50" ref={menuRef}>
       {/* Topbar para pantallas pequeñas */}
       <nav className="md:hidden bg-white bg-opacity-80 backdrop-blur-md   w-full border-b ">
         <Layout>
@@ -70,10 +70,7 @@ const TopbarAdmin = () => {
 
       {/* Menú desplegable en móviles */}
       {menuOpen && (
-        <div
-          className="md:hidden absolute top-12 left-0 w-full bg-white bg-opacity-80 backdrop-blur-md border-b p-5 z-40"
-          ref={menuRef}
-        >
+        <div className="md:hidden absolute top-12 left-0 w-full bg-white bg-opacity-80 backdrop-blur-md border-b p-5 z-40">
           <div className="flex flex-col text-center">
             <Link
               href={'/'}
