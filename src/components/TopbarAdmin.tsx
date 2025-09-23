@@ -3,12 +3,13 @@
 import { signout } from '@/actions/signout';
 import Layout from '@/components/Layout';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import useLoader from '@/hooks/useLoader';
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 import { redirect } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 const TopbarAdmin = () => {
   const translate = useTranslations();
@@ -16,6 +17,10 @@ const TopbarAdmin = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const lightboxLoader = useLoader();
   const lightboxOptions = useLightboxOptions();
+
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  useClickOutside(menuRef, menuOpen, setMenuOpen);
 
   const handleSignOut = async () => {
     lightboxOptions.onClose();
@@ -65,7 +70,10 @@ const TopbarAdmin = () => {
 
       {/* Menú desplegable en móviles */}
       {menuOpen && (
-        <div className="md:hidden absolute top-12 left-0 w-full bg-white bg-opacity-80 backdrop-blur-md border-b p-5 z-40">
+        <div
+          className="md:hidden absolute top-12 left-0 w-full bg-white bg-opacity-80 backdrop-blur-md border-b p-5 z-40"
+          ref={menuRef}
+        >
           <div className="flex flex-col text-center">
             <Link
               href={'/'}

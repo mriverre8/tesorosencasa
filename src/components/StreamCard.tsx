@@ -43,6 +43,7 @@ const StreamCard = ({ data }: Props) => {
     now.getDate() === eventDate.getDate();
 
   const isInTimeRange = now >= eventStart && now <= eventEnd;
+  const hasEnded = now > eventEnd;
 
   const dayLabel = DAY[eventDate.getDay()];
   const monthLabel = MONTH[eventDate.getMonth()];
@@ -51,9 +52,9 @@ const StreamCard = ({ data }: Props) => {
     <div className="flex bg-white p-2 rounded-md gap-2 items-center justify-between shadow-md">
       <div className="flex gap-2">
         <div className="flex p-2 bg-background rounded-md justify-center items-center">
-          <p className="text-xl font-medium">{`${hour.toString().padStart(2, '0')}:${minute
+          <p className="text-xl font-medium">{`${hour
             .toString()
-            .padStart(2, '0')}h`}</p>
+            .padStart(2, '0')}:${minute.toString().padStart(2, '0')}h`}</p>
         </div>
         <div className="flex flex-col justify-center">
           <p className="text-sm">
@@ -70,6 +71,13 @@ const StreamCard = ({ data }: Props) => {
         <div className="flex items-center">
           <TbPointFilled className="text-red-600 text-xl" />
           <p className="text-xs text-red-500 whitespace-nowrap">En directo</p>
+        </div>
+      )}
+
+      {isToday && hasEnded && (
+        <div className="flex items-center">
+          <TbPointFilled className="text-gray-500 text-xl" />
+          <p className="text-xs text-gray-500 whitespace-nowrap">Finalizado</p>
         </div>
       )}
     </div>

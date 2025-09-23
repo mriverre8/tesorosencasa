@@ -5,10 +5,11 @@ import Carousel from '@/components/Carousel';
 import useAppContext from '@/hooks/useAppContext';
 import { tesoros } from '@prisma/client';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { IoMdShare } from 'react-icons/io';
 import ProductPageSkeleton from './ProductPageSkeleton';
+import ButtonSecondary from '@/components/ButtonSecondary';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   id: string;
@@ -16,6 +17,7 @@ interface Props {
 
 const ProductPage = ({ id }: Props) => {
   const translate = useTranslations();
+  const router = useRouter();
 
   const context = useAppContext();
 
@@ -36,8 +38,6 @@ const ProductPage = ({ id }: Props) => {
       const tesoroData = await getProductById(id);
       setTesoro(tesoroData);
     };
-
-    fetchProduct();
     if (context.hasBeenInitialized) {
       const foundTesoro = context.tesoros.find((t) => t.id === id);
       setTesoro(foundTesoro);
@@ -53,12 +53,12 @@ const ProductPage = ({ id }: Props) => {
   return (
     <div className="flex justify-center items-center">
       <div className="flex flex-col gap-2 max-w-lg">
-        <Link
-          href={'/'}
-          className="hover:text-primary transition duration-300 underline underline-offset-2 whitespace-nowrap"
-        >
-          {translate('GO_BACK')}
-        </Link>
+        <div>
+          <ButtonSecondary
+            buttonText={translate('GO_BACK')}
+            buttonAction={() => router.push('/')}
+          />
+        </div>
 
         <Carousel tesoro={tesoro} />
 
