@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
 // Components
 import Carousel from '../../../components/Carousel';
@@ -10,7 +10,12 @@ import { useTranslations } from 'next-intl';
 
 // Types
 import { tesoros } from '@prisma/client';
-import { IoMdShare } from 'react-icons/io';
+
+// Icons
+import { TbCopyPlus } from 'react-icons/tb';
+
+// Hooks
+import useToast from '@/hooks/useToast';
 
 interface Props {
   tesoro: tesoros;
@@ -18,14 +23,13 @@ interface Props {
 
 const CardMobile = ({ tesoro }: Props) => {
   const translate = useTranslations();
-
-  const [copiado, setCopiado] = useState(false);
+  const toast = useToast();
 
   const handleShare = () => {
     const url = `https://tesorosencasa.vercel.app/tesoro/${tesoro.id}`;
     navigator.clipboard.writeText(url).then(() => {
-      setCopiado(true);
-      setTimeout(() => setCopiado(false), 10000);
+      toast.setText(translate('LINK_COPIED'));
+      toast.onOpen();
     });
   };
 
@@ -46,16 +50,9 @@ const CardMobile = ({ tesoro }: Props) => {
           onClick={handleShare}
           className="flex justify-start items-start pt-1.5"
         >
-          <IoMdShare className="text-xl text-secondary hover:text-secondary-hover" />
+          <TbCopyPlus className="text-xl text-secondary hover:text-secondary-hover" />
         </button>
       </div>
-      {copiado && (
-        <div className="w-full mx-1">
-          <span className=" text-xs text-secondary ">
-            {translate('LINK_COPIED')}
-          </span>
-        </div>
-      )}
       <div className="flex px-1 mt-1 text-sm">
         <div className="flex flex-col">
           <p className="text-xs text-gray-400 whitespace-nowrap">

@@ -1,7 +1,11 @@
 import React from 'react';
+
+// Components
 import ButtonSecondary from '../ButtonSecondary';
 import ButtonPrimary from '../ButtonPrimary';
 import Lightbox from './Lightbox';
+
+// Hooks
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 
 const LightboxOptions = () => {
@@ -17,7 +21,7 @@ const LightboxOptions = () => {
             buttonAction={lightboxOptions.onClose}
           />
           <ButtonPrimary
-            alternative={true}
+            alternative={lightboxOptions.isAlternative}
             buttonText={lightboxOptions.buttonText2}
             buttonAction={lightboxOptions.onAccept}
           />

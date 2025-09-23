@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { redirect } from 'next/navigation';
 
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
@@ -22,6 +21,7 @@ import { tesoros } from '@prisma/client';
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 import useLoader from '@/hooks/useLoader';
 import useCreateProductForm from '@/hooks/useCreateProductForm';
+import { useRouter } from 'next/navigation';
 
 // Translation
 import { useTranslations } from 'next-intl';
@@ -32,6 +32,7 @@ interface Props {
 
 export default function DashboardProductsPage({ tesorosData }: Props) {
   const translate = useTranslations();
+  const router = useRouter();
 
   const lightboxLoader = useLoader();
   const lightboxOptions = useLightboxOptions();
@@ -62,6 +63,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
       translate('DELETE_ALL_TREASURES_TEXT'),
       translate('GO_BACK'),
       translate('DELETE'),
+      true,
       handleDeleteAll
     );
     lightboxOptions.onOpen();
@@ -70,7 +72,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
   const handleCreateProduct = () => {
     formValues.reset();
     formValues.setIsEditing(false);
-    redirect('/createproduct');
+    router.push('/createproduct');
   };
 
   return (
@@ -84,7 +86,6 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
             <MdAdd className="text-xl" />
           </button>
           <div className="w-full relative ">
-            {/* Icono dentro del input */}
             <BiSearchAlt className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl pointer-events-none" />
             <input
               className="w-full py-2 pl-10 pr-5 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -101,7 +102,6 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
             />
           </div>
         </div>
-        {/* Contenedor de los tesoros filtrados que ocupa el espacio restante */}
         <div className="flex-grow overflow-y-auto">
           <div className="flex flex-col gap-4">
             {filteredTesoros.map((tesoro, index) => (

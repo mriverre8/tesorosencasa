@@ -17,7 +17,6 @@ interface Props {
   filtersData: Record<string, (string | number)[]>;
   filters: Record<string, (string | number)[]>;
   onChangeFilters: (
-    optionalPageSize?: number,
     optionalFilters?: Record<string, (string | number)[]>,
     optionalSearchTerm?: string
   ) => void;
@@ -115,7 +114,7 @@ const LightboxFilters = ({
   };
 
   const submitFilters = () => {
-    onChangeFilters(undefined, selectedFilters, undefined);
+    onChangeFilters(selectedFilters, undefined);
     closeLightbox();
   };
 

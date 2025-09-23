@@ -1,5 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
+
+// Translation
 import { useTranslations } from 'next-intl';
+
+// Icons
 import { HiOutlineSelector } from 'react-icons/hi';
 
 const CONDITIONS = [
@@ -41,7 +45,7 @@ const InputCondition = ({ condition, setCondition }: Props) => {
   const isCondition1Translated = translate('CONDITION_1');
   const isCondition1Selected = condition.includes(isCondition1Translated);
 
-  // Close dropdown on outside click
+  // TODO: Utilizar hook general useOnClickOutside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -55,7 +59,6 @@ const InputCondition = ({ condition, setCondition }: Props) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Determine available options
   const availableOptions = CONDITIONS.filter((opt) => {
     if (opt === 'CONDITION_1' && condition.length > 0) return false;
     return !condition.includes(translate(opt));

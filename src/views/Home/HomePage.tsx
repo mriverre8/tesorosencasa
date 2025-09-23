@@ -1,6 +1,6 @@
 'use client';
 
-import React, { /* useEffect, */ useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Components
 import ActiveFiltersContainer from '@/views/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
@@ -8,105 +8,155 @@ import SearchBar from './SearchBar/SearchBar';
 import LightboxFilters from '@/views/Home/LightboxFilters/LightboxFilters';
 import CardMobile from './CardMobile/CardMobile';
 import Card from './Card/Card';
+import StreamCard from '@/components/StreamCard';
+import StreamCardSkeleton from '@/components/StreamCardSkeleton';
+import CardMobileSkeleton from './CardMobile/CardMobileSkeleton';
+import CardSkeleton from './Card/CardSkeleton';
 
 // Hooks
 import useLoader from '@/hooks/useLoader';
-
-// Types
-import { tesoros } from '@prisma/client';
+import useAppContext from '@/hooks/useAppContext';
 
 // Actions
 import { getProductsByFilters } from '@/actions/getProductsByFilters';
+import { getProducts } from '@/actions/getProducts';
+import { getFilters } from '@/actions/getFilters';
+import { getStream } from '@/actions/getStream';
 
 // Translation
 import { useTranslations } from 'next-intl';
 
-interface Props {
-  filtersData: Record<string, (string | number)[]>;
-  tesorosData: tesoros[];
-}
+// Icons
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
-const HomePage = ({ filtersData, tesorosData }: Props) => {
+// Constants
+import { PAGE_SIZE } from '@/constants/constants';
+
+const HomePage = () => {
   const translate = useTranslations();
-
   const loader = useLoader();
+
+  const context = useAppContext();
+
   const [isLightboxFiltersOpen, setIsLightboxFiltersOpen] = useState(false);
 
-  const [tesoros, setTesoros] = useState(tesorosData);
+  const [loading, setLoading] = useState(true);
 
-  const [filters, setFilters] = useState({});
-  const [searchTerm, setSearchTerm] = useState('');
+  useEffect(() => {
+    const fetchData = async () => {
+      const [initialTesoros, initialFilters, stream] = await Promise.all([
+        getProducts(),
+        getFilters(),
+        getStream(),
+      ]);
 
-  const [pageSize, setPageSize] = useState(15);
-  const [hasMore, setHasMore] = useState(true);
+      context.setTesoros(initialTesoros.data);
+      context.setMaxPage(Math.ceil(initialTesoros.total / PAGE_SIZE));
+      context.setFiltersData(initialFilters);
+      context.setStreamData(stream);
+      context.onInit();
+    };
+
+    if (!context.hasBeenInitialized) {
+      fetchData();
+    }
+    setLoading(false);
+  }, []);
 
   const onChangeFilters = async (
-    optionalPageSize?: number,
     optionalFilters?: Record<string, (string | number)[]>,
     optionalSearchTerm?: string
   ) => {
-    const effectiveFilters = optionalFilters ?? filters;
-    const effectivePageSize = optionalPageSize ?? pageSize;
-    const effectiveSearchTerm = optionalSearchTerm ?? searchTerm;
+    const effectiveFilters = optionalFilters ?? context.filtersState;
+    const effectiveSearchTerm = optionalSearchTerm ?? context.searchTermState;
 
     loader.onOpen();
-    setFilters(effectiveFilters);
-    setSearchTerm(effectiveSearchTerm);
-    setPageSize(effectivePageSize);
-    setHasMore(true);
+    context.setFiltersState(effectiveFilters);
+    context.setSearchTermState(effectiveSearchTerm);
     const filteredTesoros = await getProductsByFilters(
-      effectivePageSize,
+      1,
       effectiveFilters,
       effectiveSearchTerm
     );
-    setTesoros(filteredTesoros);
+    context.setTesoros(filteredTesoros.data);
+    context.setMaxPage(Math.ceil(filteredTesoros.total / PAGE_SIZE));
+    context.setPage(1);
     loader.onClose();
   };
-
-  const handleLoadMore = async () => {
-    const newPageSize = pageSize + 15;
-    loader.onOpen();
-
+  const handleNextPage = async () => {
     const newTesoros = await getProductsByFilters(
-      newPageSize,
-      filters,
-      searchTerm
+      context.page + 1,
+      context.filtersState,
+      context.searchTermState
     );
-
-    if (newTesoros.length === tesoros.length) {
-      setHasMore(false);
-    } else {
-      setTesoros(newTesoros);
-      setPageSize(newPageSize);
-    }
-
-    loader.onClose();
+    context.setTesoros(newTesoros.data);
+    context.setPage(context.page + 1);
+    window.scrollTo(0, 0);
+  };
+  const handlePrevPage = async () => {
+    const newTesoros = await getProductsByFilters(
+      context.page - 1,
+      context.filtersState,
+      context.searchTermState
+    );
+    context.setTesoros(newTesoros.data);
+    context.setPage(context.page - 1);
+    window.scrollTo(0, 0);
   };
 
   return (
     <>
       <div className="my-2.5">
-        {/* Contenedor con los filtros aplicados */}
+        <>
+          {context.streamData && (
+            <p className="text-sm font-medium mb-2">
+              {translate('NEXT_STREAM')}
+            </p>
+          )}
+          <div
+            className={`flex flex-col gap-2 sticky top-20 z-50 ${context.streamData || loading ? 'mb-6' : ''}`}
+          >
+            {loading ? (
+              <StreamCardSkeleton />
+            ) : (
+              <>
+                {context.streamData && <StreamCard data={context.streamData} />}
+              </>
+            )}
+          </div>
+        </>
+
         <ActiveFiltersContainer
-          filters={filters}
+          filters={context.filtersState}
           onChangeFilters={onChangeFilters}
         />
-        {/* Buscador de tesoros */}
+
         <SearchBar
           isLightboxFiltersOpen={isLightboxFiltersOpen}
           setIsLightboxFiltersOpen={setIsLightboxFiltersOpen}
           onChangeFilters={onChangeFilters}
-          disabled={tesorosData.length === 0}
+          disabled={context.tesoros.length === 0}
         />
-        {/* Tesoros */}
-        {tesoros.length > 0 ? (
+
+        {loading ? (
+          <div className="mt-5">
+            <div className="block mobile:hidden">
+              <CardMobileSkeleton />
+            </div>
+            <div className="hidden mobile:grid mobile:grid-cols-2 mobile:gap-4 sm:grid-cols-3 lg:grid-cols-5">
+              {[...Array(5)].map((_, index) => (
+                <CardSkeleton key={index} />
+              ))}
+            </div>
+          </div>
+        ) : context.tesoros.length > 0 ? (
           <div className="mb-6">
             <div className="mt-5 mobile:grid mobile:grid-cols-2 mobile:gap-4 sm:grid-cols-3 lg:grid-cols-5 ">
-              {tesoros.map((tesoro, index) => (
+              {context.tesoros.map((tesoro, index) => (
                 <div key={index}>
                   <div className="block mobile:hidden">
                     <CardMobile tesoro={tesoro} />
-                    {index !== tesoros.length - 1 && (
+                    {index !== context.tesoros.length - 1 && (
                       <div className="w-full border-b border-gray-300 my-4" />
                     )}
                   </div>
@@ -116,14 +166,25 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
                 </div>
               ))}
             </div>
-            {hasMore && (
+            <div className="flex items-center justify-center gap-4 mt-8  ">
               <button
-                onClick={() => handleLoadMore()}
-                className="w-full text-secondary hover:text-secondary-hover underline underline-offset-2 text-sm mt-8 mb-2"
+                className={` ${context.page === 1 ? 'bg-gray-400' : 'bg-secondary hover:bg-secondary-hover'} rounded-md p-0.5 flex items-center justify-center`}
+                onClick={() => handlePrevPage()}
+                disabled={context.page === 1}
               >
-                Cargar más
+                <IoIosArrowBack className="text-2xl text-white" />
               </button>
-            )}
+              <div>
+                <span>{context.page}</span> de <span>{context.maxPage}</span>
+              </div>
+              <button
+                className={` ${context.page === context.maxPage ? 'bg-gray-400' : 'bg-secondary hover:bg-secondary-hover'} rounded-md p-0.5 flex items-center justify-center`}
+                onClick={() => handleNextPage()}
+                disabled={context.page === context.maxPage}
+              >
+                <IoIosArrowForward className="text-2xl text-white" />
+              </button>
+            </div>
           </div>
         ) : (
           <div className="flex justify-center items-center my-24 ">
@@ -133,12 +194,12 @@ const HomePage = ({ filtersData, tesorosData }: Props) => {
           </div>
         )}
       </div>
-      {/* Lightboxes */}
+
       <LightboxFilters
         isLightboxOpen={isLightboxFiltersOpen}
         closeLightbox={() => setIsLightboxFiltersOpen(false)}
-        filtersData={filtersData}
-        filters={filters}
+        filtersData={context.filtersData}
+        filters={context.filtersState}
         onChangeFilters={onChangeFilters}
       />
     </>

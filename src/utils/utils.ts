@@ -15,9 +15,22 @@ export const acceptOnlyNumbers = (
   blockComma = false
 ) => {
   // Expresión regular para permitir solo números y, opcionalmente, una coma con hasta dos decimales
-  const regex = blockComma ? /^\d*$/ : /^\d*(,\d{0,2})?$/;
+  const regex = blockComma ? /^$|^[1-9]\d*$/ : /^\d*(,\d{0,2})?$/;
 
   if (regex.test(value)) {
     setValue(value);
   }
+};
+
+export const minutesToHours = (minutes: string): string => {
+  const totalMinutes = parseInt(minutes, 10);
+
+  if (isNaN(totalMinutes)) {
+    return '0h 0min';
+  }
+
+  const hours = Math.floor(totalMinutes / 60);
+  const mins = totalMinutes % 60;
+
+  return `${hours}h ${mins}min`;
 };

@@ -1,6 +1,12 @@
 import React from 'react';
+
+// Components
 import Layout from './Layout';
+
+// Icons
 import { FaInstagram } from 'react-icons/fa';
+
+// Hooks
 import { useTranslations } from 'next-intl';
 
 const Footer = () => {
@@ -33,7 +39,7 @@ const Footer = () => {
               </a>
             </div>
             <span className="bg-white rounded-full px-3 py-0.5 text-xs whitespace-nowrap font-light">
-              {translate('VERSION', { version: '0.0.1' })}
+              {translate('VERSION', { version: '0.0.2' })}
             </span>
           </div>
         </footer>

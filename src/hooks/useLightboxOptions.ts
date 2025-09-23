@@ -6,12 +6,14 @@ interface LightboxOptionsStore {
   text: string;
   buttonText1: string;
   buttonText2: string;
+  isAlternative: boolean;
   onAccept: () => void;
   setContent: (
     title: string,
     text: string,
     buttonText1: string,
     buttonText2: string,
+    isAlternative: boolean,
     onAccept: () => void
   ) => void;
   onOpen: () => void;
@@ -24,14 +26,16 @@ const useLightboxOptions = create<LightboxOptionsStore>((set) => ({
   text: '',
   buttonText1: '',
   buttonText2: '',
+  isAlternative: false,
   onAccept: () => {},
   setContent: (
     title: string,
     text: string,
     buttonText1: string,
     buttonText2: string,
+    isAlternative: boolean,
     onAccept: () => void
-  ) => set({ title, text, buttonText1, buttonText2, onAccept }),
+  ) => set({ title, text, buttonText1, buttonText2, isAlternative, onAccept }),
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));
