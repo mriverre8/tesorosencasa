@@ -9,7 +9,7 @@ interface ToastStore {
 }
 
 const useToast = create<ToastStore>((set) => ({
-  isOpen: true,
+  isOpen: false,
   text: '',
   setText: (text: string) => set({ text }),
   onOpen: () => set({ isOpen: true }),
