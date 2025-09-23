@@ -19,6 +19,7 @@ import { useTranslations } from 'next-intl';
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 import useLoader from '@/hooks/useLoader';
 import { isUserEmailOk } from '@/validators/validators';
+import Image from 'next/image';
 
 const Login = () => {
   const translate = useTranslations();
@@ -63,8 +64,9 @@ const Login = () => {
 
   return (
     <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl mt-[17vh]">
-      <div className="flex items-center justify-center mb-4">
-        <h2 className="text-xl sm:text-2xl font-semibold text-center">
+      <div className="flex flex-col items-center justify-center mb-10 gap-6 mt-5">
+        <Image src="/icon1.png" alt="Logo" width={50} height={50} />
+        <h2 className="text-2xl sm:text-2xl font-semibold text-center">
           {translate('LOGIN')}
         </h2>
       </div>
