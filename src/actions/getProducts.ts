@@ -5,10 +5,10 @@ import { createClient } from '@/supabase/server';
 export async function getProducts() {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  const { data, count, error } = await supabase
     .from('tesoros')
-    .select('*')
-    .range(0, 14);
+    .select('*', { count: 'exact' }) // pide el total
+    .range(0, 9); // sigue devolviendo solo 10 registros
 
   if (error) {
     console.error('[GET PRODUCTS ERROR]', {
@@ -17,12 +17,13 @@ export async function getProducts() {
       hint: error.hint,
       timestamp: new Date().toISOString(),
     });
-    return [];
+    return { data: [], total: 0 };
   } else {
     console.log('[GET PRODUCTS] Records retrieved:', {
-      count: data.length,
+      retrieved: data.length,
+      total: count,
       timestamp: new Date().toISOString(),
     });
-    return data;
+    return { data, total: count ?? 0 };
   }
 }

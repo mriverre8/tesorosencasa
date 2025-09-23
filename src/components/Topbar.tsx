@@ -1,10 +1,10 @@
 'use client';
 
-import React /* , { useState } */ from 'react';
-import Link from 'next/link';
+import React from 'react';
 import Layout from './Layout';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   isAdminLogged: boolean;
@@ -12,6 +12,15 @@ interface Props {
 
 const Topbar = ({ isAdminLogged }: Props) => {
   const translate = useTranslations();
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (!isAdminLogged) {
+      router.push('/login');
+    }
+    router.push('/products');
+  };
 
   return (
     <nav className="bg-white bg-opacity-80 backdrop-blur-md fixed top-0 w-full border-b z-50">
@@ -23,12 +32,11 @@ const Topbar = ({ isAdminLogged }: Props) => {
               <h1>{translate('TESOROS_EN_CASA_2')}</h1>
             </div>
           </div>
-          <Link href={isAdminLogged ? '/products' : '/login'}>
-            <MdAdminPanelSettings
-              size={24}
-              className="text-secondary hover:text-secondary-hover cursor-pointer"
-            />
-          </Link>
+          <MdAdminPanelSettings
+            size={24}
+            className="text-secondary hover:text-secondary-hover cursor-pointer"
+            onClick={() => handleClick()}
+          />
         </div>
       </Layout>
     </nav>

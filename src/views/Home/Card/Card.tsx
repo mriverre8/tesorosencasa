@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 
 // Translation
 import { useTranslations } from 'next-intl';
@@ -8,12 +7,17 @@ import { useTranslations } from 'next-intl';
 import { tesoros } from '@prisma/client';
 import { CldImage } from 'next-cloudinary';
 
+import ButtonSecondary from '@/components/ButtonSecondary';
+import { useRouter } from 'next/navigation';
+
 interface Props {
   tesoro: tesoros;
 }
 
 const Card = ({ tesoro }: Props) => {
   const translate = useTranslations();
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col justify-between bg-white rounded-md">
@@ -50,12 +54,12 @@ const Card = ({ tesoro }: Props) => {
         </div>
         <div className="w-full bg-gray-200 h-px my-1 " />
         <div className="flex w-full  justify-center">
-          <Link
-            href={`/tesoro/${tesoro.id}`}
-            className="hover:text-primary transition duration-300 underline underline-offset-2 whitespace-nowrap"
-          >
-            {translate('VIEW_DETAILS')}
-          </Link>
+          <ButtonSecondary
+            buttonText={translate('VIEW_DETAILS')}
+            buttonAction={() => {
+              router.push(`/tesoro/${tesoro.id}`);
+            }}
+          />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 // Translation
 import { useTranslations } from 'next-intl';
@@ -8,12 +8,12 @@ import { useTranslations } from 'next-intl';
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
 import { FaFilter } from 'react-icons/fa';
+import useAppContext from '@/hooks/useAppContext';
 
 interface Props {
   isLightboxFiltersOpen: boolean;
   setIsLightboxFiltersOpen: (state: boolean) => void;
   onChangeFilters: (
-    optionalPageSize?: number,
     optionalFilters?: Record<string, (string | number)[]>,
     optionalSearchTerm?: string
   ) => void;
@@ -28,21 +28,26 @@ const SearchBar = ({
 }: Props) => {
   const translate = useTranslations();
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const context = useAppContext();
+
   const lastSearchTerm = useRef('');
 
   const handleClearInput = () => {
-    setSearchTerm('');
+    context.setSearchTermState('');
     lastSearchTerm.current = '';
-    onChangeFilters(undefined, undefined, '');
+    onChangeFilters(undefined, '');
   };
 
   const handleBlur = () => {
-    if (searchTerm.trim() !== lastSearchTerm.current.trim()) {
-      lastSearchTerm.current = searchTerm.trim();
-      onChangeFilters(undefined, undefined, searchTerm.trim());
+    if (context.searchTermState.trim() !== lastSearchTerm.current.trim()) {
+      lastSearchTerm.current = context.searchTermState.trim();
+      onChangeFilters(undefined, context.searchTermState.trim());
     }
   };
+
+  useEffect(() => {
+    lastSearchTerm.current = context.searchTermState;
+  }, []);
 
   return (
     <div className="flex justify-center items-center gap-2 pr-1 relative mt-2.5">
@@ -62,14 +67,13 @@ const SearchBar = ({
         <input
           className="w-full py-2 pl-10 pr-8 rounded-full border focus:outline-none focus:ring-1 focus:ring-primary"
           placeholder={translate('SEARCH_TREASURES')}
-          value={searchTerm}
+          value={context.searchTermState}
           onChange={(e) => {
-            setSearchTerm(e.target.value);
+            context.setSearchTermState(e.target.value);
           }}
           onBlur={handleBlur}
-          disabled={disabled}
         />
-        {searchTerm && (
+        {context.searchTermState && (
           <button
             onClick={handleClearInput}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
