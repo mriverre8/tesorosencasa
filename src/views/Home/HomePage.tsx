@@ -27,6 +27,7 @@ import CardMobileSkeleton from './CardMobile/CardMobileSkeleton';
 
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { PAGE_SIZE } from '@/constants/constants';
+import CardSkeleton from './Card/CardSkeleton';
 
 const HomePage = () => {
   const translate = useTranslations();
@@ -55,10 +56,8 @@ const HomePage = () => {
 
     if (!context.hasBeenInitialized) {
       fetchData();
-      setLoading(false);
-    } else {
-      setLoading(false);
     }
+    setLoading(false);
   }, []);
 
   const onChangeFilters = async (
@@ -141,8 +140,10 @@ const HomePage = () => {
             <div className="block mobile:hidden">
               <CardMobileSkeleton />
             </div>
-            <div className="hidden mobile:block text-center text-gray-400">
-              Cargando...
+            <div className="hidden mobile:grid mobile:grid-cols-2 mobile:gap-4 sm:grid-cols-3 lg:grid-cols-5">
+              {[...Array(5)].map((_, index) => (
+                <CardSkeleton key={index} />
+              ))}
             </div>
           </div>
         ) : context.tesoros.length > 0 ? (
