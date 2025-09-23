@@ -69,9 +69,7 @@ const Toast = () => {
           transition-all duration-300 ease-out`}
       >
         <div className="flex justify-between">
-          <p className="text-sm text-gray-800">
-            {toast.text || 'Este es un Toast que se cierra en 5s'}
-          </p>
+          <p className="text-sm text-gray-800">{toast.text}</p>
           <IoMdClose
             onClick={handleClose}
             className="text-lg text-gray-500 hover:text-red-500 font-bold cursor-pointer"
