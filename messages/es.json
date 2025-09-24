@@ -5,6 +5,7 @@
   "CONTACT_IG": "Envíame un mensaje por Instagram",
   "VERSION": "Versión {version}",
   "LOGIN": "Iniciar sesión",
+  "LOGIN_DESCRIPTION": "Gestiona tus tesoros en modo administrador.",
   "REGISTER": "Regístrate",
   "USERNAME": "Nombre de usuario",
   "EMAIL": "Correo electrónico",
@@ -164,5 +165,7 @@
   "ACTUAL_STREAM": "Directo actual",
   "UNPUBLISH": "Despublicar",
   "SELECT_DATE": "Selecciona una fecha",
-  "SELECT_TIME": "Selecciona una hora"
+  "SELECT_TIME": "Selecciona una hora",
+  "HELP": "Ayuda",
+  "LOGIN_HELP_TEXT": "Actualmente, el acceso a esta sección está restringido únicamente a la cuenta del administrador. Ningún otro usuario puede iniciar sesión. Si eres el administrador, utiliza tus credenciales para acceder."
 }

@@ -22,10 +22,11 @@ const Topbar = ({ isAdminLogged }: Props) => {
   const router = useRouter();
 
   const handleClick = () => {
-    if (!isAdminLogged) {
+    if (isAdminLogged) {
+      router.push('/products');
+    } else {
       router.push('/login');
     }
-    router.push('/products');
   };
 
   return (
