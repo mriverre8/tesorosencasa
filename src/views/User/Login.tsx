@@ -2,14 +2,21 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { MdEmail, MdLock } from 'react-icons/md';
-import { IoHelpCircleOutline } from 'react-icons/io5'; // <--- import del icono
 
-import { login } from '@/actions/login';
+// Hooks
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import useLightboxMessage from '@/hooks/useLightboxMessage';
 import useLoader from '@/hooks/useLoader';
+import useLightboxMessage from '@/hooks/useLightboxMessage';
+
+// Icons
+import { MdEmail, MdLock } from 'react-icons/md';
+import { IoHelpCircleOutline } from 'react-icons/io5';
+
+// Actions
+import { login } from '@/actions/login';
+
+// Utils
 import { isUserEmailOk } from '@/validators/validators';
 
 const Login = () => {
@@ -61,7 +68,6 @@ const Login = () => {
 
   return (
     <div className="w-full max-w-md p-6 bg-gradient-to-b from-[#f8f6ef] via-[#f8f7f2] to-white rounded-xl shadow-2xl mt-[17vh] relative">
-      {/* Icono de ayuda en la parte superior izquierda */}
       <IoHelpCircleOutline
         className="absolute top-4 right-4 text-gray-400 text-2xl cursor-pointer hover:text-primary"
         onClick={handleHelp}
