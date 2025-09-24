@@ -70,11 +70,15 @@ const CardMobile = ({ tesoro }: Props) => {
           </p>
           <div className="text-sm">
             {tesoro.material?.length ? (
-              <ul className="list-disc ml-5 pt-0.5">
-                {Object.values(tesoro.material).map((mat, idx) => (
-                  <li key={idx}>{mat}</li>
-                ))}
-              </ul>
+              tesoro.material.length === 1 ? (
+                <span>{Object.values(tesoro.material)[0]}</span>
+              ) : (
+                <ul className="list-disc ml-5 pt-0.5">
+                  {Object.values(tesoro.material).map((mat, idx) => (
+                    <li key={idx}>{mat}</li>
+                  ))}
+                </ul>
+              )
             ) : (
               translate('UNKNOWN')
             )}
@@ -116,11 +120,15 @@ const CardMobile = ({ tesoro }: Props) => {
           </p>
           <div className="text-sm">
             {tesoro.condition?.length ? (
-              <ul className="list-disc ml-5 pt-0.5">
-                {Object.values(tesoro.condition).map((cond, idx) => (
-                  <li key={idx}>{cond}</li>
-                ))}
-              </ul>
+              tesoro.condition.length === 1 ? (
+                <span>{Object.values(tesoro.condition)[0]}</span>
+              ) : (
+                <ul className="list-disc ml-5 pt-0.5">
+                  {Object.values(tesoro.condition).map((cond, idx) => (
+                    <li key={idx}>{cond}</li>
+                  ))}
+                </ul>
+              )
             ) : (
               translate('CONDITION_7')
             )}
