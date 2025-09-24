@@ -37,7 +37,7 @@ Clona el repositorio y navega a la carpeta:
 
 ```bash
 git clone https://github.com/mriverre8/tesorosencasa.git
-cd tesorosencasa
+cd tesoros-en-casa
 ```
 
 Instala las dependencias:
