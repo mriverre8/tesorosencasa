@@ -54,13 +54,19 @@ const LightboxProduct = () => {
               </p>
               <div className="text-sm">
                 {lightboxProduct.product.condition?.length ? (
-                  <ul className="list-disc ml-5 pt-0.5">
-                    {Object.values(lightboxProduct.product.condition).map(
-                      (cond, idx) => (
-                        <li key={idx}>{cond}</li>
-                      )
-                    )}
-                  </ul>
+                  lightboxProduct.product.condition.length === 1 ? (
+                    <span>
+                      {Object.values(lightboxProduct.product.condition)[0]}
+                    </span>
+                  ) : (
+                    <ul className="list-disc ml-5 pt-0.5">
+                      {Object.values(lightboxProduct.product.condition).map(
+                        (cond, idx) => (
+                          <li key={idx}>{cond}</li>
+                        )
+                      )}
+                    </ul>
+                  )
                 ) : (
                   translate('CONDITION_7')
                 )}
@@ -100,13 +106,19 @@ const LightboxProduct = () => {
               </p>
               <div className="text-sm">
                 {lightboxProduct.product.material?.length ? (
-                  <ul className="list-disc ml-5 pt-0.5">
-                    {Object.values(lightboxProduct.product.material).map(
-                      (mat, idx) => (
-                        <li key={idx}>{mat}</li>
-                      )
-                    )}
-                  </ul>
+                  lightboxProduct.product.material.length === 1 ? (
+                    <span>
+                      {Object.values(lightboxProduct.product.material)[0]}
+                    </span>
+                  ) : (
+                    <ul className="list-disc ml-5 pt-0.5">
+                      {Object.values(lightboxProduct.product.material).map(
+                        (mat, idx) => (
+                          <li key={idx}>{mat}</li>
+                        )
+                      )}
+                    </ul>
+                  )
                 ) : (
                   translate('UNKNOWN')
                 )}
