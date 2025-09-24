@@ -10,7 +10,6 @@ interface AppContextStore {
   filtersState: Record<string, (string | number)[]>;
   streamData: stream | null;
   searchTermState: string;
-  loading: boolean;
   onInit: () => void;
   setTesoros: (tesoros: tesoros[]) => void;
   setSearchTermState: (searchTerm: string) => void;
@@ -19,7 +18,6 @@ interface AppContextStore {
   setStreamData: (streamData: stream | null) => void;
   setPage: (page: number) => void;
   setMaxPage: (maxPage: number) => void;
-  setLoading: (loading: boolean) => void;
 }
 
 const useAppContext = create<AppContextStore>((set) => ({
@@ -31,7 +29,6 @@ const useAppContext = create<AppContextStore>((set) => ({
   streamData: null,
   page: 1,
   maxPage: 1,
-  loading: true,
   onInit: () => set({ hasBeenInitialized: true }),
   setTesoros: (tesoros) => set({ tesoros }),
   setFiltersData: (filtersData) => set({ filtersData }),
@@ -40,7 +37,6 @@ const useAppContext = create<AppContextStore>((set) => ({
   setStreamData: (streamData) => set({ streamData }),
   setPage: (page) => set({ page }),
   setMaxPage: (maxPage) => set({ maxPage }),
-  setLoading: (loading) => set({ loading }),
 }));
 
 export default useAppContext;
