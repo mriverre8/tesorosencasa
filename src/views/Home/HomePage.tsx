@@ -40,7 +40,7 @@ const HomePage = () => {
 
   const [isLightboxFiltersOpen, setIsLightboxFiltersOpen] = useState(false);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!context.hasBeenInitialized);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,12 +55,13 @@ const HomePage = () => {
       context.setFiltersData(initialFilters);
       context.setStreamData(stream);
       context.onInit();
+
+      setLoading(false);
     };
 
     if (!context.hasBeenInitialized) {
       fetchData();
     }
-    setLoading(false);
   }, []);
 
   const onChangeFilters = async (
