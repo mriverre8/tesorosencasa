@@ -2,37 +2,23 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-
-// Hooks
 import { useRouter } from 'next/navigation';
+import { MdEmail, MdLock } from 'react-icons/md';
+import { IoHelpCircleOutline } from 'react-icons/io5'; // <--- import del icono
 
-// Icons
-import { MdEmail } from 'react-icons/md';
-import { MdLock } from 'react-icons/md';
-
-// Actions
 import { login } from '@/actions/login';
-
-// Translation
 import { useTranslations } from 'next-intl';
-
-// Hooks
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 import useLoader from '@/hooks/useLoader';
-
-// Utils
 import { isUserEmailOk } from '@/validators/validators';
 
 const Login = () => {
   const translate = useTranslations();
-
   const loader = useLoader();
   const lightboxMessage = useLightboxMessage();
-
   const router = useRouter();
 
   const [validationActive, setValidationActive] = useState(false);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -64,14 +50,33 @@ const Login = () => {
     }
   };
 
+  const handleHelp = () => {
+    lightboxMessage.setContent(
+      translate('HELP'),
+      translate('LOGIN_HELP_TEXT'),
+      translate('ACCEPT')
+    );
+    lightboxMessage.onOpen();
+  };
+
   return (
-    <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl mt-[17vh]">
-      <div className="flex flex-col items-center justify-center mb-10 gap-6 mt-5">
+    <div className="w-full max-w-md p-6 bg-gradient-to-b from-[#f8f6ef] via-[#f8f7f2] to-white rounded-xl shadow-2xl mt-[17vh] relative">
+      {/* Icono de ayuda en la parte superior izquierda */}
+      <IoHelpCircleOutline
+        className="absolute top-4 right-4 text-gray-400 text-2xl cursor-pointer hover:text-primary"
+        onClick={handleHelp}
+      />
+
+      <div className="flex flex-col items-center justify-center mb-10 mt-5">
         <Image src="/icon1.png" alt="Logo" width={50} height={50} />
-        <h2 className="text-2xl sm:text-2xl font-semibold text-center">
+        <h2 className="text-2xl sm:text-2xl font-semibold text-center mt-5">
           {translate('LOGIN')}
         </h2>
+        <p className="text-sm text-gray-500 text-center">
+          {translate('LOGIN_DESCRIPTION')}
+        </p>
       </div>
+
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <div className="flex relative">
