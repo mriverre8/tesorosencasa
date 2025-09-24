@@ -145,7 +145,7 @@ const HomePage = () => {
               <CardMobileSkeleton />
             </div>
             <div className="hidden mobile:grid mobile:grid-cols-2 mobile:gap-4 sm:grid-cols-3 lg:grid-cols-5">
-              {[...Array(5)].map((_, index) => (
+              {[...Array(PAGE_SIZE)].map((_, index) => (
                 <CardSkeleton key={index} />
               ))}
             </div>
