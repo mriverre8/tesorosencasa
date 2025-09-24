@@ -1,68 +1,43 @@
 import React from 'react';
 import { CldImage } from 'next-cloudinary';
 
-// Translation
-import { useTranslations } from 'next-intl';
-
 // Types
 import { tesoros } from '@prisma/client';
 
-// Components
-import ButtonSecondary from '@/components/ButtonSecondary';
-
 // Hooks
 import { useRouter } from 'next/navigation';
+
+// Icons
+import { IoImages } from 'react-icons/io5';
 
 interface Props {
   tesoro: tesoros;
 }
 
 const Card = ({ tesoro }: Props) => {
-  const translate = useTranslations();
-
   const router = useRouter();
 
   return (
-    <div className="flex flex-col justify-between bg-white rounded-md">
-      <div>
-        <div className="relative aspect-[3/4] w-full shrink-0 rounded-t-md overflow-hidden flex items-center justify-center bg-black">
-          <CldImage
-            width="600"
-            height="600"
-            src={tesoro.images[0]}
-            sizes="100vw"
-            alt={tesoro.name}
-          />
-        </div>
-        <h3 className="font-semibold line-clamp-1 mx-4 my-1 mt-2 text-sm leading-tight">
-          {tesoro.name}
-        </h3>
-      </div>
-
-      <div className="flex flex-col text-sm mx-4 mt-1 mb-2">
-        <div className="flex gap-3 text-sm">
-          <div className="flex flex-col justify-center items-center text-center">
-            <p className="text-xs text-gray-400">
-              {translate('TREASAURE_UNITS')}
-            </p>
-            <p className="text-sm">{tesoro.units}</p>
+    <div
+      className="group relative flex flex-col justify-between bg-white rounded-md overflow-hidden cursor-pointer"
+      onClick={() => router.push(`/tesoro/${tesoro.id}`)}
+    >
+      <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden flex items-center justify-center bg-black">
+        <CldImage
+          width="600"
+          height="600"
+          src={tesoro.images[0]}
+          sizes="100vw"
+          alt={tesoro.name}
+          className="object-cover w-full h-full"
+        />
+        {tesoro.images.length > 1 && (
+          <div className="absolute top-2 right-2 text-white">
+            <IoImages className="text-lg" />
           </div>
-          <div className="flex flex-col justify-center items-center text-center">
-            <p className="text-xs text-gray-400 whitespace-nowrap">
-              {translate('TREASAURE_PRICE')}{' '}
-              {translate('TREASAURE_PRICE_X_UNITS')}
-            </p>
-            <p className="text-sm font-semibold">{tesoro.price} €</p>
-          </div>
-        </div>
-        <div className="w-full bg-gray-200 h-px my-1 " />
-        <div className="flex w-full  justify-center">
-          <ButtonSecondary
-            buttonText={translate('VIEW_DETAILS')}
-            buttonAction={() => {
-              router.push(`/tesoro/${tesoro.id}`);
-            }}
-          />
+        )}
+        <div className="absolute bottom-0 left-0 w-full bg-white/90 px-3 py-2 opacity-0 translate-y-2 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:translate-y-0">
+          <h3 className="text-sm line-clamp-1">{tesoro.name}</h3>
         </div>
       </div>
     </div>
