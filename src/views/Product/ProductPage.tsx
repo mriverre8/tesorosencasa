@@ -72,7 +72,7 @@ const ProductPage = ({ id }: Props) => {
 
         <Carousel tesoro={tesoro} />
 
-        <div className="flex flex-col gap-3 rounded-md mt-4 mb-10 ">
+        <div className="flex flex-col gap-3 rounded-md mt-4 mb-10">
           <div className="flex justify-between gap-5">
             <h1 className="text-2xl font-bold">{tesoro.name}</h1>
             <button
@@ -82,7 +82,7 @@ const ProductPage = ({ id }: Props) => {
               <TbCopyPlus className="text-xl text-secondary hover:text-secondary-hover" />
             </button>
           </div>
-          <div className="flex flex-col gap-3 mt-7">
+          <div className="flex flex-col gap-3 mt-3">
             <div className="flex flex-col gap-2">
               <div className="flex flex-col">
                 <p className="text-xs text-gray-400">
@@ -167,7 +167,7 @@ const ProductPage = ({ id }: Props) => {
                 <h2 className="font-semibold">
                   {translate('TREASAURE_DIMENSIONS')}
                 </h2>
-                <div className="flex flex-col mobile:flex-row gap-2 mobile:justify-between">
+                <div className="flex flex-col mobile:flex-row gap-2 mobile:gap-10">
                   {tesoro.large && (
                     <div className="flex flex-col mobile:justify-center mobile:items-center mobile:text-center">
                       <p className="text-xs text-gray-400">
@@ -204,15 +204,15 @@ const ProductPage = ({ id }: Props) => {
               </>
             )}
             <h2 className="font-semibold">{translate('TREASAURE_STOCK')}</h2>
-            <div className="flex flex-col mobile:flex-row gap-2 justify-between">
-              <div className="flex flex-col  w-full">
+            <div className="flex flex-col mobile:flex-row gap-2 mobile:gap-10">
+              <div className="flex flex-col mobile:justify-center mobile:items-center mobile:text-center">
                 <p className="text-xs text-gray-400">
                   {translate('TREASAURE_UNITS')}
                 </p>
                 <p className="text-sm">{tesoro.units}</p>
               </div>
-              <div className="flex flex-col   w-full">
-                <p className="text-xs text-gray-400">
+              <div className="flex flex-col mobile:justify-center mobile:items-center mobile:text-center">
+                <p className="text-xs text-gray-400 ">
                   {translate('TREASAURE_PRICE')}{' '}
                   {translate('TREASAURE_PRICE_X_UNITS')}
                 </p>
