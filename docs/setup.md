@@ -27,7 +27,7 @@
 - Base de datos compatible con Prisma (PostgreSQL, MySQL, SQLite, etc.)
 - Cuenta en Supabase y Cloudinary
 
-> Recomendado: probado con Node 20 y node 22.
+> Recomendado: probado con Node 20 y Node 22.
 
 ---
 
