@@ -15,7 +15,7 @@ El objetivo de este proyecto es proporcionar un soporte digital para Tesoros en 
 
 ## Tecnologías utilizadas
 
-- Desarrollado en **Next.js 15** como Framework principal
+- Desarrollado en **Next.js 15** como Framework principal.
 - **React 19**: Librería de JavaScript para construir la interfaz de usuario.
 - **Tailwind CSS 3**: Framework de utilidades para diseño responsivo y estilizado rápido.
 - **Zustand**: Manejo de estado global sencillo.
