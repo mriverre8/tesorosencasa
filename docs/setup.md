@@ -1,37 +1,20 @@
-# Tesoros en Casa [Next.js + TailwindCSS]
+# Tesoros en Casa [Next.js + TypeScript + TailwindCSS]
 
 ## Desplegado en Vercel
 
 - **Frontend**: https://tesorosencasa.vercel.app/
 
----
-
-## Tecnologías utilizadas
-
-- **Next.js 15**: Framework de React para desarrollo de aplicaciones web modernas.
-- **React 19**: Librería de JavaScript para construir interfaces de usuario.
-- **Tailwind CSS 3**: Framework de utilidades para diseño responsivo y estilizado rápido.
-- **Zustand**: Manejo de estado global sencillo y reactivo.
-- **Prisma**: ORM para interactuar con la base de datos de manera segura y eficiente.
-- **Supabase**: Backend como servicio, incluyendo autenticación y almacenamiento.
-- **Cloudinary**: Gestión y optimización de imágenes en la nube.
-- **Next-Intl**: Soporte para internacionalización.
-- **Prettier & ESLint**: Formateo y linting de código para mantener calidad y consistencia.
-
----
-
 ## Requisitos
 
 - Node.js >= 20
-- npm o yarn
+- npm
+- Git
 - Base de datos compatible con Prisma (PostgreSQL, MySQL, SQLite, etc.)
 - Cuenta en Supabase y Cloudinary
 
 > Recomendado: probado con Node 20 y Node 22.
 
----
-
-## Instalación
+## 1. Instalación
 
 Clona el repositorio y navega a la carpeta:
 
@@ -46,7 +29,33 @@ Instala las dependencias:
 npm install
 ```
 
-## Ejecutar en desarrollo
+## 2. Variables de entorno
+
+Crea un archivo `.env` con esta estructura:
+
+```bash
+DATABASE_URL=<your_database_url>
+DIRECT_URL=<your_direct_url>
+```
+
+Crea un archivo `.env.local` con esta estructura:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=<your_supabase_url>
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<your_supabase_anon_key>
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=<your_cloudinary_cloud_name>
+NEXT_PUBLIC_CLOUDINARY_API_KEY=<your_cloudinary_api_key>
+CLOUDINARY_API_SECRET=<your_cloudinary_api_secret>
+```
+
+## 3. Setup de la base de datos
+
+```bash
+npx prisma generate
+npx prisma db push
+```
+
+## 4. Ejecutar en desarrollo
 
 ```bash
 npm run dev
