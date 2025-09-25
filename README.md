@@ -4,7 +4,7 @@
 
 El objetivo de este proyecto es proporcionar un soporte digital para Tesoros en Casa, de modo que la interfaz permita previsualizar todas las antigüedades antes de su venta, facilitando así una idea más clara de lo que se busca al asistir al evento en vivo.
 
-## Features
+## Propiedades
 
 - **Catálogo de antigüedades:** Lista de productos anticipada que se van a promocionar en la venta
 - **Recordatorio sobre la próxima venta:** Anuncio informativo sobre la fecha de la próxima venta en directo
