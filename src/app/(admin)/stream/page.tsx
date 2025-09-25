@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 
 // Components
-import ButtonPrimary from '@/components/ButtonPrimary';
-import StreamCard from '@/components/StreamCard';
-import StreamCardSkeleton from '@/components/StreamCardSkeleton';
+import ButtonPrimary from '@/components/common/ButtonPrimary';
+import StreamCard from '@/components/common/StreamCard';
+import StreamCardSkeleton from '@/components/common/StreamCardSkeleton';
 
 // Hooks
 import { useTranslations } from 'next-intl';

@@ -8,9 +8,9 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 
 // Components
-import ButtonPrimary from '@/components/ButtonPrimary';
-import ButtonSecondary from '@/components/ButtonSecondary';
-import Lightbox from '@/components/Lightbox/Lightbox';
+import ButtonPrimary from '@/components/common/ButtonPrimary';
+import ButtonSecondary from '@/components/common/ButtonSecondary';
+import Lightbox from '@/components/common/Lightbox/Lightbox';
 
 interface Props {
   isLightboxOpen: boolean;

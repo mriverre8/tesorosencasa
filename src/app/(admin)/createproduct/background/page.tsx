@@ -4,9 +4,9 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 // Components
-import ButtonSecondary from '@/components/ButtonSecondary';
-import ButtonPrimary from '@/components/ButtonPrimary';
-import InputCountries from '@/views/Admin/CreateProductForm/InputCountries/InputCountries';
+import ButtonSecondary from '@/components/common/ButtonSecondary';
+import ButtonPrimary from '@/components/common/ButtonPrimary';
+import InputCountries from '@/components/Admin/CreateProductForm/InputCountries/InputCountries';
 
 // Hooks
 import { useTranslations } from 'next-intl';

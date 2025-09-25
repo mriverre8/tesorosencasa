@@ -4,8 +4,8 @@ import React from 'react';
 import { CldImage } from 'next-cloudinary';
 
 // Components
-import ButtonSecondary from '@/components/ButtonSecondary';
-import Lightbox from '@/components/Lightbox/Lightbox';
+import ButtonSecondary from '@/components/_common/ButtonSecondary';
+import Lightbox from '@/components/_common/Lightbox/Lightbox';
 
 // Hooks
 import useLightboxProduct from '@/hooks/useLightboxProduct';

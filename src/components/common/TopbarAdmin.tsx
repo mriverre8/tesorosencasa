@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { signout } from '@/actions/signout';
 
 // Components
-import Layout from '@/components/Layout';
+import Layout from './Layout';
 
 // Icons
 import { GiHamburgerMenu } from 'react-icons/gi';

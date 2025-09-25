@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import DashboardProductsPage from '@/views/Admin/DashboardProductsPage/DashboardProductsPage';
+import DashboardProductsPage from '@/components/Admin/DashboardProductsPage/DashboardProductsPage';
 
 // Actions
 import { getAllProducts } from '@/actions/getAllProducts';

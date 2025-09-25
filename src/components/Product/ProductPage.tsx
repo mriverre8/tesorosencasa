@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from 'react';
 
 // Components
-import Carousel from '@/components/Carousel';
+import Carousel from '@/components/common/Carousel';
 import ProductPageSkeleton from './ProductPageSkeleton';
-import ButtonSecondary from '@/components/ButtonSecondary';
+import ButtonSecondary from '@/components/common/ButtonSecondary';
 
 // Actions
 import { getProductById } from '@/actions/getProductById';

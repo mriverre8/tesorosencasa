@@ -1,7 +1,7 @@
 import React from 'react';
 import './globals.css';
 import { Parkinsans } from 'next/font/google';
-import ModalContainer from '@/components/ModalContainer';
+import ModalContainer from '@/components/common/ModalContainer';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 
