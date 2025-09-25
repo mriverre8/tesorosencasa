@@ -4,12 +4,21 @@
 
 El objetivo de este proyecto es proporcionar un soporte digital para Tesoros en Casa, de modo que la interfaz permita previsualizar todas las antigüedades antes de su venta, facilitando así una idea más clara de lo que se busca al asistir al evento en vivo.
 
+## Features
+
+- **Catálogo de antigüedades:** Lista de productos anticipada que se van a promocionar en la venta
+- **Recordatorio sobre la próxima venta:** Anuncio informativo sobre la fecha de la próxima venta en directo
+
+## Arquitectura
+
+![Architecture Diagram](docs/architecture.png)
+
 ## Tecnologías utilizadas
 
-- **Next.js 15**: Framework de React para desarrollo de aplicaciones web modernas.
-- **React 19**: Librería de JavaScript para construir interfaces de usuario.
+- Desarrollado en **Next.js 15** como Framework principal
+- **React 19**: Librería de JavaScript para construir la interfaz de usuario.
 - **Tailwind CSS 3**: Framework de utilidades para diseño responsivo y estilizado rápido.
-- **Zustand**: Manejo de estado global sencillo y reactivo.
+- **Zustand**: Manejo de estado global sencillo.
 - **Prisma**: ORM para interactuar con la base de datos de manera segura y eficiente.
 - **Supabase**: Backend como servicio, incluyendo autenticación y almacenamiento.
 - **Cloudinary**: Gestión y optimización de imágenes en la nube.

@@ -26,40 +26,10 @@ model tesoros {
   price     Float
 }
 
-model users {
-  id       String @id(map: "User_pkey") @unique(map: "User_id_key")
-  email    String @unique(map: "User_email_key")
-  username String @unique(map: "User_username_key")
-  role     Role   @default(USER)
-}
-
-model alerts {
-  id      Int     @id @default(autoincrement())
-  text    String  @default("")
-  view    View    @unique
-  type    Alert
-  visible Boolean @default(false)
-}
-
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model stream {
   id       BigInt   @id(map: "streams_pkey") @unique @default(autoincrement())
   time     DateTime @db.Time(6)
   duration Int      @db.SmallInt
   date     DateTime @db.Date
-}
-
-enum Role {
-  ADMIN
-  USER
-}
-
-enum Alert {
-  I
-  W
-  E
-}
-
-enum View {
-  HOME
 }
