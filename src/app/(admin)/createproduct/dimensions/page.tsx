@@ -4,8 +4,8 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 // Components
-import ButtonSecondary from '@/components/ButtonSecondary';
-import ButtonPrimary from '@/components/ButtonPrimary';
+import ButtonSecondary from '@/components/common/ButtonSecondary';
+import ButtonPrimary from '@/components/common/ButtonPrimary';
 
 // Hooks
 import { useTranslations } from 'next-intl';

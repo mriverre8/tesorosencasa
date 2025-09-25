@@ -4,9 +4,9 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 // Components
-import ButtonSecondary from '@/components/ButtonSecondary';
-import ButtonPrimary from '@/components/ButtonPrimary';
-import InputCondition from '@/views/Admin/CreateProductForm/InputCondition/InputCondition';
+import ButtonSecondary from '@/components/common/ButtonSecondary';
+import ButtonPrimary from '@/components/common/ButtonPrimary';
+import InputCondition from '@/components/Admin/CreateProductForm/InputCondition/InputCondition';
 
 // Hooks
 import { useTranslations } from 'next-intl';

@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from 'react';
 
 // Components
-import ActiveFiltersContainer from '@/views/Home/ActiveFiltersContainer.tsx/ActiveFiltersContainer';
 import SearchBar from './SearchBar/SearchBar';
-import LightboxFilters from '@/views/Home/LightboxFilters/LightboxFilters';
 import CardMobile from './CardMobile/CardMobile';
 import Card from './Card/Card';
-import StreamCard from '@/components/StreamCard';
-import StreamCardSkeleton from '@/components/StreamCardSkeleton';
+import StreamCardSkeleton from '../common/StreamCardSkeleton';
+import ActiveFiltersContainer from './ActiveFiltersContainer.tsx/ActiveFiltersContainer';
+import StreamCard from '../common/StreamCard';
+import LightboxFilters from './LightboxFilters/LightboxFilters';
 import CardMobileSkeleton from './CardMobile/CardMobileSkeleton';
 import CardSkeleton from './Card/CardSkeleton';
 

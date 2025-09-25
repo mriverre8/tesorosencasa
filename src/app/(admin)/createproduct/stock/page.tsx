@@ -4,9 +4,9 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 
 // Components
-import InputImageFiles from '@/views/Admin/CreateProductForm/InputImageFiles/InputImageFiles';
-import ButtonSecondary from '@/components/ButtonSecondary';
-import ButtonPrimary from '@/components/ButtonPrimary';
+import InputImageFiles from '@/components/Admin/CreateProductForm/InputImageFiles/InputImageFiles';
+import ButtonSecondary from '@/components/common/ButtonSecondary';
+import ButtonPrimary from '@/components/common/ButtonPrimary';
 
 // Hooks
 import { useTranslations } from 'next-intl';

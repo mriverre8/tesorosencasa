@@ -1,10 +1,10 @@
 import React from 'react';
 
 // Components
-import Layout from '@/components/Layout';
-import ProductPage from '@/views/Product/ProductPage';
-import Topbar from '@/components/Topbar';
-import Footer from '@/components/Footer';
+import Layout from '@/components/common/Layout';
+import ProductPage from '@/components/Product/ProductPage';
+import Topbar from '@/components/common/Topbar';
+import Footer from '@/components/common/Footer';
 
 // Supabase
 import { createClient } from '@/supabase/server';

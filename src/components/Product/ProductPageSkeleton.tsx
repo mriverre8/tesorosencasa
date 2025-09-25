@@ -3,7 +3,7 @@
 import React from 'react';
 
 // Components
-import ButtonSecondary from '@/components/ButtonSecondary';
+import ButtonSecondary from '@/components/common/ButtonSecondary';
 
 // Hooks
 import { useTranslations } from 'next-intl';

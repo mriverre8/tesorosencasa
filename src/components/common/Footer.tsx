@@ -10,7 +10,7 @@ import { FaInstagram } from 'react-icons/fa';
 import { useTranslations } from 'next-intl';
 
 // Package Info
-import packageJson from '../../package.json';
+import packageJson from '../../../package.json';
 
 const Footer = () => {
   const translate = useTranslations();

@@ -2,7 +2,7 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 
 // Components
-import TopbarAdmin from '@/components/TopbarAdmin';
+import TopbarAdmin from '@/components/common/TopbarAdmin';
 
 // Supabase
 import { createClient } from '@/supabase/server';
