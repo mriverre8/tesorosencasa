@@ -3,7 +3,7 @@
 import React from 'react';
 
 // Components
-import Carousel from '../../_common/Carousel';
+import Carousel from '../../common/Carousel';
 
 // Translation
 import { useTranslations } from 'next-intl';
