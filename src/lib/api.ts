@@ -1,6 +1,22 @@
 import { tesoros, stream } from '@prisma/client';
 import { getCacheConfig } from './cache';
 
+function getBaseUrl(): string {
+  if (typeof window === 'undefined') {
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}`;
+    }
+
+    if (process.env.NEXTAUTH_URL) {
+      return process.env.NEXTAUTH_URL;
+    }
+
+    return 'https://tesorosencasa.vercel.app';
+  }
+
+  return '';
+}
+
 interface ProductsResponse {
   data: tesoros[];
   total: number;
@@ -92,10 +108,7 @@ export const api = {
 
 export const serverApi = {
   async getProducts(page = 1, pageSize = 10): Promise<ProductsResponse> {
-    const baseUrl =
-      process.env.NEXTAUTH_URL ||
-      process.env.VERCEL_URL ||
-      'http://localhost:3000';
+    const baseUrl = getBaseUrl();
     const response = await fetch(
       `${baseUrl}/api/products?page=${page}&pageSize=${pageSize}`,
       {
@@ -113,10 +126,7 @@ export const serverApi = {
   async searchProducts(
     params: SearchProductsParams
   ): Promise<ProductsResponse> {
-    const baseUrl =
-      process.env.NEXTAUTH_URL ||
-      process.env.VERCEL_URL ||
-      'http://localhost:3000';
+    const baseUrl = getBaseUrl();
     const response = await fetch(`${baseUrl}/api/products/search`, {
       method: 'POST',
       headers: {
@@ -134,10 +144,7 @@ export const serverApi = {
   },
 
   async getFilters(): Promise<Record<string, (string | number)[]>> {
-    const baseUrl =
-      process.env.NEXTAUTH_URL ||
-      process.env.VERCEL_URL ||
-      'http://localhost:3000';
+    const baseUrl = getBaseUrl();
     const response = await fetch(`${baseUrl}/api/filters`, {
       ...getCacheConfig('FILTERS'),
     });
@@ -150,16 +157,29 @@ export const serverApi = {
   },
 
   async getStream(): Promise<stream | null> {
-    const baseUrl =
-      process.env.NEXTAUTH_URL ||
-      process.env.VERCEL_URL ||
-      'http://localhost:3000';
+    const baseUrl = getBaseUrl();
     const response = await fetch(`${baseUrl}/api/stream`, {
       ...getCacheConfig('STREAM'),
     });
 
     if (!response.ok) {
       throw new Error('Failed to fetch stream');
+    }
+
+    return response.json();
+  },
+
+  async getProductById(id: string): Promise<tesoros> {
+    const baseUrl = getBaseUrl();
+    const response = await fetch(`${baseUrl}/api/products/${id}`, {
+      ...getCacheConfig('PRODUCTS'),
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('Product not found');
+      }
+      throw new Error('Failed to fetch product');
     }
 
     return response.json();
