@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { CldImage } from 'next-cloudinary';
 
 // Types
@@ -14,22 +14,31 @@ interface Props {
   tesoro: tesoros;
 }
 
-const Card = ({ tesoro }: Props) => {
+const Card = memo(({ tesoro }: Props) => {
   const router = useRouter();
+
+  const handleClick = useCallback(() => {
+    router.push(`/tesoro/${tesoro.id}`);
+  }, [router, tesoro.id]);
 
   return (
     <div
       className="group relative flex flex-col justify-between bg-white rounded-md overflow-hidden cursor-pointer"
-      onClick={() => router.push(`/tesoro/${tesoro.id}`)}
+      onClick={handleClick}
     >
       <div className="relative aspect-[3/4] w-full shrink-0 overflow-hidden flex items-center justify-center bg-black">
         <CldImage
-          width="600"
-          height="600"
+          width="400"
+          height="533"
           src={tesoro.images[0]}
-          sizes="100vw"
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
           alt={tesoro.name}
           className="object-cover w-full h-full"
+          loading="lazy"
+          quality="auto"
+          format="auto"
+          crop="fill"
+          gravity="center"
         />
         {tesoro.images.length > 1 && (
           <div className="absolute top-2 right-2 text-white">
@@ -42,6 +51,8 @@ const Card = ({ tesoro }: Props) => {
       </div>
     </div>
   );
-};
+});
+
+Card.displayName = 'Card';
 
 export default Card;

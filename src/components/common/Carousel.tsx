@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { CldImage } from 'next-cloudinary';
 
 // Types
@@ -13,20 +13,18 @@ interface Props {
   tesoro: tesoros;
 }
 
-const Carousel = ({ tesoro }: Props) => {
+const Carousel = React.memo(({ tesoro }: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
-    }
-  };
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  }, []);
 
-  const nextSlide = () => {
-    if (currentIndex < tesoro.images.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    }
-  };
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) =>
+      prev < tesoro.images.length - 1 ? prev + 1 : prev
+    );
+  }, [tesoro.images.length]);
 
   return (
     <div className="w-full max-w-lg mx-auto relative overflow-hidden">
@@ -78,6 +76,8 @@ const Carousel = ({ tesoro }: Props) => {
       </div>
     </div>
   );
-};
+});
+
+Carousel.displayName = 'Carousel';
 
 export default Carousel;

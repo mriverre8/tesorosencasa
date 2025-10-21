@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 
 // Components
 import Carousel from '../../common/Carousel';
@@ -21,17 +21,17 @@ interface Props {
   tesoro: tesoros;
 }
 
-const CardMobile = ({ tesoro }: Props) => {
+const CardMobile = memo(({ tesoro }: Props) => {
   const translate = useTranslations();
   const toast = useToast();
 
-  const handleShare = () => {
+  const handleShare = useCallback(() => {
     const url = `https://tesorosencasa.vercel.app/tesoro/${tesoro.id}`;
     navigator.clipboard.writeText(url).then(() => {
       toast.setText(translate('LINK_COPIED'));
       toast.onOpen();
     });
-  };
+  }, [tesoro.id, toast, translate]);
 
   return (
     <div className="flex flex-col mb-2">
@@ -148,6 +148,8 @@ const CardMobile = ({ tesoro }: Props) => {
       </div>
     </div>
   );
-};
+});
+
+CardMobile.displayName = 'CardMobile';
 
 export default CardMobile;

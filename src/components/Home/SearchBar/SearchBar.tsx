@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 
 // Translation
 import { useTranslations } from 'next-intl';
@@ -10,46 +10,56 @@ import { BiSearchAlt } from 'react-icons/bi';
 import { FaFilter } from 'react-icons/fa';
 
 // Hooks
-import useAppContext from '@/hooks/useAppContext';
+import useAppContext, {
+  useFiltersState,
+  useSearchTermState,
+} from '@/hooks/useAppContext';
+import { useSearch } from '@/hooks/useSearch';
 
 interface Props {
   isLightboxFiltersOpen: boolean;
   setIsLightboxFiltersOpen: (state: boolean) => void;
-  onChangeFilters: (
-    optionalFilters?: Record<string, (string | number)[]>,
-    optionalSearchTerm?: string
-  ) => void;
   disabled: boolean;
 }
 
 const SearchBar = ({
   isLightboxFiltersOpen,
   setIsLightboxFiltersOpen,
-  onChangeFilters,
   disabled,
 }: Props) => {
   const translate = useTranslations();
 
-  const context = useAppContext();
+  const { setSearchTermState } = useAppContext();
+  const filtersState = useFiltersState();
+  const searchTermState = useSearchTermState();
+  const { debouncedSearch, immediateSearch } = useSearch({ debounceMs: 300 });
 
   const lastSearchTerm = useRef('');
 
-  const handleClearInput = () => {
-    context.setSearchTermState('');
+  const handleClearInput = useCallback(() => {
+    setSearchTermState('');
     lastSearchTerm.current = '';
-    onChangeFilters(undefined, '');
-  };
+    immediateSearch(filtersState, '', 1);
+  }, [setSearchTermState, immediateSearch, filtersState]);
 
-  const handleBlur = () => {
-    if (context.searchTermState.trim() !== lastSearchTerm.current.trim()) {
-      lastSearchTerm.current = context.searchTermState.trim();
-      onChangeFilters(undefined, context.searchTermState.trim());
+  const handleBlur = useCallback(() => {
+    if (searchTermState.trim() !== lastSearchTerm.current.trim()) {
+      lastSearchTerm.current = searchTermState.trim();
+      immediateSearch(filtersState, searchTermState.trim(), 1);
     }
-  };
+  }, [searchTermState, immediateSearch, filtersState]);
+
+  const handleSearchChange = useCallback(
+    (value: string) => {
+      setSearchTermState(value);
+      debouncedSearch(filtersState, value, 1);
+    },
+    [setSearchTermState, debouncedSearch, filtersState]
+  );
 
   useEffect(() => {
-    lastSearchTerm.current = context.searchTermState;
-  }, []);
+    lastSearchTerm.current = searchTermState;
+  }, [searchTermState]);
 
   return (
     <div className="flex justify-center items-center gap-2 pr-1 relative mt-2.5">
@@ -69,13 +79,13 @@ const SearchBar = ({
         <input
           className="w-full py-2 pl-10 pr-8 rounded-full border focus:outline-none focus:ring-1 focus:ring-primary"
           placeholder={translate('SEARCH_TREASURES')}
-          value={context.searchTermState}
+          value={searchTermState}
           onChange={(e) => {
-            context.setSearchTermState(e.target.value);
+            handleSearchChange(e.target.value);
           }}
           onBlur={handleBlur}
         />
-        {context.searchTermState && (
+        {searchTermState && (
           <button
             onClick={handleClearInput}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
