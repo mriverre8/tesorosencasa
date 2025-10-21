@@ -109,12 +109,15 @@ const LightboxFilters = ({
   );
 
   const clearFilters = () => {
-    setSelectedFilters({});
+    const emptyFilters = {};
+    setSelectedFilters(emptyFilters);
     setOpenDropdown({});
+    onChangeFilters(emptyFilters, undefined); // Also apply the clear immediately
   };
 
   const submitFilters = () => {
     onChangeFilters(selectedFilters, undefined);
+    setPreviousFilters(selectedFilters); // Update previous filters to current selection
     closeLightbox();
   };
 

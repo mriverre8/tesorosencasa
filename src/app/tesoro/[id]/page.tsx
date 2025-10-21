@@ -2,7 +2,7 @@ import React from 'react';
 
 // Components
 import Layout from '@/components/common/Layout';
-import ProductPage from '@/components/Product/ProductPage';
+import ProductPageServer from '@/components/Product/ProductPageServer';
 import Topbar from '@/components/common/Topbar';
 import Footer from '@/components/common/Footer';
 
@@ -27,7 +27,7 @@ export default async function Product({
       <main>
         <div className="mt-[90px]">
           <Layout>
-            <ProductPage id={id} />
+            <ProductPageServer id={id} />
           </Layout>
         </div>
       </main>

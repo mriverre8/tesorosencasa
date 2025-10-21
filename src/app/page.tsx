@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 // Components
 import Topbar from '@/components/common/Topbar';
 import Footer from '@/components/common/Footer';
 import Layout from '@/components/common/Layout';
-import HomePage from '@/components/Home/HomePage';
+import HomePageSkeleton from '@/components/Home/HomePageSkeleton';
+import HomePageServer from '@/components/Home/HomePageServer';
 
 // Actions
 import { createClient } from '@/supabase/server';
@@ -21,7 +22,9 @@ export default async function Home() {
       <main>
         <Layout>
           <div className="flex flex-col mt-[69px] ">
-            <HomePage />
+            <Suspense fallback={<HomePageSkeleton />}>
+              <HomePageServer />
+            </Suspense>
           </div>
         </Layout>
       </main>
