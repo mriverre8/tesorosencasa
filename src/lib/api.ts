@@ -15,7 +15,6 @@ interface SearchProductsParams {
   pageSize?: number;
 }
 
-// Client-side API utilities
 export const api = {
   async getProducts(page = 1, pageSize = 10): Promise<ProductsResponse> {
     const response = await fetch(
@@ -91,7 +90,6 @@ export const api = {
   },
 };
 
-// Server-side API utilities (for use in Server Components)
 export const serverApi = {
   async getProducts(page = 1, pageSize = 10): Promise<ProductsResponse> {
     const baseUrl =

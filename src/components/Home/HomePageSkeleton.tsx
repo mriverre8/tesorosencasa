@@ -7,17 +7,14 @@ import { PAGE_SIZE } from '@/constants/constants';
 const HomePageSkeleton = () => {
   return (
     <div className="my-2.5">
-      {/* Stream section */}
       <div className="flex flex-col gap-2 sticky top-20 z-50 mb-6">
         <StreamCardSkeleton />
       </div>
 
-      {/* Search bar skeleton */}
       <div className="mb-4">
         <div className="h-12 bg-gray-200 rounded-md animate-pulse"></div>
       </div>
 
-      {/* Products grid skeleton */}
       <div className="mt-5">
         <div className="block mobile:hidden">
           <CardMobileSkeleton />
@@ -29,7 +26,6 @@ const HomePageSkeleton = () => {
         </div>
       </div>
 
-      {/* Pagination skeleton */}
       <div className="flex items-center justify-center gap-4 mt-8">
         <div className="w-8 h-8 bg-gray-200 rounded-md animate-pulse"></div>
         <div className="w-20 h-6 bg-gray-200 rounded animate-pulse"></div>

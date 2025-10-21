@@ -14,7 +14,6 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient();
     let query = supabase.from('tesoros').select('*', { count: 'exact' });
 
-    // Apply filters dynamically
     if (filters?.condition?.length) {
       query = query.overlaps('condition', filters.condition);
     }
@@ -43,10 +42,8 @@ export async function POST(request: NextRequest) {
       query = query.ilike('name', `%${searchTerm}%`);
     }
 
-    // Add ordering for consistent pagination
     query = query.order('id', { ascending: true });
 
-    // Pagination
     query = query.range((page - 1) * pageSize, page * pageSize - 1);
 
     const { data, count, error } = await query;
@@ -59,7 +56,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create cache key based on filters and search term
     const cacheKey = JSON.stringify({ filters, searchTerm });
     const cacheHeaders = {
       ...getApiCacheHeaders('SEARCH'),

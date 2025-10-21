@@ -31,7 +31,6 @@ const ProductPageServer = async ({ id }: Props) => {
     error = err instanceof Error ? err.message : 'Unknown error';
   }
 
-  // If product not found or error, show skeleton
   if (!tesoro || error) {
     return <ProductPageSkeleton />;
   }

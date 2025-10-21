@@ -6,7 +6,6 @@ export async function GET() {
   try {
     const supabase = await createClient();
 
-    // Get all unique values for filters
     const { data: products, error } = await supabase
       .from('tesoros')
       .select('condition, origin, brand, material, category, price')
@@ -20,7 +19,6 @@ export async function GET() {
       );
     }
 
-    // Process the data to create filter options
     const filters: Record<string, (string | number)[]> = {
       condition: [],
       origin: [],
@@ -39,7 +37,6 @@ export async function GET() {
     };
 
     products?.forEach((product) => {
-      // Handle array fields
       if (product.condition) {
         product.condition.forEach((cond: string) => {
           if (!seenValues.condition.has(cond)) {
@@ -58,7 +55,6 @@ export async function GET() {
         });
       }
 
-      // Handle single value fields
       if (product.origin && !seenValues.origin.has(product.origin)) {
         seenValues.origin.add(product.origin);
         filters.origin.push(product.origin);
@@ -75,12 +71,10 @@ export async function GET() {
       }
     });
 
-    // Get price range - handle various edge cases
     const validPrices =
       products
         ?.map((p) => {
           const price = p.price;
-          // Convert to number if it's a string, handle null/undefined
           const numPrice =
             typeof price === 'string' ? parseFloat(price) : price;
           return !isNaN(numPrice) && numPrice > 0 ? numPrice : null;
@@ -89,21 +83,17 @@ export async function GET() {
 
     const maxPrice = validPrices.length > 0 ? Math.max(...validPrices) : 0;
 
-    // Create price ranges with fallback
     const priceSteps = [50, 100, 200, 500, 1000, 2000, 5000];
 
     if (maxPrice > 0) {
       filters.price = priceSteps.filter((step) => step <= maxPrice);
-      // Add the actual max price if it's higher than our predefined steps
       if (maxPrice > Math.max(...priceSteps)) {
         filters.price.push(Math.ceil(maxPrice));
       }
-      // Ensure we have at least one price range
       if (filters.price.length === 0) {
         filters.price = [Math.ceil(maxPrice)];
       }
     } else {
-      // If no valid prices found, provide reasonable default ranges
       console.warn('[API GET FILTERS] No valid prices found, using defaults');
       filters.price = [100, 500, 1000, 2000];
     }

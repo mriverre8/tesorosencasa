@@ -68,12 +68,10 @@ const HomePageClient = ({ initialData }: Props) => {
 
   const [isLightboxFiltersOpen, setIsLightboxFiltersOpen] = useState(false);
 
-  // Initialize store with server data and handle persisted filters
   useEffect(() => {
     if (!hasBeenInitialized) {
       setInitialData(initialData);
 
-      // After initialization, check if there are persisted filters to apply
       setTimeout(() => {
         const state = useAppContext.getState();
         const hasPersistedFilters =
@@ -81,10 +79,9 @@ const HomePageClient = ({ initialData }: Props) => {
           state.searchTermState.trim() !== '';
 
         if (hasPersistedFilters) {
-          // Apply persisted filters
           immediateSearch(state.filtersState, state.searchTermState, 1);
         }
-      }, 100); // Small delay to ensure store is fully hydrated
+      }, 100);
     }
   }, [hasBeenInitialized, initialData, setInitialData, immediateSearch]);
 
@@ -96,7 +93,6 @@ const HomePageClient = ({ initialData }: Props) => {
       loader.onOpen();
 
       try {
-        // Update the store with new filters and search term first
         const { setFiltersState, setSearchTermState } =
           useAppContext.getState();
 
@@ -108,7 +104,6 @@ const HomePageClient = ({ initialData }: Props) => {
           setSearchTermState(optionalSearchTerm);
         }
 
-        // Then perform the search with updated values
         await immediateSearch(optionalFilters, optionalSearchTerm, 1);
       } catch (error) {
         console.error('Error changing filters:', error);

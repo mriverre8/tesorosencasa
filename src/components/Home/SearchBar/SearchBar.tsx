@@ -52,7 +52,6 @@ const SearchBar = ({
   const handleSearchChange = useCallback(
     (value: string) => {
       setSearchTermState(value);
-      // Debounce the search to avoid too many API calls
       debouncedSearch(filtersState, value, 1);
     },
     [setSearchTermState, debouncedSearch, filtersState]

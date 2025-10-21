@@ -27,7 +27,6 @@ const ProductPageClient = ({ initialTesoro }: Props) => {
 
   const toast = useToast();
 
-  // Memoize the share handler
   const handleShare = useMemo(
     () => (id: string) => {
       const url = `https://tesorosencasa.vercel.app/tesoro/${id}`;

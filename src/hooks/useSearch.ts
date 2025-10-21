@@ -28,7 +28,6 @@ export const useSearch = ({ debounceMs = 300 }: UseSearchParams = {}) => {
       try {
         setIsSearching(true);
 
-        // Update store state to keep it in sync
         if (JSON.stringify(filters) !== JSON.stringify(filtersState)) {
           setFiltersState(filters);
         }
@@ -65,17 +64,14 @@ export const useSearch = ({ debounceMs = 300 }: UseSearchParams = {}) => {
       searchTerm?: string,
       currentPage?: number
     ) => {
-      // Clear existing timeout
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
       }
 
-      // Use current state values if not provided
       const effectiveFilters = filters ?? filtersState;
       const effectiveSearchTerm = searchTerm ?? searchTermState;
       const effectivePage = currentPage ?? page;
 
-      // Set new timeout
       debounceRef.current = setTimeout(() => {
         performSearch(effectiveFilters, effectiveSearchTerm, effectivePage);
       }, debounceMs);
@@ -89,7 +85,6 @@ export const useSearch = ({ debounceMs = 300 }: UseSearchParams = {}) => {
       searchTerm?: string,
       currentPage?: number
     ) => {
-      // Clear any pending debounced search
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
       }

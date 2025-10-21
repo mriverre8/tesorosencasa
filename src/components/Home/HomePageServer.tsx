@@ -4,7 +4,6 @@ import HomePageClient from './HomePageClient';
 
 const HomePageServer = async () => {
   try {
-    // Fetch initial data on the server
     const [initialProducts, filtersData, streamData] = await Promise.all([
       serverApi.getProducts(1, 10),
       serverApi.getFilters(),
@@ -25,7 +24,6 @@ const HomePageServer = async () => {
   } catch (error) {
     console.error('Error fetching initial data:', error);
 
-    // Fallback to empty data if server fetch fails
     return (
       <HomePageClient
         initialData={{

@@ -13,7 +13,6 @@ export const CACHE_TAGS = {
   STREAM: 'stream',
 } as const;
 
-// Cache revalidation utilities
 export const getCacheConfig = (type: keyof typeof CACHE_TIMES) => ({
   next: {
     revalidate: CACHE_TIMES[type],
@@ -28,7 +27,6 @@ export const getCacheConfig = (type: keyof typeof CACHE_TIMES) => ({
   },
 });
 
-// Response headers for API routes
 export const getApiCacheHeaders = (type: keyof typeof CACHE_TIMES) => ({
   'Cache-Control': `public, s-maxage=${CACHE_TIMES[type]}, stale-while-revalidate=${CACHE_TIMES[type] * 2}`,
   'CDN-Cache-Control': `public, s-maxage=${CACHE_TIMES[type]}`,

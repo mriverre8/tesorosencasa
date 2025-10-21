@@ -35,7 +35,6 @@ export async function GET(
       status: 200,
       headers: {
         ...getApiCacheHeaders('PRODUCTS'),
-        // Add ETag for better caching
         ETag: `"product-${id}-${Date.now()}"`,
       },
     });

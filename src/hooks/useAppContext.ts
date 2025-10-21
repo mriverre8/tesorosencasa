@@ -5,24 +5,20 @@ import { useMemo } from 'react';
 import { stream, tesoros } from '@prisma/client';
 
 interface AppContextStore {
-  // Data
   tesoros: tesoros[];
   filtersData: Record<string, (string | number)[]>;
   streamData: stream | null;
 
-  // UI State
   filtersState: Record<string, (string | number)[]>;
   searchTermState: string;
   page: number;
   totalPages: number;
   total: number;
 
-  // Loading states
   isLoading: boolean;
   isSearching: boolean;
   hasBeenInitialized: boolean;
 
-  // Actions
   setInitialData: (data: {
     tesoros: tesoros[];
     filtersData: Record<string, (string | number)[]>;
@@ -43,24 +39,20 @@ const useAppContext = create<AppContextStore>()(
   subscribeWithSelector(
     persist(
       (set, get) => ({
-        // Data
         tesoros: [],
         filtersData: {},
         streamData: null,
 
-        // UI State
         filtersState: {},
         searchTermState: '',
         page: 1,
         totalPages: 1,
         total: 0,
 
-        // Loading states
         isLoading: false,
         isSearching: false,
         hasBeenInitialized: false,
 
-        // Actions
         setInitialData: (data) =>
           set({
             tesoros: data.tesoros,
@@ -88,7 +80,7 @@ const useAppContext = create<AppContextStore>()(
           if (filtersChanged) {
             set({
               filtersState,
-              page: 1, // Reset to first page when filters change
+              page: 1,
             });
           }
         },
@@ -99,7 +91,7 @@ const useAppContext = create<AppContextStore>()(
           if (currentSearchTerm !== searchTermState) {
             set({
               searchTermState,
-              page: 1, // Reset to first page when search changes
+              page: 1,
             });
           }
         },
@@ -118,7 +110,6 @@ const useAppContext = create<AppContextStore>()(
       {
         name: 'tesoros-app-storage',
         storage: createJSONStorage(() => localStorage),
-        // Only persist UI state, not data that should be fresh on each load
         partialize: (state) => ({
           filtersState: state.filtersState,
           searchTermState: state.searchTermState,
@@ -128,7 +119,6 @@ const useAppContext = create<AppContextStore>()(
   )
 );
 
-// Individual selectors to avoid object creation on every render
 export const useTesoros = () => useAppContext((state) => state.tesoros);
 export const useTotal = () => useAppContext((state) => state.total);
 export const useTotalPages = () => useAppContext((state) => state.totalPages);
@@ -147,7 +137,6 @@ export const useIsSearching = () => useAppContext((state) => state.isSearching);
 export const useHasBeenInitialized = () =>
   useAppContext((state) => state.hasBeenInitialized);
 
-// Composite selectors with useMemo for when you need multiple values
 export const useTesorosData = () => {
   const tesoros = useTesoros();
   const total = useTotal();
