@@ -45,8 +45,8 @@ const DashboardProductsPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const [data] = await Promise.all([getAllProducts()]);
-      setTesoros(data.data);
+      const products = await getAllProducts();
+      setTesoros(products.data);
     };
 
     fetchData();
