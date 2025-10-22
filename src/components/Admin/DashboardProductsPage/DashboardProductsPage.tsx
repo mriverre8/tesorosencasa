@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
@@ -25,12 +25,9 @@ import { useRouter } from 'next/navigation';
 
 // Translation
 import { useTranslations } from 'next-intl';
+import { getAllProducts } from '@/lib/api';
 
-interface Props {
-  tesorosData: tesoros[];
-}
-
-export default function DashboardProductsPage({ tesorosData }: Props) {
+const DashboardProductsPage = () => {
   const translate = useTranslations();
   const router = useRouter();
 
@@ -39,12 +36,21 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
 
   const formValues = useCreateProductForm();
 
-  const [tesoros, setTesoros] = useState<tesoros[]>(tesorosData);
+  const [tesoros, setTesoros] = useState<tesoros[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredTesoros = tesoros.filter((tesoro) =>
     tesoro.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const [data] = await Promise.all([getAllProducts()]);
+      setTesoros(data.data);
+    };
+
+    fetchData();
+  }, []);
 
   const handleDeleteAll = async () => {
     lightboxOptions.onClose();
@@ -121,4 +127,6 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
       </div>
     </>
   );
-}
+};
+
+export default DashboardProductsPage;
