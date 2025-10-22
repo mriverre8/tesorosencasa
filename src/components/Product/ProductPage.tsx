@@ -7,8 +7,8 @@ import Carousel from '@/components/common/Carousel';
 import ProductPageSkeleton from './ProductPageSkeleton';
 import ButtonSecondary from '@/components/common/ButtonSecondary';
 
-// Actions
-import { getProductById } from '@/actions/getProductById';
+// API calls
+import { getProductById } from '@/lib/api';
 
 // Hooks
 import useAppContext from '@/hooks/useAppContext';

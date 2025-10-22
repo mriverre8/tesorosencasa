@@ -17,11 +17,13 @@ import CardSkeleton from './Card/CardSkeleton';
 import useLoader from '@/hooks/useLoader';
 import useAppContext from '@/hooks/useAppContext';
 
-// Actions
-import { getProductsByFilters } from '@/actions/getProductsByFilters';
-import { getProducts } from '@/actions/getProducts';
-import { getFilters } from '@/actions/getFilters';
-import { getStream } from '@/actions/getStream';
+// API calls
+import {
+  getProductsByFilters,
+  getProducts,
+  getFilters,
+  getStream,
+} from '@/lib/api';
 
 // Translation
 import { useTranslations } from 'next-intl';
