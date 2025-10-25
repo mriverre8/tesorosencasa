@@ -8,6 +8,7 @@ import Footer from '@/components/common/Footer';
 
 // Supabase
 import { createClient } from '@/supabase/server';
+import { getProductById } from '@/lib/api';
 
 export default async function Product({
   params,
@@ -21,13 +22,15 @@ export default async function Product({
     data: { user },
   } = await supabase.auth.getUser();
 
+  const productResponse = await getProductById(id);
+
   return (
     <div className="flex flex-col justify-between min-h-screen bg-background">
       <Topbar isAdminLogged={user != null} />
       <main>
         <div className="mt-[90px]">
           <Layout>
-            <ProductPage id={id} />
+            <ProductPage product={productResponse} />
           </Layout>
         </div>
       </main>
