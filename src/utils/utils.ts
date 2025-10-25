@@ -82,13 +82,23 @@ export const filterProducts = (
   return products.filter((product) => {
     // Search term filter
     if (searchTerm.trim() !== '') {
-      const searchLower = searchTerm.toLowerCase();
-      const matchesSearch =
-        product.name.toLowerCase().includes(searchLower) ||
-        (product.brand && product.brand.toLowerCase().includes(searchLower)) ||
-        (product.category &&
-          product.category.toLowerCase().includes(searchLower)) ||
-        (product.origin && product.origin.toLowerCase().includes(searchLower));
+      const searchLower = searchTerm.toLowerCase().trim();
+
+      // Normalize text by removing accents and special characters
+      const normalizeText = (text: string) => {
+        return text
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '') // Remove accent marks
+          .trim();
+      };
+
+      const normalizedSearch = normalizeText(searchLower);
+
+      // Search only in product name field
+      const matchesSearch = normalizeText(product.name).includes(
+        normalizedSearch
+      );
 
       if (!matchesSearch) return false;
     }
