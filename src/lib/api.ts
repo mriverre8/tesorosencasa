@@ -1,4 +1,4 @@
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+import { baseUrl } from './config';
 
 export async function getAllProducts() {
   try {

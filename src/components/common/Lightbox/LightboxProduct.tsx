@@ -16,6 +16,7 @@ import { useTranslations } from 'next-intl';
 
 // Icons
 import { TbCopyPlus } from 'react-icons/tb';
+import { baseUrl } from '@/lib/config';
 
 const LightboxProduct = () => {
   const translate = useTranslations();
@@ -25,7 +26,7 @@ const LightboxProduct = () => {
   const toast = useToast();
 
   const handleShare = () => {
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/tesoro/${lightboxProduct.product.id}`;
+    const url = `${baseUrl}/tesoro/${lightboxProduct.product.id}`;
     navigator.clipboard.writeText(url).then(() => {
       toast.setText(translate('LINK_COPIED'));
       toast.onOpen();

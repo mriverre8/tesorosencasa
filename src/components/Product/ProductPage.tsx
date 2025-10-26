@@ -16,6 +16,7 @@ import { tesoros } from '@prisma/client';
 
 // Icons
 import { TbCopyPlus } from 'react-icons/tb';
+import { baseUrl } from '@/lib/config';
 
 interface ProductPageProps {
   product: tesoros;
@@ -27,7 +28,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
   const toast = useToast();
 
   const handleShare = (id: string) => {
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/tesoro/${id}`;
+    const url = `${baseUrl}/tesoro/${id}`;
     navigator.clipboard.writeText(url).then(() => {
       toast.setText(translate('LINK_COPIED'));
       toast.onOpen();
