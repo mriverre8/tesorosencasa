@@ -35,7 +35,10 @@ const StreamCard = ({ data }: Props) => {
   const now = new Date();
   const eventDate = new Date(data.date);
 
-  const [hour, minute] = data.time.toString().split(':').map(Number);
+  const [hour, minute] = (data.time ?? '00:00')
+    .toString()
+    .split(':')
+    .map(Number);
 
   const eventStart = new Date(
     eventDate.getFullYear(),
