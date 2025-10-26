@@ -22,7 +22,7 @@ interface Props {
 const StreamCard = ({ data }: Props) => {
   const translate = useTranslations();
 
-  if (!data) {
+  if (!data || !data.time || !data.date || !data.duration) {
     return (
       <div className="flex">
         <p className="font-medium text-sm text-gray-400">
@@ -35,10 +35,7 @@ const StreamCard = ({ data }: Props) => {
   const now = new Date();
   const eventDate = new Date(data.date);
 
-  const [hour, minute] = (data.time ?? '00:00')
-    .toString()
-    .split(':')
-    .map(Number);
+  const [hour, minute] = data.time.toString().split(':').map(Number);
 
   const eventStart = new Date(
     eventDate.getFullYear(),
