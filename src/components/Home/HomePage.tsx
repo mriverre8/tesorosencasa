@@ -12,7 +12,7 @@ import StreamCard from '../common/StreamCard';
 import LightboxFilters from './LightboxFilters/LightboxFilters';
 
 // Hooks
-import useLoader from '@/hooks/useLoader';
+import useStore from '@/hooks/useStore';
 
 // Translation
 import { useTranslations } from 'next-intl';
@@ -34,11 +34,12 @@ interface HomePageProps {
 
 const HomePage = ({ initialData }: HomePageProps) => {
   const translate = useTranslations();
-  const loader = useLoader();
+  const store = useStore();
 
   // Initialize state with server data
   const products = initialData.products;
   const totalProducts = initialData.total;
+  const streamData = initialData.stream;
   const filters = generateFilters(products);
   const initialPageProducts = products.slice(0, PAGE_SIZE);
 
@@ -46,18 +47,17 @@ const HomePage = ({ initialData }: HomePageProps) => {
   const [filteredProducts, setFilteredProducts] = useState<tesoros[]>(products);
   const [currentPageProducts, setCurrentPageProducts] =
     useState<tesoros[]>(initialPageProducts);
-  const [filtersState, setFiltersState] = useState<
-    Record<string, (string | number)[]>
-  >({});
-  const [searchTermState, setSearchTermState] = useState<string>('');
-  const streamData = initialData.stream;
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(Math.ceil(totalProducts / PAGE_SIZE));
   const [isLightboxFiltersOpen, setIsLightboxFiltersOpen] = useState(false);
 
   // Update filtered products when filters or search term change
   useEffect(() => {
-    const filtered = filterProducts(products, filtersState, searchTermState);
+    const filtered = filterProducts(
+      products,
+      store.filtersState,
+      store.searchTermState
+    );
     setFilteredProducts(filtered);
     setMaxPage(Math.ceil(filtered.length / PAGE_SIZE));
     setPage(1);
@@ -66,7 +66,7 @@ const HomePage = ({ initialData }: HomePageProps) => {
     const startIndex = 0;
     const endIndex = PAGE_SIZE;
     setCurrentPageProducts(filtered.slice(startIndex, endIndex));
-  }, [products, filtersState, searchTermState]);
+  }, [products, store.filtersState, store.searchTermState]);
 
   // Update current page products when page changes
   useEffect(() => {
@@ -79,15 +79,11 @@ const HomePage = ({ initialData }: HomePageProps) => {
     optionalFilters?: Record<string, (string | number)[]>,
     optionalSearchTerm?: string
   ) => {
-    loader.onOpen();
+    const effectiveFilters = optionalFilters ?? store.filtersState;
+    const effectiveSearchTerm = optionalSearchTerm ?? store.searchTermState;
 
-    const effectiveFilters = optionalFilters ?? filtersState;
-    const effectiveSearchTerm = optionalSearchTerm ?? searchTermState;
-
-    setFiltersState(effectiveFilters);
-    setSearchTermState(effectiveSearchTerm);
-
-    loader.onClose();
+    store.setFiltersState(effectiveFilters);
+    store.setSearchTermState(effectiveSearchTerm);
   };
 
   const handleNextPage = () => {
@@ -121,7 +117,7 @@ const HomePage = ({ initialData }: HomePageProps) => {
         </>
 
         <ActiveFiltersContainer
-          filters={filtersState}
+          filters={store.filtersState}
           onChangeFilters={onChangeFilters}
         />
 
@@ -130,8 +126,8 @@ const HomePage = ({ initialData }: HomePageProps) => {
           setIsLightboxFiltersOpen={setIsLightboxFiltersOpen}
           onChangeFilters={onChangeFilters}
           disabled={currentPageProducts.length === 0}
-          searchTerm={searchTermState}
-          setSearchTerm={setSearchTermState}
+          searchTerm={store.searchTermState}
+          setSearchTerm={store.setSearchTermState}
         />
 
         {currentPageProducts.length > 0 ? (
@@ -184,7 +180,7 @@ const HomePage = ({ initialData }: HomePageProps) => {
         isLightboxOpen={isLightboxFiltersOpen}
         closeLightbox={() => setIsLightboxFiltersOpen(false)}
         filtersData={filters}
-        filters={filtersState}
+        filters={store.filtersState}
         onChangeFilters={onChangeFilters}
       />
     </>
