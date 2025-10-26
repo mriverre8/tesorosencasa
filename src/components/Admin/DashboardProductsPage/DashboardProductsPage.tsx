@@ -77,7 +77,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
 
   return (
     <>
-      <div className="flex flex-col md:h-screen h-[calc(100vh-69px)] p-5">
+      <div className="flex flex-col mobile:h-screen h-[calc(100vh-69px)] p-5">
         <div className="flex justify-center items-center mb-5">
           <button
             onClick={() => handleCreateProduct()}
