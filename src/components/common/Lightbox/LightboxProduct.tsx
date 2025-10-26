@@ -25,7 +25,7 @@ const LightboxProduct = () => {
   const toast = useToast();
 
   const handleShare = () => {
-    const url = `https://tesorosencasa.vercel.app/tesoro/${lightboxProduct.product.id}`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/tesoro/${lightboxProduct.product.id}`;
     navigator.clipboard.writeText(url).then(() => {
       toast.setText(translate('LINK_COPIED'));
       toast.onOpen();

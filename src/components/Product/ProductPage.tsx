@@ -27,7 +27,7 @@ const ProductPage = ({ product }: ProductPageProps) => {
   const toast = useToast();
 
   const handleShare = (id: string) => {
-    const url = `https://tesorosencasa.vercel.app/tesoro/${id}`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/tesoro/${id}`;
     navigator.clipboard.writeText(url).then(() => {
       toast.setText(translate('LINK_COPIED'));
       toast.onOpen();

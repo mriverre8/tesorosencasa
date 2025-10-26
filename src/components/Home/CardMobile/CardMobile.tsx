@@ -26,7 +26,7 @@ const CardMobile = ({ tesoro }: Props) => {
   const toast = useToast();
 
   const handleShare = () => {
-    const url = `https://tesorosencasa.vercel.app/tesoro/${tesoro.id}`;
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/tesoro/${tesoro.id}`;
     navigator.clipboard.writeText(url).then(() => {
       toast.setText(translate('LINK_COPIED'));
       toast.onOpen();
