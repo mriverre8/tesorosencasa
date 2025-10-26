@@ -4,15 +4,15 @@ import React from 'react';
 import DashboardProductsPage from '@/components/Admin/DashboardProductsPage/DashboardProductsPage';
 
 // Actions
-import { getAllProducts } from '@/actions/getAllProducts';
+import { getAllProducts } from '@/lib/api';
 
 export default async function Products() {
-  const tesorosData = await getAllProducts();
+  const productsResponse = await getAllProducts();
 
   return (
     <div className="bg-background">
       <main>
-        <DashboardProductsPage tesorosData={tesorosData.data} />
+        <DashboardProductsPage tesorosData={productsResponse.data} />
       </main>
     </div>
   );

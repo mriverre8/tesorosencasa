@@ -14,7 +14,7 @@ import useLoader from '@/hooks/useLoader';
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 
 // Actions
-import { getStream } from '@/actions/getStream';
+import { getStream } from '@/lib/api';
 import { newStream } from '@/actions/newStream';
 import { deleteStream } from '@/actions/deleteStream';
 
@@ -131,7 +131,7 @@ export default function Stream() {
   }, []);
 
   return (
-    <div className="flex flex-col bg-background p-4 min-h-[calc(100vh-69px)] justify-between">
+    <div className="flex flex-col bg-background p-4 md:h-screen min-h-[calc(100vh-69px)] justify-between">
       <div>
         <div className="flex flex-col gap-2 mb-6">
           <div className="flex justify-between items-center">

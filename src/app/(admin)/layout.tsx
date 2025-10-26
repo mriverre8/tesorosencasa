@@ -25,7 +25,7 @@ export default async function Layout({
   return (
     <>
       <TopbarAdmin />
-      <div className="mt-[69px]">{children}</div>
+      <div className="md:mt-0 mt-[69px] md:ml-[256px]">{children}</div>
     </>
   );
 }
