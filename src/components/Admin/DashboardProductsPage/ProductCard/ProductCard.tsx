@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
 //Hooks
@@ -10,6 +10,7 @@ import useLoader from '@/hooks/useLoader';
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 import useCreateProductForm from '@/hooks/useCreateProductForm';
 import { useTranslations } from 'next-intl';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 // Types
 import { tesoros } from '@prisma/client';
@@ -105,19 +106,7 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
     router.push('/createproduct');
   };
 
-  // TODO: Utilizar hook genérico para detectar clicks fuera del dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  useClickOutside(dropdownRef, open, setOpen);
 
   return (
     <div className="relative flex items-center mb-4 mt-2">

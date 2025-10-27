@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import React from 'react';
 
 // Components
@@ -7,12 +9,14 @@ import DashboardProductsPage from '@/components/Admin/DashboardProductsPage/Dash
 import { getAllProducts } from '@/actions/getAllProducts';
 
 export default async function Products() {
-  const tesorosData = await getAllProducts();
+  const productsResponse = await getAllProducts();
 
   return (
     <div className="bg-background">
       <main>
-        <DashboardProductsPage tesorosData={tesorosData.data} />
+        <DashboardProductsPage
+          tesorosData={productsResponse.data ? productsResponse.data : []}
+        />
       </main>
     </div>
   );

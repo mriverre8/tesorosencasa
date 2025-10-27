@@ -17,6 +17,9 @@ import { TbCopyPlus } from 'react-icons/tb';
 // Hooks
 import useToast from '@/hooks/useToast';
 
+// Config
+import { baseUrl } from '@/lib/config';
+
 interface Props {
   tesoro: tesoros;
 }
@@ -26,7 +29,7 @@ const CardMobile = ({ tesoro }: Props) => {
   const toast = useToast();
 
   const handleShare = () => {
-    const url = `https://tesorosencasa.vercel.app/tesoro/${tesoro.id}`;
+    const url = `${baseUrl}/tesoro/${tesoro.id}`;
     navigator.clipboard.writeText(url).then(() => {
       toast.setText(translate('LINK_COPIED'));
       toast.onOpen();

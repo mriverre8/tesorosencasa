@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import TopbarAdmin from '@/components/common/TopbarAdmin';
 
 // Supabase
-import { createClient } from '@/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 
 export default async function Layout({
   children,
@@ -25,7 +25,7 @@ export default async function Layout({
   return (
     <>
       <TopbarAdmin />
-      <div className="mt-[69px]">{children}</div>
+      <div className="mobile:mt-0 mt-[69px] mobile:ml-[256px]">{children}</div>
     </>
   );
 }

@@ -39,6 +39,8 @@
   "NO_TREASURES_FOUND": "Actualmente no hay tesoros disponibles o no se encontraron resultados para tu búsqueda.",
   "UNKNOWN": "Desconocido",
   "LOADING": "Cargando...",
+  "LOADING_2": "Cargando",
+  "WAITING_MESSAGE": "Por favor, espera un momento...",
   "NEW_TREASAURE": "Nuevo tesoro",
   "TREASAURE_NAME": "Nombre del tesoro",
   "TREASSAURE_CONDITION": "Condición del tesoro",

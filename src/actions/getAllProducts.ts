@@ -1,25 +1,33 @@
 'use server';
 
-import { createClient } from '@/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 
 export async function getAllProducts() {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const { data, error } = await supabase.from('tesoros').select('*');
+    const { data, count } = await supabase
+      .from('tesoros')
+      .select('*', { count: 'exact' });
 
-  if (error) {
+    console.log('[GET ALL PRODUCTS SUCCESS]', {
+      method: 'getAllProducts',
+      timestamp: new Date().toISOString(),
+      total: count,
+      data: data,
+    });
+
+    return { data: data, total: count };
+  } catch (error) {
     console.error('[GET ALL PRODUCTS ERROR]', {
-      message: error.message,
-      details: error.details,
-      hint: error.hint,
+      method: 'getAllProducts',
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
       timestamp: new Date().toISOString(),
+      total: 0,
+      data: [],
     });
+
     return { data: [], total: 0 };
-  } else {
-    console.log('[GET ALL PRODUCTS] Records retrieved:', {
-      retrieved: data.length,
-      timestamp: new Date().toISOString(),
-    });
-    return { data };
   }
 }

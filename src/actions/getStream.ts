@@ -1,24 +1,29 @@
 'use server';
 
-import { createClient } from '@/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 
 export async function getStream() {
-  const supabase = await createClient();
+  try {
+    const supabase = await createClient();
 
-  const { data, error } = await supabase.from('stream').select('*');
+    const { data } = await supabase.from('stream').select('*').single();
 
-  if (error) {
-    console.error('[GET STREAM ERROR]', {
-      message: error.message,
-      details: error.details,
-      hint: error.hint,
-      timestamp: new Date().toISOString(),
-    });
-    return null; // o lanza error si prefieres throw new Error(error.message)
-  } else {
     console.log('[GET STREAM SUCCESS]', {
+      method: 'getStream',
       timestamp: new Date().toISOString(),
+      data: data,
     });
-    return data[0];
+
+    return data;
+  } catch (error) {
+    console.error('[GET STREAM ERROR]', {
+      method: 'getStream',
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString(),
+      data: null,
+    });
+
+    return null;
   }
 }
