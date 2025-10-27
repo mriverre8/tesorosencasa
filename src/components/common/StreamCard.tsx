@@ -22,7 +22,7 @@ interface Props {
 const StreamCard = ({ data }: Props) => {
   const translate = useTranslations();
 
-  if (!data || !data.time || !data.date || !data.duration) {
+  if (!data) {
     return (
       <div className="flex">
         <p className="font-medium text-sm text-gray-400">
