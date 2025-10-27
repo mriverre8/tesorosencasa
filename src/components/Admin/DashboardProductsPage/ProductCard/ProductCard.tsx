@@ -123,6 +123,9 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
             crop="fill"
             gravity="auto"
             className="object-cover w-full h-full"
+            loading="lazy"
+            quality="auto"
+            format="auto"
           />
         </div>
 

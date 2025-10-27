@@ -221,6 +221,9 @@ const LightboxProduct = () => {
                       src={image}
                       sizes="100vw"
                       alt="Description of my image"
+                      loading="lazy"
+                      quality="auto"
+                      format="auto"
                     />
                   </div>
                 ))}

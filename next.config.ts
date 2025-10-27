@@ -6,9 +6,14 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'zeedvysnmkikbwtnjzet.supabase.co',
       },
     ],
+    formats: ['image/avif', 'image/webp'],
   },
   experimental: {
     serverActions: {
