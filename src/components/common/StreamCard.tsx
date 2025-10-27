@@ -12,9 +12,6 @@ import { stream } from '@prisma/client';
 // Hooks
 import { useTranslations } from 'next-intl';
 
-// Icons
-import { TbPointFilled } from 'react-icons/tb';
-
 interface Props {
   data: stream | null;
 }
@@ -80,17 +77,20 @@ const StreamCard = ({ data }: Props) => {
       </div>
 
       {isToday && isInTimeRange && (
-        <div className="flex items-center">
-          <TbPointFilled className="text-red-600 text-xl" />
-          <p className="text-xs text-red-500 whitespace-nowrap">
+        <div className="flex items-center gap-1.5">
+          <div className="relative flex h-2 w-2 ">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-500 opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-red-600 "></span>
+          </div>
+          <p className="text-xs text-red-600 whitespace-nowrap">
             {translate('STREAM_LIVE')}
           </p>
         </div>
       )}
 
-      {isToday && hasEnded && (
-        <div className="flex items-center">
-          <TbPointFilled className="text-gray-500 text-xl" />
+      {hasEnded && (
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 bg-gray-500 rounded-full" />
           <p className="text-xs text-gray-500 whitespace-nowrap">
             {translate('STREAM_ENDED')}
           </p>
