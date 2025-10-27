@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from '@/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 
 export async function newStream(date: string, time: string, duration: string) {
   const supabase = await createClient();

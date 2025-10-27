@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import React from 'react';
 
 // Components
@@ -7,7 +9,7 @@ import Layout from '@/components/common/Layout';
 import HomePage from '@/components/Home/HomePage';
 
 // Actions
-import { createClient } from '@/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 import { getAllProducts } from '@/actions/getAllProducts';
 import { getStream } from '@/actions/getStream';
 

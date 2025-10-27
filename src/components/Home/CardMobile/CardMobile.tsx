@@ -16,6 +16,8 @@ import { TbCopyPlus } from 'react-icons/tb';
 
 // Hooks
 import useToast from '@/hooks/useToast';
+
+// Config
 import { baseUrl } from '@/lib/config';
 
 interface Props {

@@ -1,6 +1,6 @@
 'use server';
 
-import { createClient } from '@/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 import cloudinary from '@/lib/cloudinary';
 
 export async function deleteProductById(productId: string) {

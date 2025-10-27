@@ -54,7 +54,6 @@ const TopbarAdmin = () => {
 
   return (
     <>
-      {/* --- Mobile Topbar --- */}
       <div className="fixed top-0 left-0 w-full z-50 md:hidden" ref={menuRef}>
         <nav className="bg-white bg-opacity-80 backdrop-blur-md w-full border-b">
           <Layout>
@@ -109,7 +108,6 @@ const TopbarAdmin = () => {
         )}
       </div>
 
-      {/* --- Desktop Sidebar --- */}
       <div className="hidden md:flex fixed top-0 left-0 h-screen w-64 bg-white bg-opacity-80 backdrop-blur-md border-r z-50 flex-col justify-between">
         <div>
           <div className="flex flex-col items-center py-6 border-b">

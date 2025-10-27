@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // Icons
 import { BiSearchAlt } from 'react-icons/bi';
@@ -21,7 +22,6 @@ import { tesoros } from '@prisma/client';
 import useLightboxOptions from '@/hooks/useLightboxOptions';
 import useLoader from '@/hooks/useLoader';
 import useCreateProductForm from '@/hooks/useCreateProductForm';
-import { useRouter } from 'next/navigation';
 
 // Translation
 import { useTranslations } from 'next-intl';

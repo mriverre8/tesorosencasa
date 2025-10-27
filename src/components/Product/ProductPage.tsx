@@ -16,6 +16,8 @@ import { tesoros } from '@prisma/client';
 
 // Icons
 import { TbCopyPlus } from 'react-icons/tb';
+
+// Config
 import { baseUrl } from '@/lib/config';
 
 interface ProductPageProps {

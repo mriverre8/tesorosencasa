@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import TopbarAdmin from '@/components/common/TopbarAdmin';
 
 // Supabase
-import { createClient } from '@/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 
 export default async function Layout({
   children,

@@ -7,7 +7,7 @@ import Topbar from '@/components/common/Topbar';
 import Footer from '@/components/common/Footer';
 
 // Supabase
-import { createClient } from '@/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 
 // Actions
 import { getProductById } from '@/actions/getProductById';

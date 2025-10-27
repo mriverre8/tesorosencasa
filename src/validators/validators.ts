@@ -3,7 +3,7 @@ export const isFormProductNameOk = (productName: string) => {
     return false;
   }
 
-  const regex = /^[^\s].*$/; // Valida cadenas de texto que no comienzan con un espacio en blanco
+  const regex = /^[^\s].*$/; // Validates that the string does not start with a whitespace
   if (!regex.test(productName)) {
     return false;
   }

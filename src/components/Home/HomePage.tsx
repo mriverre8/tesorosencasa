@@ -22,6 +22,8 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 // Constants
 import { PAGE_SIZE } from '@/constants/constants';
+
+// Utils
 import { filterProducts, generateFilters } from '@/utils/utils';
 
 interface HomePageProps {
