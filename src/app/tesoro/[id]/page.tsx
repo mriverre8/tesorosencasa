@@ -8,7 +8,9 @@ import Footer from '@/components/common/Footer';
 
 // Supabase
 import { createClient } from '@/supabase/server';
-import { getProductById } from '@/lib/api';
+
+// Actions
+import { getProductById } from '@/actions/getProductById';
 
 export default async function Product({
   params,

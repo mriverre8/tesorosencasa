@@ -8,7 +8,8 @@ import HomePage from '@/components/Home/HomePage';
 
 // Actions
 import { createClient } from '@/supabase/server';
-import { getAllProducts, getStream } from '@/lib/api';
+import { getAllProducts } from '@/actions/getAllProducts';
+import { getStream } from '@/actions/getStream';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -22,7 +23,7 @@ export default async function Home() {
   ]);
 
   const initialData = {
-    products: productsResponse.data,
+    products: productsResponse.data ?? [],
     stream: streamResponse,
     total: productsResponse.total ?? 0,
   };

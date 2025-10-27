@@ -14,7 +14,7 @@ import useLoader from '@/hooks/useLoader';
 import useLightboxMessage from '@/hooks/useLightboxMessage';
 
 // Actions
-import { getStream } from '@/lib/api';
+import { getStream } from '@/actions/getStream';
 import { newStream } from '@/actions/newStream';
 import { deleteStream } from '@/actions/deleteStream';
 
