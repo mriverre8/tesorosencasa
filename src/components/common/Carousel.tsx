@@ -63,6 +63,9 @@ const Carousel = ({ tesoro }: Props) => {
               src={image}
               sizes="100vw"
               alt={tesoro.name}
+              loading="lazy"
+              quality="auto"
+              format="auto"
             />
           </div>
         ))}

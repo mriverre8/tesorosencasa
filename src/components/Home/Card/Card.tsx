@@ -30,6 +30,11 @@ const Card = ({ tesoro }: Props) => {
           sizes="100vw"
           alt={tesoro.name}
           className="object-cover w-full h-full"
+          gravity="auto"
+          crop="fill"
+          loading="lazy"
+          quality="auto"
+          format="auto"
         />
         {tesoro.images.length > 1 && (
           <div className="absolute top-2 right-2 text-white">
