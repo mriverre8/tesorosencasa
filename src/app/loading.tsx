@@ -7,7 +7,7 @@ export default function Loading() {
   const t = useTranslations();
   return (
     <div className="flex flex-col justify-between min-h-screen bg-background">
-      <Topbar isAdminLogged={false} />
+      <Topbar isUserLoggedIn={false} />
       <main>
         <Layout>
           <div className="flex flex-col h-screen justify-center items-center">

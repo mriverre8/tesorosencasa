@@ -12,12 +12,10 @@ export default async function Products() {
   const productsResponse = await getAllProducts();
 
   return (
-    <div className="bg-background">
-      <main>
-        <DashboardProductsPage
-          tesorosData={productsResponse.data ? productsResponse.data : []}
-        />
-      </main>
-    </div>
+    <main>
+      <DashboardProductsPage
+        tesorosData={productsResponse.data ? productsResponse.data : []}
+      />
+    </main>
   );
 }

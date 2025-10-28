@@ -2,7 +2,7 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 
 // Components
-import TopbarAdmin from '@/components/common/TopbarAdmin';
+import Topbar from '@/components/common/Topbar';
 
 // Supabase
 import { createClient } from '@/utils/supabase/server';
@@ -24,8 +24,8 @@ export default async function Layout({
 
   return (
     <>
-      <TopbarAdmin />
-      <div className="mobile:mt-0 mt-[69px] mobile:ml-[256px]">{children}</div>
+      <Topbar isUserLoggedIn={true} />
+      <div className="mt-[69px] bg-background">{children}</div>
     </>
   );
 }
