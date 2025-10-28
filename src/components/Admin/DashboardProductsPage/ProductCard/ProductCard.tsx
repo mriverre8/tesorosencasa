@@ -120,8 +120,6 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
             alt={tesoro.name}
             width={96}
             height={96}
-            crop="fill"
-            gravity="auto"
             className="object-cover w-full h-full"
             loading="lazy"
             quality="auto"
