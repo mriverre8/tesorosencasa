@@ -60,7 +60,7 @@ export default function CreateProduct() {
   };
 
   return (
-    <div className="flex flex-col bg-background p-4 min-h-[calc(100vh-69px)] justify-between">
+    <div className="flex flex-col p-4 min-h-[calc(100vh-69px)] md:justify-normal justify-between max-w-4xl md:gap-10 mx-auto">
       <div>
         <h1 className="text-3xl font-semibold mb-6 text-gray-700">
           {formValues.isEditing

@@ -28,7 +28,7 @@ export default async function Product({
 
   return (
     <div className="flex flex-col justify-between min-h-screen bg-background">
-      <Topbar isAdminLogged={user != null} />
+      <Topbar isUserLoggedIn={user != null} />
       <main>
         <div className="mt-[90px]">
           <Layout>

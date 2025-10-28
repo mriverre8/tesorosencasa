@@ -112,7 +112,7 @@ const HomePage = ({ initialData }: HomePageProps) => {
             </p>
           )}
           <div
-            className={`flex flex-col gap-2 sticky top-20 z-50 ${streamData ? 'mb-6' : ''}`}
+            className={`flex flex-col gap-2 sticky top-20 z-40 ${streamData ? 'mb-6' : ''}`}
           >
             {streamData && <StreamCard data={streamData} />}
           </div>

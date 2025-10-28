@@ -32,7 +32,7 @@ export default function Manufacturing() {
   };
 
   return (
-    <div className="flex flex-col bg-background p-4 min-h-[calc(100vh-69px)] justify-between">
+    <div className="flex flex-col p-4 min-h-[calc(100vh-69px)] md:justify-normal justify-between max-w-4xl md:gap-10 mx-auto">
       <div>
         <div className="flex flex-wrap items-end gap-x-2 mb-6">
           <h1 className="text-3xl font-semibold text-gray-700">

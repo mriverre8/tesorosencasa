@@ -109,9 +109,9 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
   useClickOutside(dropdownRef, open, setOpen);
 
   return (
-    <div className="relative flex items-center mb-4 mt-2">
+    <div className="relative flex items-center mb-4 mt-2 cursor-pointer ">
       <div
-        className="flex items-center flex-1"
+        className="flex items-center flex-1 "
         onClick={() => handlePreview(tesoro)}
       >
         <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 mr-3 relative">
@@ -133,7 +133,30 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
         </div>
       </div>
 
-      <div ref={dropdownRef} className="relative">
+      <div className="hidden md:block">
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              setOpen(false);
+              handleEditProduct();
+            }}
+            className=" text-left text-sm hover:text-primary "
+          >
+            {translate('EDIT')}
+          </button>
+          <button
+            onClick={() => {
+              setOpen(false);
+              handleDeleteLightbox();
+            }}
+            className=" text-left  text-sm text-red-600 hover:underline "
+          >
+            {translate('DELETE')}
+          </button>
+        </div>
+      </div>
+
+      <div ref={dropdownRef} className="relative md:hidden">
         <button
           onClick={() => setOpen(!open)}
           className={`px-4  transition ${open ? 'text-primary' : ''}`}
@@ -148,7 +171,7 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
                 setOpen(false);
                 handleEditProduct();
               }}
-              className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+              className="block w-full text-left px-4 py-2 text-sm"
             >
               {translate('EDIT')}
             </button>
@@ -157,7 +180,7 @@ const ProductCard = ({ tesoro, tesoros, setTesoros }: Props) => {
                 setOpen(false);
                 handleDeleteLightbox();
               }}
-              className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+              className="block w-full text-left px-4 py-2 text-sm text-red-600"
             >
               {translate('DELETE')}
             </button>

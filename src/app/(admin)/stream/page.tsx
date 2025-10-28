@@ -131,7 +131,7 @@ export default function Stream() {
   }, []);
 
   return (
-    <div className="flex flex-col bg-background p-4 mobile:h-screen min-h-[calc(100vh-69px)] justify-between">
+    <div className="flex flex-col p-4  min-h-[calc(100vh-69px)] md:justify-normal justify-between max-w-4xl md:gap-10 mx-auto ">
       <div>
         <div className="flex flex-col gap-2 mb-6">
           <div className="flex justify-between items-center">

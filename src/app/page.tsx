@@ -32,7 +32,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col justify-between min-h-screen bg-background">
-      <Topbar isAdminLogged={user != null} />
+      <Topbar isUserLoggedIn={user != null} />
       <main>
         <Layout>
           <div className="flex flex-col mt-[69px] ">

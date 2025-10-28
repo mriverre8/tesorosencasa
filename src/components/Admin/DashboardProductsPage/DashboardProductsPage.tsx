@@ -77,7 +77,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
 
   return (
     <>
-      <div className="flex flex-col mobile:h-screen h-[calc(100vh-69px)] p-5">
+      <div className="flex flex-col h-[calc(100vh-69px)] p-4 max-w-4xl mx-auto">
         <div className="flex justify-center items-center mb-5">
           <button
             onClick={() => handleCreateProduct()}
@@ -102,7 +102,7 @@ export default function DashboardProductsPage({ tesorosData }: Props) {
             />
           </div>
         </div>
-        <div className="flex-grow overflow-y-auto">
+        <div className="flex-grow overflow-y-auto pr-5">
           <div className="flex flex-col gap-4">
             {filteredTesoros.map((tesoro, index) => (
               <div key={index}>
